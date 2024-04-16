@@ -1,0 +1,19 @@
+networks:
+    internal:
+        name: project-network
+
+services:
+    db:
+        image: mysql
+        container_name: db
+        restart: always
+        environment:
+            MYSQL_DATABASE: shop
+            MYSQL_ROOT_PASSWORD: 'shop'
+            # MYSQL_USER: 'root'
+        volumes:
+            - ./db/mysql:/var/lib/mysql
+        ports:
+            - 3307:3306
+        expose:
+            - 3307
