@@ -2,19 +2,19 @@
 
 # dependencies
 /client/node_modules
-/client//.pnp
+/client/.pnp
 /client/.pnp.js
 /client/.yarn/install-state.gz
 
 # testing
-/client//coverage
+/client/coverage
 
 # next.js
-/client//.next/
-/client//out/
+/client/.next/
+/client/out/
 
 # production
-/client//build
+/client/build
 
 # misc
 /client/.DS_Store
@@ -95,5 +95,7 @@
 # Diagnostic reports (https://nodejs.org/api/report.html)
 /backend/report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
-
 /db/mysql
+
+# OS
+.DS_Store
