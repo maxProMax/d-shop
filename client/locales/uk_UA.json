@@ -1,0 +1,60 @@
+{
+    "admin": {
+        "form": {
+            "field": {
+                "email": {
+                    "placeholder": "Ел. пошта"
+                },
+                "password": {
+                    "placeholder": "Пароль"
+                },
+                "firstName": {
+                    "placeholder": "Іʼмя"
+                },
+                "lastName": {
+                    "placeholder": "Фамілія"
+                }
+            },
+            "buttons": {
+                "login": "Логін",
+                "edit": "Змінити",
+                "create": "Створити",
+                "delete": "Видалити",
+                "logout": "Вихід"
+            }
+        },
+        "notifications": {
+            "submit": {
+                "saved": "Збережено",
+                "created": "Створено",
+                "deleted": "Видалено"
+            }
+        },
+        "page": {
+            "admin": {
+                "sidebar": {
+                    "item": {
+                        "settings": "Налаштування"
+                    }
+                },
+                "settings": {
+                    "links": {
+                        "users": "Користувачі"
+                    },
+                    "users": {
+                        "not-found": "Адміністратор не існує",
+                        "actions": {
+                            "add": "Додати адміністратора"
+                        },
+                        "table": {
+                            "email": "Ел. пошта",
+                            "name": "Іʼмя",
+                            "lastname": "Фамілія",
+                            "role": "Роль"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

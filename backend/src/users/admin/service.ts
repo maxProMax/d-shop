@@ -4,7 +4,16 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Role } from '../type';
 import { AdminUser } from './user.entity';
-import { UserDto } from './types';
+import { UserDto, UserUpdateDto } from './types';
+
+const sanitize = (user: AdminUser) => {
+  if (!user) {
+    return user;
+  }
+  const { password, ...rest } = user;
+
+  return rest;
+};
 
 @Injectable()
 export class UsersAdminService {
@@ -12,8 +21,20 @@ export class UsersAdminService {
     @InjectRepository(AdminUser) private usersRepository: Repository<AdminUser>,
   ) {}
 
-  findOne(email: string): Promise<AdminUser | null> {
+  findOneByEmail(email: string): Promise<AdminUser | null> {
     return this.usersRepository.findOneBy({ email });
+  }
+
+  async findOneById(id: number): Promise<Omit<AdminUser, 'password'> | null> {
+    const user = await this.usersRepository.findOneBy({ id });
+
+    return sanitize(user);
+  }
+
+  async findAll(): Promise<Omit<AdminUser, 'password'>[]> {
+    const users = await this.usersRepository.find();
+
+    return users.map(sanitize);
   }
 
   async create({
@@ -37,11 +58,30 @@ export class UsersAdminService {
     return id;
   }
 
-  async login(email: string): Promise<any> {
-    const user = await this.findOne(email);
+  async update(
+    id: number,
+    { firstName, lastName }: UserUpdateDto,
+  ): Promise<any> {
+    const user = await this.usersRepository.findOneBy({ id });
 
-    const { password, ...result } = user;
-    return result;
+    user.firstName = firstName;
+    user.lastName = lastName;
+
+    const { id: userId } = await this.usersRepository.save(user);
+
+    return userId;
+  }
+
+  async delete(id: number): Promise<any> {
+    await this.usersRepository.delete({ id });
+
+    return { deleted: true };
+  }
+
+  async login(email: string): Promise<any> {
+    const user = await this.findOneByEmail(email);
+
+    return sanitize(user);
   }
 
   async registration(body: UserDto): Promise<any> {
@@ -51,12 +91,14 @@ export class UsersAdminService {
   }
 
   async validate(email: string, pass: string): Promise<any> {
-    const user = await this.findOne(email);
-    const passwordValid = await bcrypt.compare(pass, user.password);
+    const user = await this.findOneByEmail(email);
+    console.log(email, pass);
+    console.log(user);
+
+    const passwordValid = await bcrypt.compare(pass, user?.password || '');
 
     if (passwordValid) {
-      const { password, ...result } = user;
-      return result;
+      return sanitize(user);
     }
 
     throw new UnauthorizedException();

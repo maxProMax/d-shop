@@ -10,7 +10,7 @@ export class AuthService {
   ) {}
 
   async loginAdmin(username: string, pass: string): Promise<any> {
-    const user = await this.adminUsersService.findOne(username);
+    const user = await this.adminUsersService.findOneByEmail(username);
 
     if (user?.password !== pass) {
       throw new UnauthorizedException();
@@ -49,7 +49,7 @@ export class AuthService {
   }
 
   async validateAdminUser(username: string, pass: string): Promise<any> {
-    const user = await this.adminUsersService.findOne(username);
+    const user = await this.adminUsersService.findOneByEmail(username);
 
     if (user && user.password === pass) {
       const { password, ...result } = user;

@@ -26,7 +26,8 @@
 /client/yarn-error.log*
 
 # local env files
-/client/.env*.local
+client/.env
+client/.env*.local
 
 # vercel
 /client/.vercel
@@ -60,7 +61,7 @@
 /backend/.nyc_output
 
 # IDEs and editors
-/backend//.idea
+/backend/.idea
 /backend/.project
 /backend/.classpath
 /backend/.c9/

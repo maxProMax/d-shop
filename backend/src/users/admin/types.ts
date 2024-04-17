@@ -14,6 +14,14 @@ export class UserDto {
   email: string;
 }
 
+export class UserUpdateDto {
+  @IsString()
+  firstName: string;
+
+  @IsString()
+  lastName: string;
+}
+
 export class UserLoginDto {
   @IsString()
   password: string;

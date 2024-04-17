@@ -1,0 +1,12 @@
+.list {
+    max-width: 300px;
+}
+
+.table {
+    background: transparent;
+    box-shadow: none;
+}
+
+.more {
+    cursor: pointer;
+}
