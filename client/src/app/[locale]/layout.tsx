@@ -19,9 +19,11 @@ export default function RootLayout({
     const messages = useMessages();
     return (
         <html>
-            <NextIntlClientProvider messages={messages}>
-                <body className={clsx(nunito.className)}>{children}</body>
-            </NextIntlClientProvider>
+            <body className={clsx(nunito.className)}>
+                <NextIntlClientProvider messages={messages}>
+                    {children}
+                </NextIntlClientProvider>
+            </body>
         </html>
     );
 }

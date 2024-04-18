@@ -2,7 +2,7 @@
 import { FC } from 'react';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
-import { PageWrapper } from '@/client/components/atoms/admin/layout';
+import { PageWrapper } from '@/client/components/admin/atoms/layout';
 
 export const UserPageNotFound: FC = () => {
     const t = useTranslations('admin');

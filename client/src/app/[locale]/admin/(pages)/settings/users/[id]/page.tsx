@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { UserPage, UserPageNotFound } from '@/client/pages/Admin/Settings/User';
+import { UserPage, UserPageNotFound } from '@/client/pages/Admin/settings/User';
 import { getSessionCookie } from '@/backend/cookies';
 import { getAdminUser } from '@/commerce/shop/admin/backend';
 

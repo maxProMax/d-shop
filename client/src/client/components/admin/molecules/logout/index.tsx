@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { useTranslations } from 'next-intl';
 import Logout from '@mui/icons-material/Logout';
 import { logout } from '@/commerce/shop/admin/client';
-import { TextButton } from '@/client/components/atoms/button';
+import { TextButton } from '@/client/components/admin/atoms/button';
 import styles from './styles.module.css';
 
 export const LogoutBtn: FC = () => {

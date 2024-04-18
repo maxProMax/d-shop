@@ -1,5 +1,5 @@
 'use client';
-import { PageWrapper } from '@/client/components/atoms/admin/layout';
+import { PageWrapper } from '@/client/components/admin/atoms/layout';
 import { useTranslations } from 'next-intl';
 import { LinkBareSettingsUsers } from '@/client/modules/router/admin/links';
 import PersonIcon from '@mui/icons-material/Person';

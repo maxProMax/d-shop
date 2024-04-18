@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Site } from './types';
 
 type User = {
     email?: string;
@@ -30,4 +31,16 @@ export const createAdminUser = (user: User) => {
 
 export const deleteAdminUser = (id: number) => {
     return api.delete(`admin/users/${id}`);
+};
+
+export const createSite = (site: Omit<Site, 'logo'> & { file?: Blob }) => {
+    return api.post('site', site, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+};
+
+export const deleteSite = (id: string) => {
+    return api.delete(`site/${id}`);
 };

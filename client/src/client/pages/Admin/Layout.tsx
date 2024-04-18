@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren } from 'react';
 import Box from '@mui/material/Box';
-import { LogoutBtn } from '@/client/components/molecules/logout';
+import { LogoutBtn } from '@/client/components/admin/molecules/logout';
 import { SideBar } from './SideBar';
 import styles from './styles.module.css';
 

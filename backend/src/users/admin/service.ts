@@ -92,8 +92,6 @@ export class UsersAdminService {
 
   async validate(email: string, pass: string): Promise<any> {
     const user = await this.findOneByEmail(email);
-    console.log(email, pass);
-    console.log(user);
 
     const passwordValid = await bcrypt.compare(pass, user?.password || '');
 

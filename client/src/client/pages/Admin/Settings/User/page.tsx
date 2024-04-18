@@ -7,7 +7,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
-import { PageWrapper } from '@/client/components/atoms/admin/layout';
+import { PageWrapper } from '@/client/components/admin/atoms/layout';
 import { AdminUser } from '@/commerce/shop/admin/types';
 import {
     updateAdminUser,

@@ -9,6 +9,10 @@ const nextConfig = {
                 source: '/:local/backend/:path*',
                 destination: `${process.env.BACKEND_HREF}/:path*`,
             },
+            {
+                source: '/:local/media/:path*',
+                destination: `${process.env.BACKEND_HREF}/:path*`,
+            },
         ];
     },
 };

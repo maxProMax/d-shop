@@ -13,6 +13,15 @@
                 },
                 "lastName": {
                     "placeholder": "Фамілія"
+                },
+                "name": {
+                    "placeholder": "Назва"
+                },
+                "id": {
+                    "placeholder": "Id"
+                },
+                "logo": {
+                    "placeholder": "Логотип"
                 }
             },
             "buttons": {
@@ -20,7 +29,8 @@
                 "edit": "Змінити",
                 "create": "Створити",
                 "delete": "Видалити",
-                "logout": "Вихід"
+                "logout": "Вихід",
+                "upload": "Завантажити"
             }
         },
         "notifications": {
@@ -34,12 +44,15 @@
             "admin": {
                 "sidebar": {
                     "item": {
-                        "settings": "Налаштування"
+                        "settings": "Система",
+                        "products": "Продукти",
+                        "categories": "Категорії",
+                        "sites": "Сайти"
                     }
                 },
                 "settings": {
                     "links": {
-                        "users": "Користувачі"
+                        "users": "Адміністратори"
                     },
                     "users": {
                         "not-found": "Адміністратор не існує",
@@ -52,6 +65,12 @@
                             "lastname": "Фамілія",
                             "role": "Роль"
                         }
+                    }
+                },
+                "sites": {
+                    "table": {
+                        "id": "Id",
+                        "siteName": "Назва Сайту"
                     }
                 }
             }
