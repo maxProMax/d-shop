@@ -66,6 +66,11 @@ export class CategoryController {
     return this.service.addProduct(params.id, body);
   }
 
+  @Delete('/:id/product/:product_id')
+  deleteProduct(@Param() params: { id: string; product_id: string }) {
+    return this.service.deleteProduct(params);
+  }
+
   @Post('upload')
   @UseInterceptors(FileInterceptor('file', { dest: './uploads/category' }))
   uploadFile(@UploadedFile() file: Express.Multer.File) {

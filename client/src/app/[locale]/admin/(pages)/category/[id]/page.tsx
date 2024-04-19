@@ -1,8 +1,9 @@
-import { getCategory } from '@/commerce/shop/admin/backend';
+import { getCategory, getProducts } from '@/commerce/shop/admin/backend';
 import { CategoryPage } from '@/client/pages/Admin/categories';
 
 export default async function Category({ params }: { params: { id: string } }) {
-    const resp = await getCategory(params.id);
+    const { data: category } = await getCategory(params.id);
+    const { data: products } = await getProducts();
 
-    return <CategoryPage type="edit" category={resp.data} />;
+    return <CategoryPage type="edit" products={products} category={category} />;
 }

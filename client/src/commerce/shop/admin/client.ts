@@ -49,6 +49,14 @@ export const deleteCategory = (id: string) => {
     return api.delete(`category/${id}`);
 };
 
+export const addProductToCategory = (id: string, product_id: string) => {
+    return api.put(`category/${id}/product`, { product_id });
+};
+
+export const deleteProductFromCategory = (id: string, product_id: string) => {
+    return api.delete(`category/${id}/product/${product_id}`);
+};
+
 export const createSite = (site: Omit<Site, 'logo'> & { file?: Blob }) => {
     return api.post('site', site, {
         headers: {

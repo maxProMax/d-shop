@@ -56,12 +56,15 @@ export class SiteService {
 
   async delete(id: number) {
     const site = await this.findOne(id);
-    const path = site.logo.originalPath;
+    const logo = site.logo;
+
     await this.siteRepo.delete({ id });
 
-    await this.imageService.delete(site.logo.id);
+    if (logo?.id) {
+      await this.imageService.delete(logo.id);
 
-    await unlink(path);
+      await unlink(logo.originalPath);
+    }
 
     return { isOk: true };
   }

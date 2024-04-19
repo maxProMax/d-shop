@@ -1,5 +1,6 @@
 'use client';
 import { FC } from 'react';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { PageWrapper } from '@/client/components/admin/atoms/layout';
 import { Site } from '@/commerce/shop/admin/types';
@@ -18,8 +19,9 @@ import {
 } from '@/client/components/admin/atoms/button';
 import { Typography } from '@mui/material';
 import { useNotification } from '@/client/modules/admin/notification';
-import styles from './styles.module.css';
 import { PageForm, FormContainer } from '@/client/components/admin/atoms/form';
+import { Routes } from '@/client/modules/router/admin/routes';
+import styles from './styles.module.css';
 
 type StateSite = Site & { file?: FileList };
 
@@ -36,8 +38,9 @@ const Title: FC<{ isEdit: boolean }> = ({ isEdit }) => {
 };
 
 export const SitePage: FC<{ site?: Site }> = ({ site }) => {
-    const { enqueueSnackbar } = useNotification();
     const t = useTranslations('admin');
+    const router = useRouter();
+    const { enqueueSnackbar } = useNotification();
     const { logo, ...rest } = site || {};
     const {
         register,
@@ -58,11 +61,14 @@ export const SitePage: FC<{ site?: Site }> = ({ site }) => {
             await createSite(reqData);
             enqueueSnackbar(t('notifications.submit.created'));
         }
+        router.refresh();
     };
     const onDelete = async () => {
         if (site?.id) {
             await deleteSite(site?.id);
             enqueueSnackbar(t('notifications.submit.deleted'));
+            router.push(Routes.ADMIN_SITE);
+            router.refresh();
         }
     };
 

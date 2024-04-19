@@ -22,7 +22,7 @@ export class Site {
 
   @OneToOne(() => Image)
   @JoinColumn()
-  logo: Image;
+  logo?: Image;
 
   // @ManyToMany(() => Category)
   // @JoinTable()

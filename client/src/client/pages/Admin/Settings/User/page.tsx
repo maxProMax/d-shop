@@ -1,5 +1,6 @@
 'use client';
 import { FC } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import TextField from '@mui/material/TextField';
@@ -20,6 +21,7 @@ import { PageForm } from '@/client/components/admin/atoms/form';
 
 export const UserPage: FC<{ user?: AdminUser }> = ({ user }) => {
     const t = useTranslations('admin');
+    const router = useRouter();
     const { enqueueSnackbar } = useNotification();
     const {
         register,
@@ -38,6 +40,7 @@ export const UserPage: FC<{ user?: AdminUser }> = ({ user }) => {
             await createAdminUser(data);
             enqueueSnackbar(t('notifications.submit.created'));
         }
+        router.refresh();
     };
     const onDelete = async () => {
         user?.id && (await deleteAdminUser(user?.id));

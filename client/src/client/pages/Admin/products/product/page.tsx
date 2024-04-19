@@ -46,6 +46,7 @@ export const ProductPage: FC<{ product?: Product }> = ({ product }) => {
         if (product?.id) {
             await updateProduct(product.id, data);
             enqueueSnackbar(t('notifications.submit.saved'));
+            router.refresh();
         } else {
             const resp = await createProduct(data);
             enqueueSnackbar(t('notifications.submit.created'));

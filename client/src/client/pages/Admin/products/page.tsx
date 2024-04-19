@@ -16,7 +16,7 @@ export const ProductsPage: FC<{ products: Product[] }> = ({ products }) => {
 
     const tableProps = {
         head: [
-            t('page.admin.product.table.id'),
+            t('page.admin.product.table.number'),
             t('page.admin.product.table.name'),
             '',
         ],

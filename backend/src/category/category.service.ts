@@ -48,7 +48,10 @@ export class CategoryService {
   }
 
   async findById(id: string): Promise<Category> {
-    return this.categoryRepo.findOneBy({ id });
+    return await this.categoryRepo.findOne({
+      where: { id },
+      relations: { products: true },
+    });
   }
 
   async getCategoryTree(id: string): Promise<Category> {
@@ -106,6 +109,19 @@ export class CategoryService {
       ...category.products.filter((p) => p.id !== product.id),
       product,
     ];
+
+    await this.categoryRepo.manager.save(category);
+
+    return { id };
+  }
+
+  async deleteProduct({ id, product_id }: { id: string; product_id: string }) {
+    const category = await this.categoryRepo.findOne({
+      where: { id },
+      relations: { products: true },
+    });
+
+    category.products = category.products.filter((p) => p.id !== product_id);
 
     await this.categoryRepo.manager.save(category);
 

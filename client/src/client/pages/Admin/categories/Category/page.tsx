@@ -2,7 +2,7 @@
 import { FC } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { Category } from '@/commerce/shop/admin/types';
+import { Category, Product } from '@/commerce/shop/admin/types';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -19,37 +19,29 @@ import {
 import { useNotification } from '@/client/modules/admin/notification';
 import { Routes, RoutesDynamic } from '@/client/modules/router/admin/routes';
 import { PageForm, FormContainer } from '@/client/components/admin/atoms/form';
+import { ProductsTable } from '../components';
 
 type PageType = 'create' | 'create-sub' | 'edit';
 
 const Title: FC<{ type: PageType; name?: string }> = ({ type, name }) => {
     const t = useTranslations('admin');
-    let msg: string;
+    const messages = {
+        create: t('page.admin.category.page.title.create.parent'),
+        'create-sub': t('page.admin.category.page.title.create.child', {
+            name,
+        }),
+        edit: t('page.admin.category.page.title.edit', { name }),
+    };
 
-    switch (type) {
-        case 'create':
-            msg = t('page.admin.category.page.title.create.parent');
-            break;
-        case 'create-sub':
-            msg = t('page.admin.category.page.title.create.child', {
-                name,
-            });
-            break;
-        default:
-            msg = t('page.admin.category.page.title.edit', {
-                name,
-            });
-            break;
-    }
-
-    return <Typography variant="h6">{msg}</Typography>;
+    return <Typography variant="h6">{messages[type]}</Typography>;
 };
 
 export const CategoryPage: FC<{
     category?: Category;
+    products?: Product[];
     type: PageType;
     parentCategory?: Category;
-}> = ({ category, type, parentCategory }) => {
+}> = ({ category, type, parentCategory, products }) => {
     const router = useRouter();
     const t = useTranslations('admin');
     const { enqueueSnackbar } = useNotification();
@@ -65,7 +57,6 @@ export const CategoryPage: FC<{
         switch (type) {
             case 'create':
                 resp = await createCategory(data);
-
                 enqueueSnackbar(t('notifications.submit.created'));
 
                 break;
@@ -79,6 +70,7 @@ export const CategoryPage: FC<{
                 if (category?.id) {
                     await updateCategory(category.id, data);
                     enqueueSnackbar(t('notifications.submit.saved'));
+                    router.refresh();
                 }
                 break;
         }
@@ -123,6 +115,11 @@ export const CategoryPage: FC<{
                 />
                 <ButtonGroup buttons={buttons} />
             </PageForm>
+            <ProductsTable
+                products={products}
+                categoryId={category?.id}
+                addedProducts={new Set(category?.products?.map((p) => p.id))}
+            />
         </FormContainer>
     );
 };
