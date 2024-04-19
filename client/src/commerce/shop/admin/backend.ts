@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BACKEND_HREF } from '@/constants';
-import { AdminUser, Category, Site } from './types';
+import { AdminUser, Category, Product, Site } from './types';
 
 const api = axios.create({
     baseURL: BACKEND_HREF,
@@ -41,6 +41,18 @@ export const getAdminUser = (cookies: string, id: number) => {
 
 export const getCategories = () => {
     return api.get<Category[]>('category');
+};
+
+export const getCategory = (id: string) => {
+    return api.get<Category>(`category/${id}`);
+};
+
+export const getProducts = () => {
+    return api.get<Product[]>('product');
+};
+
+export const getProduct = (id: string) => {
+    return api.get<Product>(`product/${id}`);
 };
 
 export const getSites = (cookies: string) => {

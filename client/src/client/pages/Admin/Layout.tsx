@@ -2,6 +2,7 @@ import { FC, PropsWithChildren } from 'react';
 import Box from '@mui/material/Box';
 import { LogoutBtn } from '@/client/components/admin/molecules/logout';
 import { SideBar } from './SideBar';
+import { NotificationProvider } from '@/client/modules/admin/notification';
 import styles from './styles.module.css';
 
 export const AdminLayout: FC<PropsWithChildren> = ({ children }) => {
@@ -27,7 +28,9 @@ export const AdminLayout: FC<PropsWithChildren> = ({ children }) => {
             </header>
             <div className={styles.page}>
                 <SideBar />
-                <main>{children}</main>
+                <main>
+                    <NotificationProvider>{children}</NotificationProvider>
+                </main>
             </div>
         </div>
     );

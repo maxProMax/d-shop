@@ -41,6 +41,10 @@ export const LinkBareProduct: FC<LinkProps & AdditionalProps> = ({
     return <Link href={`${Routes.ADMIN_PRODUCT}/${id}`} {...props} />;
 };
 
+export const LinkBareProductCreate: FC<LinkProps> = (props) => {
+    return <Link href={Routes.ADMIN_PRODUCT_CREATE} {...props} />;
+};
+
 export const LinkBareCategories: FC<LinkProps> = (props) => {
     return <Link href={Routes.ADMIN_CATEGORY} {...props} />;
 };

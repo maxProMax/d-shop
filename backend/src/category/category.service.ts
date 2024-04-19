@@ -16,8 +16,34 @@ export class CategoryService {
   ) {}
 
   async findAll(): Promise<Category[]> {
-    const categories = await this.categoryRepo.find();
+    // const a1 = new Category();
+    // a1.name = 'a1';
+    // await this.categoryRepo.save(a1);
 
+    // const a11 = new Category();
+    // a11.name = 'a11';
+    // a11.parent = a1;
+    // await this.categoryRepo.save(a11);
+
+    // const a12 = new Category();
+    // a12.name = 'a12';
+    // a12.parent = a1;
+    // await this.categoryRepo.save(a12);
+
+    // const a111 = new Category();
+    // a111.name = 'a111';
+    // a111.parent = a11;
+    // await this.categoryRepo.save(a111);
+
+    // const a112 = new Category();
+    // a112.name = 'a112';
+    // a112.parent = a11;
+    // await this.categoryRepo.save(a112);
+
+    const categories = await this.categoryRepo.manager
+      .getTreeRepository(Category)
+      .findTrees();
+    // const trees = await dataSource.manager.getTreeRepository(Category).findTrees()
     return categories;
   }
 
@@ -25,42 +51,41 @@ export class CategoryService {
     return this.categoryRepo.findOneBy({ id });
   }
 
-  async create(categoryDto: CategoryCreateDto): Promise<string> {
+  async getCategoryTree(id: string): Promise<Category> {
+    const parentCategory = await this.categoryRepo.findOneBy({ id });
+    const categories = await this.categoryRepo.manager
+      .getTreeRepository(Category)
+      .findDescendantsTree(parentCategory);
+
+    return categories;
+  }
+
+  async create(categoryDto: CategoryCreateDto) {
     const category = new Category();
     const { id } = await this.categoryRepo.save(
       Object.assign(category, categoryDto),
     );
 
-    return id;
+    return { id };
   }
 
-  async addSubcategory(
-    parentId: string,
-    categoryDto: CategoryCreateDto,
-  ): Promise<string> {
+  async createSubcategory(parentId: string, categoryDto: CategoryCreateDto) {
     const parentCategory = await this.categoryRepo.findOneBy({ id: parentId });
     const subCategory = new Category();
 
-    await this.categoryRepo.save(
+    const { id } = await this.categoryRepo.save(
       Object.assign(subCategory, { ...categoryDto, parent: parentCategory }),
     );
 
-    // const { id } = await this.categoryRepo.save(
-    //   Object.assign(parentCategory, {
-    //     ...categoryDto,
-    //     parentId: 'c362e7ec',
-    //   }),
-    // );
-
-    return parentId;
+    return { id };
   }
 
-  async update(id: string, categoryDto: CategoryCreateDto): Promise<string> {
+  async update(id: string, categoryDto: CategoryCreateDto) {
     const category = await this.categoryRepo.findOneBy({ id });
 
     await this.categoryRepo.save(Object.assign(category, categoryDto));
 
-    return id;
+    return { id };
   }
 
   async delete(id: string): Promise<{ isOk: boolean }> {
@@ -69,7 +94,7 @@ export class CategoryService {
     return { isOk: true };
   }
 
-  async addProduct(id: string, addProductDto: AddProductDto): Promise<string> {
+  async addProduct(id: string, addProductDto: AddProductDto) {
     const category = await this.categoryRepo.findOne({
       where: { id },
       relations: { products: true },
@@ -84,6 +109,6 @@ export class CategoryService {
 
     await this.categoryRepo.manager.save(category);
 
-    return id;
+    return { id };
   }
 }

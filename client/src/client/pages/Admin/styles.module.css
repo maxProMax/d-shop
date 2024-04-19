@@ -15,11 +15,18 @@
 
 .sidebar {
     grid-area: sidebar;
-    padding: 8px;
+    padding: 0.5rem;
     list-style: none;
-    border-right: 1px solid black;
+    /* border-right: 1px solid black; */
+    background: white;
+    /* padding: 5px; */
+    border-radius: 0.5rem;
 }
 
 .linkActive {
     font-weight: bold;
+}
+
+.item {
+    padding: 0.25rem 0;
 }

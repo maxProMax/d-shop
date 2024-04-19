@@ -1,5 +1,8 @@
-import { ProductsPage } from '@/client/pages/Admin/products';
+import { ProductPage } from '@/client/pages/Admin/products';
+import { getProduct } from '@/commerce/shop/admin/backend';
 
-export default async function Products() {
-    return <ProductsPage />;
+export default async function Products({ params }: { params: { id: string } }) {
+    const resp = await getProduct(params.id);
+
+    return <ProductPage product={resp.data} />;
 }

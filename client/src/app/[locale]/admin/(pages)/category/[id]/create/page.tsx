@@ -4,5 +4,5 @@ import { CategoryPage } from '@/client/pages/Admin/categories';
 export default async function Category({ params }: { params: { id: string } }) {
     const resp = await getCategory(params.id);
 
-    return <CategoryPage type="edit" category={resp.data} />;
+    return <CategoryPage parentCategory={resp.data} type="create-sub" />;
 }

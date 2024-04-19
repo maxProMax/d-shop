@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Site } from './types';
+import { Category, Product, Site } from './types';
 
 type User = {
     email?: string;
@@ -33,6 +33,22 @@ export const deleteAdminUser = (id: number) => {
     return api.delete(`admin/users/${id}`);
 };
 
+export const createCategory = (category: Category) => {
+    return api.post<{ id: string }>(`category`, category);
+};
+
+export const createSubcategory = (id: string, category: Category) => {
+    return api.post<{ id: string }>(`category/${id}/sub-category`, category);
+};
+
+export const updateCategory = (id: string, category: Category) => {
+    return api.put<{ id: string }>(`category/${id}`, category);
+};
+
+export const deleteCategory = (id: string) => {
+    return api.delete(`category/${id}`);
+};
+
 export const createSite = (site: Omit<Site, 'logo'> & { file?: Blob }) => {
     return api.post('site', site, {
         headers: {
@@ -41,6 +57,29 @@ export const createSite = (site: Omit<Site, 'logo'> & { file?: Blob }) => {
     });
 };
 
+export const updateSite = (
+    id: number | string,
+    site: Omit<Site, 'logo'> & { file?: Blob }
+) => {
+    return api.put(`site/${id}`, site, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+};
+
 export const deleteSite = (id: string) => {
     return api.delete(`site/${id}`);
+};
+
+export const createProduct = (product: Product) => {
+    return api.post<{ id: string }>(`product`, product);
+};
+
+export const updateProduct = (id: string, product: Product) => {
+    return api.put<{ id: string }>(`product/${id}`, product);
+};
+
+export const deleteProduct = (id: string) => {
+    return api.delete<{ id: string }>(`product/${id}`);
 };

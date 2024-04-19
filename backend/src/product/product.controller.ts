@@ -12,7 +12,9 @@ import {
   Put,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
+import { AdminSessionGuard } from '@/users/admin/guards';
 import { ProductService } from './product.service';
 import { ProductCreateDto } from './types';
 
@@ -31,11 +33,13 @@ export class ProductController {
   }
 
   @Post('/')
+  @UseGuards(AdminSessionGuard)
   createProduct(@Body() body: ProductCreateDto) {
     return this.service.create(body);
   }
 
   @Put('/:id')
+  @UseGuards(AdminSessionGuard)
   updateProduct(
     @Param() params: { id: string },
     @Body() body: ProductCreateDto,
@@ -44,6 +48,7 @@ export class ProductController {
   }
 
   @Delete('/:id')
+  @UseGuards(AdminSessionGuard)
   deleteProduct(@Param() params: { id: string }) {
     return this.service.delete(params.id);
   }

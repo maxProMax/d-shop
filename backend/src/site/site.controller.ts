@@ -6,12 +6,14 @@ import {
   // Request,
   Put,
   Param,
+  UseGuards,
   Delete,
   Controller,
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { AdminSessionGuard } from '@/users/admin/guards';
 import { STATIC_ROOT_DIR } from '@/constants';
 import { SiteService } from './site.service';
 import { SiteCreateDto } from './types';
@@ -34,6 +36,7 @@ export class SiteController {
   }
 
   @Post('/')
+  @UseGuards(AdminSessionGuard)
   @UseInterceptors(
     FileInterceptor('file', { dest: `./${STATIC_ROOT_DIR}/site` }),
   )
@@ -44,7 +47,21 @@ export class SiteController {
     return this.service.create(body, file);
   }
 
+  @Put('/:id')
+  @UseGuards(AdminSessionGuard)
+  @UseInterceptors(
+    FileInterceptor('file', { dest: `./${STATIC_ROOT_DIR}/site` }),
+  )
+  updateSite(
+    @Param() params: { id: number },
+    @Body() body: SiteCreateDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.service.update(params.id, body, file);
+  }
+
   @Delete('/:id')
+  @UseGuards(AdminSessionGuard)
   deleteSite(@Param() params: { id: number }) {
     return this.service.delete(params.id);
   }

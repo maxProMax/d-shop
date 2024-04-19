@@ -1,31 +1,44 @@
 'use client';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { useTranslations } from 'next-intl';
 import { PageWrapper } from '@/client/components/admin/atoms/layout';
 import { Site } from '@/commerce/shop/admin/types';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import LoadingButton from '@mui/lab/LoadingButton';
-import Stack from '@mui/material/Stack';
-import Snackbar from '@mui/material/Snackbar';
 import {
     deleteSite,
-    createAdminUser,
-    deleteAdminUser,
     createSite,
+    updateSite,
 } from '@/commerce/shop/admin/client';
 import { Image } from '@/client/components/common/image';
 import { UploadButton } from '@/client/components/admin/atoms/button';
+import {
+    ButtonGroup,
+    IActionButton,
+} from '@/client/components/admin/atoms/button';
+import { Typography } from '@mui/material';
+import { useNotification } from '@/client/modules/admin/notification';
 import styles from './styles.module.css';
+import { PageForm, FormContainer } from '@/client/components/admin/atoms/form';
 
 type StateSite = Site & { file?: FileList };
 
+const Title: FC<{ isEdit: boolean }> = ({ isEdit }) => {
+    const t = useTranslations('admin');
+
+    return (
+        <Typography variant="h6">
+            {isEdit
+                ? t('page.admin.sites.page.title.edit')
+                : t('page.admin.sites.page.title.create')}
+        </Typography>
+    );
+};
+
 export const SitePage: FC<{ site?: Site }> = ({ site }) => {
+    const { enqueueSnackbar } = useNotification();
     const t = useTranslations('admin');
     const { logo, ...rest } = site || {};
-
-    const [notificationMsg, setMsg] = useState('');
     const {
         register,
         handleSubmit,
@@ -33,38 +46,41 @@ export const SitePage: FC<{ site?: Site }> = ({ site }) => {
     } = useForm<StateSite>({ defaultValues: rest ? rest : {} });
 
     const onSubmit: SubmitHandler<StateSite> = async (data) => {
-        // const formData = new FormData();
-        // formData.append('siteName', data.siteName);
-        // createSite(formData);
+        const reqData = {
+            siteName: data.siteName,
+            file: data?.file?.[0],
+        };
 
-        createSite({ siteName: data.siteName, file: data?.file?.[0] });
-
-        // if (user?.id) {
-        //     await updateAdminUser(user.id, {
-        //         firstName: data.firstName,
-        //         lastName: data.lastName,
-        //     });
-        //     setMsg(t('notifications.submit.saved'));
-        // } else {
-        //     await createAdminUser(data);
-        //     setMsg(t('notifications.submit.created'));
-        // }
+        if (site?.id) {
+            await updateSite(site.id, reqData);
+            enqueueSnackbar(t('notifications.submit.saved'));
+        } else {
+            await createSite(reqData);
+            enqueueSnackbar(t('notifications.submit.created'));
+        }
     };
     const onDelete = async () => {
-        site?.id && (await deleteSite(site?.id));
-        // setMsg(t('notifications.submit.deleted'));
-    };
-    const handleClose = (event: any, reason?: string) => {
-        if (reason === 'clickaway') {
-            return;
+        if (site?.id) {
+            await deleteSite(site?.id);
+            enqueueSnackbar(t('notifications.submit.deleted'));
         }
-        setMsg('');
     };
+
+    const buttons: IActionButton[] = [
+        {
+            actionType: site ? 'edit' : 'create',
+            type: 'submit',
+            loading: isSubmitting,
+        },
+    ];
+
+    site && buttons.push({ actionType: 'delete', action: onDelete });
 
     return (
         <PageWrapper>
-            <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-                <Stack spacing={2}>
+            <FormContainer>
+                <Title isEdit={Boolean(site)} />
+                <PageForm onSubmit={handleSubmit(onSubmit)}>
                     {site?.id && (
                         <TextField
                             label={t('form.field.id.placeholder')}
@@ -85,25 +101,9 @@ export const SitePage: FC<{ site?: Site }> = ({ site }) => {
                         {logo && <Image src={logo?.path} />}
                         <UploadButton register={register('file')} />
                     </div>
-
-                    <ButtonGroup>
-                        <LoadingButton loading={isSubmitting} type="submit">
-                            {site
-                                ? t('form.buttons.edit')
-                                : t('form.buttons.create')}
-                        </LoadingButton>
-                        {site && (
-                            <LoadingButton
-                                onClick={onDelete}
-                                loading={isSubmitting}
-                                color="error"
-                            >
-                                {t('form.buttons.delete')}
-                            </LoadingButton>
-                        )}
-                    </ButtonGroup>
-                </Stack>
-            </form>
+                    <ButtonGroup buttons={buttons} />
+                </PageForm>
+            </FormContainer>
         </PageWrapper>
     );
 };

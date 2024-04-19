@@ -1,6 +1,6 @@
-import en from './locales/uk_UA.json';
+import ua from './locales/uk-UA.json';
 
-type Messages = typeof en;
+type Messages = typeof ua;
 
 declare global {
     // Use type safe message keys with `next-intl`

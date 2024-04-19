@@ -21,20 +21,20 @@ export class ProductService {
     return this.service.findOneBy({ id });
   }
 
-  async create(productDto: ProductCreateDto): Promise<string> {
+  async create(productDto: ProductCreateDto) {
     const product = new Product();
 
     const { id } = await this.service.save(Object.assign(product, productDto));
 
-    return id;
+    return { id };
   }
 
-  async update(id: string, productDto: ProductCreateDto): Promise<string> {
+  async update(id: string, productDto: ProductCreateDto) {
     const product = await this.service.findOneBy({ id });
 
     await this.service.save(Object.assign(product, productDto));
 
-    return id;
+    return { id };
   }
 
   async delete(id: string): Promise<{ isOk: boolean }> {

@@ -1,6 +1,9 @@
 {
     "admin": {
         "form": {
+            "text": {
+                "id": "id: {id}"
+            },
             "field": {
                 "email": {
                     "placeholder": "Ел. пошта"
@@ -18,7 +21,7 @@
                     "placeholder": "Назва"
                 },
                 "id": {
-                    "placeholder": "Id"
+                    "placeholder": "id"
                 },
                 "logo": {
                     "placeholder": "Логотип"
@@ -71,6 +74,35 @@
                     "table": {
                         "id": "Id",
                         "siteName": "Назва Сайту"
+                    },
+                    "page": {
+                        "title": {
+                            "create": "Стоврити сайт",
+                            "edit": "Редагувати сайт"
+                        }
+                    }
+                },
+                "category": {
+                    "page": {
+                        "title": {
+                            "create": {
+                                "parent": "Стоврити категорію",
+                                "child": "Стоврити нащадка - \"{name}\""
+                            },
+                            "edit": "Редагувати - \"{name}\""
+                        }
+                    }
+                },
+                "product": {
+                    "page": {
+                        "title": {
+                            "create": "Стоврити продукт",
+                            "edit": "Редагувати продукт"
+                        }
+                    },
+                    "table": {
+                        "id": "№",
+                        "name": "Назва"
                     }
                 }
             }
