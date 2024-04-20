@@ -1,4 +1,4 @@
-import { ProductsPage } from '@/client/pages/Admin/products';
+import { ProductsPage } from '@/client/pages/admin/Admin/products';
 import { getProducts } from '@/commerce/shop/admin/backend';
 
 export default async function Products() {

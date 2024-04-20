@@ -1,4 +1,4 @@
-import { CategoriesPage } from '@/client/pages/Admin/categories';
+import { CategoriesPage } from '@/client/pages/admin/Admin/categories';
 
 export default async function Categories() {
     return <CategoriesPage />;

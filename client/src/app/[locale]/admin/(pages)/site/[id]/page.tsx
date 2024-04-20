@@ -1,4 +1,4 @@
-import { SitePage } from '@/client/pages/Admin/sites';
+import { SitePage } from '@/client/pages/admin/Admin/sites';
 import { getSite } from '@/commerce/shop/admin/backend';
 import { getSessionCookie } from '@/backend/cookies';
 

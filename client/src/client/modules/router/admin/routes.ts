@@ -17,4 +17,5 @@ export const RoutesDynamic = {
     adminCategoryCreate: (id: string) => `/admin/category/${id}/create`,
     adminCategoryEdit: (id: string) => `/admin/category/${id}`,
     adminProductEdit: (id: string) => `/admin/product/${id}`,
+    adminSiteEdit: (id: string) => `/admin/site/${id}`,
 };

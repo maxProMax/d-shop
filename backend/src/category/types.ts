@@ -1,8 +1,11 @@
-import { IsString, IsEmail, IsArray } from 'class-validator';
+import { IsString, IsOptional, IsArray } from 'class-validator';
 
 export class CategoryCreateDto {
   @IsString()
   name: string;
+
+  @IsString()
+  url: string;
 }
 
 export class AddProductDto {

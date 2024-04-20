@@ -31,7 +31,7 @@ export class SiteController {
   }
 
   @Get('/:id')
-  getSite(@Param() params: { id: number }) {
+  getSite(@Param() params: { id: string }) {
     return this.service.findOne(params.id);
   }
 
@@ -53,7 +53,7 @@ export class SiteController {
     FileInterceptor('file', { dest: `./${STATIC_ROOT_DIR}/site` }),
   )
   updateSite(
-    @Param() params: { id: number },
+    @Param() params: { id: string },
     @Body() body: SiteCreateDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
@@ -62,7 +62,7 @@ export class SiteController {
 
   @Delete('/:id')
   @UseGuards(AdminSessionGuard)
-  deleteSite(@Param() params: { id: number }) {
+  deleteSite(@Param() params: { id: string }) {
     return this.service.delete(params.id);
   }
 }

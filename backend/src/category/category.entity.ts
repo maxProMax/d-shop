@@ -5,7 +5,7 @@ import {
   JoinTable,
   ManyToMany,
   // ManyToOne,
-  // OneToMany,
+  OneToMany,
   // OneToOne,
   // JoinColumn,
   Tree,
@@ -13,6 +13,7 @@ import {
   TreeParent,
 } from 'typeorm';
 import { Product } from '../product/product.entity';
+import { Site } from '@/site/site.entity';
 // import { IsEmail } from 'class-validator';
 // import { Role } from '../type';
 
@@ -25,6 +26,9 @@ export class Category {
 
   @Column()
   name: string;
+
+  @Column()
+  url: string;
 
   @ManyToMany(() => Product, {
     cascade: true,
@@ -48,4 +52,7 @@ export class Category {
 
   @TreeParent({ onDelete: 'CASCADE' })
   parent: Category;
+
+  @OneToMany(() => Site, (site) => site.navigation)
+  site: Site;
 }

@@ -11,6 +11,7 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  Query,
   // StreamableFile,
   // Response,
   // Header,
@@ -26,13 +27,28 @@ export class CategoryController {
   constructor(private readonly service: CategoryService) {}
 
   @Get('/')
-  getCategories() {
-    return this.service.findAll();
+  getCategories(@Query() query: { url?: string }) {
+    return this.service.findAll(query);
+  }
+
+  @Get('/trees')
+  getCategoryTrees() {
+    return this.service.findAllTrees();
+  }
+
+  @Get('/search')
+  async getCategoryByUrl(@Query() query: { url?: string }) {
+    return this.service.findByParams(query);
   }
 
   @Get('/:id')
   async getCategory(@Param() params: { id: string }) {
     return this.service.findById(params.id);
+  }
+
+  @Get('/:id/tree')
+  async getCategoryTree(@Param() params: { id: string }) {
+    return this.service.findDescendantsTree(params.id);
   }
 
   @Post('/')

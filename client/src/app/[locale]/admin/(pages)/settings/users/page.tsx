@@ -1,4 +1,4 @@
-import { UsersPage } from '@/client/pages/Admin/settings/Users';
+import { UsersPage } from '@/client/pages/admin/Admin/settings/Users';
 import { getAdminUsers } from '@/commerce/shop/admin/backend';
 import { getSessionCookie } from '@/backend/cookies';
 

@@ -1,10 +1,16 @@
 'use client';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { PageWrapper } from '@/client/components/admin/atoms/layout';
-import { Site } from '@/commerce/shop/admin/types';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { Typography } from '@mui/material';
+import { Routes, RoutesDynamic } from '@/client/modules/router/admin/routes';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { PageWrapper } from '@/client/components/admin/atoms/layout';
+import { Site, SiteForm } from '@/commerce/shop/admin/types';
 import TextField from '@mui/material/TextField';
 import {
     deleteSite,
@@ -17,13 +23,14 @@ import {
     ButtonGroup,
     IActionButton,
 } from '@/client/components/admin/atoms/button';
-import { Typography } from '@mui/material';
 import { useNotification } from '@/client/modules/admin/notification';
 import { PageForm, FormContainer } from '@/client/components/admin/atoms/form';
-import { Routes } from '@/client/modules/router/admin/routes';
+import { useCategories } from './hooks';
 import styles from './styles.module.css';
 
-type StateSite = Site & { file?: FileList };
+interface StateSite extends Omit<SiteForm, 'file'> {
+    file?: FileList;
+}
 
 const Title: FC<{ isEdit: boolean }> = ({ isEdit }) => {
     const t = useTranslations('admin');
@@ -39,6 +46,7 @@ const Title: FC<{ isEdit: boolean }> = ({ isEdit }) => {
 
 export const SitePage: FC<{ site?: Site }> = ({ site }) => {
     const t = useTranslations('admin');
+    const { categories, loading } = useCategories();
     const router = useRouter();
     const { enqueueSnackbar } = useNotification();
     const { logo, ...rest } = site || {};
@@ -46,11 +54,17 @@ export const SitePage: FC<{ site?: Site }> = ({ site }) => {
         register,
         handleSubmit,
         formState: { isSubmitting },
-    } = useForm<StateSite>({ defaultValues: rest ? rest : {} });
+        getValues,
+    } = useForm<StateSite>({
+        defaultValues: rest
+            ? { ...rest, navigation: site?.navigation?.id }
+            : {},
+    });
 
     const onSubmit: SubmitHandler<StateSite> = async (data) => {
         const reqData = {
             siteName: data.siteName,
+            navigation: data.navigation,
             file: data?.file?.[0],
         };
 
@@ -58,9 +72,11 @@ export const SitePage: FC<{ site?: Site }> = ({ site }) => {
             await updateSite(site.id, reqData);
             enqueueSnackbar(t('notifications.submit.saved'));
         } else {
-            await createSite(reqData);
+            const resp = await createSite(reqData);
             enqueueSnackbar(t('notifications.submit.created'));
+            router.push(RoutesDynamic.adminSiteEdit(resp.data.id));
         }
+
         router.refresh();
     };
     const onDelete = async () => {
@@ -88,13 +104,9 @@ export const SitePage: FC<{ site?: Site }> = ({ site }) => {
                 <Title isEdit={Boolean(site)} />
                 <PageForm onSubmit={handleSubmit(onSubmit)}>
                     {site?.id && (
-                        <TextField
-                            label={t('form.field.id.placeholder')}
-                            variant="outlined"
-                            type="email"
-                            disabled={true}
-                            {...register('id')}
-                        />
+                        <Typography variant="caption">
+                            {t('form.text.id', { id: site.id })}
+                        </Typography>
                     )}
                     <TextField
                         label={t('form.field.name.placeholder')}
@@ -107,6 +119,26 @@ export const SitePage: FC<{ site?: Site }> = ({ site }) => {
                         {logo && <Image src={logo?.path} />}
                         <UploadButton register={register('file')} />
                     </div>
+                    <FormControl>
+                        <InputLabel id="c">
+                            {t('page.admin.sites.page.form.navigation.label')}
+                        </InputLabel>
+                        <Select
+                            labelId="c"
+                            label={t(
+                                'page.admin.sites.page.form.navigation.label'
+                            )}
+                            disabled={loading}
+                            defaultValue={getValues().navigation}
+                            {...register('navigation')}
+                        >
+                            {categories.map((c) => (
+                                <MenuItem key={c.id} value={c.id}>
+                                    {c.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                     <ButtonGroup buttons={buttons} />
                 </PageForm>
             </FormContainer>

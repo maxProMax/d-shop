@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Category, Product, Site } from './types';
+import { Category, Product, Site, SiteForm } from './types';
 
 type User = {
     email?: string;
@@ -33,6 +33,10 @@ export const deleteAdminUser = (id: number) => {
     return api.delete(`admin/users/${id}`);
 };
 
+export const getCategoryTrees = () => {
+    return api.get<Category[]>(`category/trees`);
+};
+
 export const createCategory = (category: Category) => {
     return api.post<{ id: string }>(`category`, category);
 };
@@ -57,18 +61,15 @@ export const deleteProductFromCategory = (id: string, product_id: string) => {
     return api.delete(`category/${id}/product/${product_id}`);
 };
 
-export const createSite = (site: Omit<Site, 'logo'> & { file?: Blob }) => {
-    return api.post('site', site, {
+export const createSite = (site: SiteForm) => {
+    return api.post<{ id: string }>('site', site, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
     });
 };
 
-export const updateSite = (
-    id: number | string,
-    site: Omit<Site, 'logo'> & { file?: Blob }
-) => {
+export const updateSite = (id: number | string, site: SiteForm) => {
     return api.put(`site/${id}`, site, {
         headers: {
             'Content-Type': 'multipart/form-data',

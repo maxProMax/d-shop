@@ -24,24 +24,17 @@ export const SitesPage: FC<{ sites: Site[] }> = ({ sites }) => {
             <Table
                 table={{
                     head: [
-                        t('page.admin.sites.table.id'),
+                        t('page.admin.product.table.number'),
                         t('page.admin.sites.table.siteName'),
                         '',
                     ],
-                    body: sites.reduce<(number | string | ReactNode)[][]>(
-                        (memo, site) => {
-                            return memo.concat([
-                                [
-                                    site.id,
-                                    site.siteName,
-                                    <LinkBareSite key={site.id} id={site.id}>
-                                        <MoreVertIcon />
-                                    </LinkBareSite>,
-                                ],
-                            ]);
-                        },
-                        []
-                    ),
+                    body: sites.map((site, i) => [
+                        i + 1,
+                        site.siteName,
+                        <LinkBareSite key={site.id} id={site.id}>
+                            <MoreVertIcon />
+                        </LinkBareSite>,
+                    ]),
                 }}
             />
         </PageWrapper>

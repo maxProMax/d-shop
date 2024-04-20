@@ -15,31 +15,15 @@ export class CategoryService {
     @InjectRepository(Product) private productRepo: Repository<Product>,
   ) {}
 
-  async findAll(): Promise<Category[]> {
-    // const a1 = new Category();
-    // a1.name = 'a1';
-    // await this.categoryRepo.save(a1);
+  async findAll(query: { url?: string }): Promise<Category[]> {
+    const categories = await this.categoryRepo.find({
+      where: query ? query : {},
+    });
+    // const trees = await dataSource.manager.getTreeRepository(Category).findTrees()
+    return categories;
+  }
 
-    // const a11 = new Category();
-    // a11.name = 'a11';
-    // a11.parent = a1;
-    // await this.categoryRepo.save(a11);
-
-    // const a12 = new Category();
-    // a12.name = 'a12';
-    // a12.parent = a1;
-    // await this.categoryRepo.save(a12);
-
-    // const a111 = new Category();
-    // a111.name = 'a111';
-    // a111.parent = a11;
-    // await this.categoryRepo.save(a111);
-
-    // const a112 = new Category();
-    // a112.name = 'a112';
-    // a112.parent = a11;
-    // await this.categoryRepo.save(a112);
-
+  async findAllTrees(): Promise<Category[]> {
     const categories = await this.categoryRepo.manager
       .getTreeRepository(Category)
       .findTrees();
@@ -52,6 +36,21 @@ export class CategoryService {
       where: { id },
       relations: { products: true },
     });
+  }
+
+  async findByParams(query: { url?: string }): Promise<Category[]> {
+    return await this.categoryRepo.find({
+      where: query ? query : {},
+      relations: { products: true },
+    });
+  }
+
+  async findDescendantsTree(id: string) {
+    const parent = await this.findById(id);
+
+    return await this.categoryRepo.manager
+      .getTreeRepository(Category)
+      .findDescendantsTree(parent);
   }
 
   async getCategoryTree(id: string): Promise<Category> {

@@ -10,6 +10,7 @@ export type AdminUser = {
 export type Category = {
     id: string;
     name: string;
+    url?: string;
     children: Category[];
     products?: Product[];
 };
@@ -19,11 +20,19 @@ export type Product = {
     name: string;
 };
 
-export type Site = {
+export interface Site {
+    id: string;
+    siteName: string;
+    navigation?: Category;
+    logo?: Image;
+}
+
+export interface SiteForm {
     id?: string;
     siteName: string;
-    logo?: Image;
-};
+    navigation?: string;
+    file?: Blob;
+}
 
 export type Image = {
     id: string;

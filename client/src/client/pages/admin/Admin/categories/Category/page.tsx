@@ -113,6 +113,12 @@ export const CategoryPage: FC<{
                     disabled={isSubmitting}
                     {...register('name')}
                 />
+                <TextField
+                    label={t('form.field.url.placeholder')}
+                    variant="outlined"
+                    disabled={isSubmitting}
+                    {...register('url')}
+                />
                 <ButtonGroup buttons={buttons} />
             </PageForm>
             <ProductsTable

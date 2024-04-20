@@ -1,0 +1,12 @@
+.header {
+    display: flex;
+}
+
+.nav {
+    display: flex;
+}
+
+.logo {
+    width: 100px;
+    height: 100%;
+}

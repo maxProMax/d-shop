@@ -1,8 +1,9 @@
+import { Site } from '@/site/site.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  // OneToOne,
+  OneToOne,
   // JoinColumn,
   // ManyToMany,
   // JoinTable,
@@ -24,10 +25,10 @@ import {
 
 @Entity()
 export class Image {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column()
+  @Column({ nullable: true })
   originalname: string;
 
   @Column()
@@ -41,6 +42,11 @@ export class Image {
 
   @Column()
   size: number;
+
+  @OneToOne(() => Site, (s) => s.logo, {
+    onDelete: 'CASCADE',
+  })
+  site: Site;
 
   // @ManyToMany(() => Category)
   // @JoinTable()

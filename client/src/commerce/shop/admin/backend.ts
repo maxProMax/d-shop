@@ -39,12 +39,20 @@ export const getAdminUser = (cookies: string, id: number) => {
     });
 };
 
-export const getCategories = () => {
-    return api.get<Category[]>('category');
+export const getCategoryTrees = () => {
+    return api.get<Category[]>('category/trees');
 };
 
 export const getCategory = (id: string) => {
     return api.get<Category>(`category/${id}`);
+};
+
+export const getCategoryByParams = (params: { url?: string }) => {
+    return api.get<Category[]>(`category/search`, { params });
+};
+
+export const getCategoryTree = (id: string) => {
+    return api.get<Category>(`category/${id}/tree`);
 };
 
 export const getProducts = () => {
@@ -59,6 +67,6 @@ export const getSites = (cookies: string) => {
     return authorizedGet<Site[]>('site', cookies);
 };
 
-export const getSite = (id: number, cookies: string) => {
-    return authorizedGet<Site>(`site/${id}`, cookies);
+export const getSite = (id: string) => {
+    return api.get<Site>(`site/${id}`);
 };
