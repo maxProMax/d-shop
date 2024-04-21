@@ -19,6 +19,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CategoryService } from './category.service';
 import { AddProductDto, CategoryCreateDto } from './types';
+import { STATIC_ROOT_DIR } from '@/constants';
 // import { createReadStream } from 'fs';
 // import { join } from 'path';
 
@@ -52,24 +53,38 @@ export class CategoryController {
   }
 
   @Post('/')
-  createCategory(@Body() body: CategoryCreateDto) {
-    return this.service.create(body);
+  @UseInterceptors(
+    FileInterceptor('file', { dest: `./${STATIC_ROOT_DIR}/category` }),
+  )
+  createCategory(
+    @Body() body: CategoryCreateDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.service.create(body, file);
   }
 
   @Post('/:id/sub-category')
+  @UseInterceptors(
+    FileInterceptor('file', { dest: `./${STATIC_ROOT_DIR}/category` }),
+  )
   createSubcategory(
     @Param() params: { id: string },
     @Body() body: CategoryCreateDto,
+    @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.service.createSubcategory(params.id, body);
+    return this.service.createSubcategory(params.id, body, file);
   }
 
   @Put('/:id')
+  @UseInterceptors(
+    FileInterceptor('file', { dest: `./${STATIC_ROOT_DIR}/category` }),
+  )
   updateCategory(
     @Param() params: { id: string },
     @Body() body: CategoryCreateDto,
+    @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.service.update(params.id, body);
+    return this.service.update(params.id, body, file);
   }
 
   @Delete('/:id')
@@ -87,9 +102,9 @@ export class CategoryController {
     return this.service.deleteProduct(params);
   }
 
-  @Post('upload')
-  @UseInterceptors(FileInterceptor('file', { dest: './uploads/category' }))
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
-  }
+  // @Post('upload')
+  // @UseInterceptors(FileInterceptor('file', { dest: './uploads/category' }))
+  // uploadFile(@UploadedFile() file: Express.Multer.File) {
+  //   console.log(file);
+  // }
 }

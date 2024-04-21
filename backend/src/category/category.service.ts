@@ -7,19 +7,21 @@ import { Injectable } from '@nestjs/common';
 import { Category } from './category.entity';
 import { Product } from '../product/product.entity';
 import { AddProductDto, CategoryCreateDto } from './types';
+import { ImageService } from '@/image/image.service';
 
 @Injectable()
 export class CategoryService {
   constructor(
     @InjectRepository(Category) private categoryRepo: Repository<Category>,
     @InjectRepository(Product) private productRepo: Repository<Product>,
+    private readonly imageService: ImageService,
   ) {}
 
   async findAll(query: { url?: string }): Promise<Category[]> {
     const categories = await this.categoryRepo.find({
       where: query ? query : {},
     });
-    // const trees = await dataSource.manager.getTreeRepository(Category).findTrees()
+
     return categories;
   }
 
@@ -27,21 +29,21 @@ export class CategoryService {
     const categories = await this.categoryRepo.manager
       .getTreeRepository(Category)
       .findTrees();
-    // const trees = await dataSource.manager.getTreeRepository(Category).findTrees()
+
     return categories;
   }
 
   async findById(id: string): Promise<Category> {
     return await this.categoryRepo.findOne({
       where: { id },
-      relations: { products: true },
+      relations: { products: true, banner: true },
     });
   }
 
   async findByParams(query: { url?: string }): Promise<Category[]> {
     return await this.categoryRepo.find({
       where: query ? query : {},
-      relations: { products: true },
+      relations: { products: true, banner: true },
     });
   }
 
@@ -57,13 +59,18 @@ export class CategoryService {
     const parentCategory = await this.categoryRepo.findOneBy({ id });
     const categories = await this.categoryRepo.manager
       .getTreeRepository(Category)
-      .findDescendantsTree(parentCategory);
+      .findDescendantsTree(parentCategory, { relations: ['banner'] });
 
     return categories;
   }
 
-  async create(categoryDto: CategoryCreateDto) {
+  async create(categoryDto: CategoryCreateDto, file?: Express.Multer.File) {
     const category = new Category();
+
+    if (file) {
+      category.banner = this.imageService.create(file);
+    }
+
     const { id } = await this.categoryRepo.save(
       Object.assign(category, categoryDto),
     );
@@ -71,9 +78,17 @@ export class CategoryService {
     return { id };
   }
 
-  async createSubcategory(parentId: string, categoryDto: CategoryCreateDto) {
+  async createSubcategory(
+    parentId: string,
+    categoryDto: CategoryCreateDto,
+    file?: Express.Multer.File,
+  ) {
     const parentCategory = await this.categoryRepo.findOneBy({ id: parentId });
     const subCategory = new Category();
+
+    if (file) {
+      subCategory.banner = this.imageService.create(file);
+    }
 
     const { id } = await this.categoryRepo.save(
       Object.assign(subCategory, { ...categoryDto, parent: parentCategory }),
@@ -82,8 +97,21 @@ export class CategoryService {
     return { id };
   }
 
-  async update(id: string, categoryDto: CategoryCreateDto) {
-    const category = await this.categoryRepo.findOneBy({ id });
+  async update(
+    id: string,
+    categoryDto: CategoryCreateDto,
+    file?: Express.Multer.File,
+  ) {
+    const category = await this.categoryRepo.findOne({
+      where: { id },
+      relations: { banner: true },
+    });
+
+    if (file) {
+      category.banner = category.banner
+        ? await this.imageService.update(category.banner.id, file)
+        : await this.imageService.create(file);
+    }
 
     await this.categoryRepo.save(Object.assign(category, categoryDto));
 
@@ -91,7 +119,21 @@ export class CategoryService {
   }
 
   async delete(id: string): Promise<{ isOk: boolean }> {
-    await this.categoryRepo.delete({ id });
+    const tree = await this.getCategoryTree(id);
+
+    const recursion = async (c: Category) => {
+      if (c.children?.length) {
+        await Promise.all(c.children.map(recursion));
+      }
+
+      if (c.banner) {
+        await this.imageService.delete(c.banner.id);
+      } else {
+        await this.categoryRepo.remove(c);
+      }
+    };
+
+    await recursion(tree);
 
     return { isOk: true };
   }

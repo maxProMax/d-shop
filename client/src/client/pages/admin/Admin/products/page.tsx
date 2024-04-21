@@ -34,7 +34,7 @@ export const ProductsPage: FC<{ products: Product[] }> = ({ products }) => {
     };
     return (
         <PageWrapper>
-            <ContainedButton>
+            <ContainedButton size="small">
                 <LinkBareProductCreate>
                     {t('form.buttons.create')}
                 </LinkBareProductCreate>

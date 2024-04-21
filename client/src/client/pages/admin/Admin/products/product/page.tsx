@@ -43,6 +43,10 @@ export const ProductPage: FC<{ product?: Product }> = ({ product }) => {
     } = useForm<Product>({ defaultValues: product });
 
     const onSubmit: SubmitHandler<Product> = async (data) => {
+        if (!data.url) {
+            data.url = data.name.toLocaleLowerCase().split(/\s+/).join('-');
+        }
+
         if (product?.id) {
             await updateProduct(product.id, data);
             enqueueSnackbar(t('notifications.submit.saved'));
@@ -88,6 +92,12 @@ export const ProductPage: FC<{ product?: Product }> = ({ product }) => {
                         variant="outlined"
                         disabled={isSubmitting}
                         {...register('name')}
+                    />
+                    <TextField
+                        label={t('form.field.url.placeholder')}
+                        variant="outlined"
+                        disabled={isSubmitting}
+                        {...register('url')}
                     />
                     <ButtonGroup buttons={buttons} />
                 </PageForm>

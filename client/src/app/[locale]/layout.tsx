@@ -13,12 +13,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
     children,
+    params,
 }: Readonly<{
     children: React.ReactNode;
+    params: { locale: string };
 }>) {
     const messages = useMessages();
+
     return (
-        <html>
+        <html lang={params.locale.split('-')[1].toLocaleLowerCase()}>
             <body className={clsx(nunito.className)}>
                 <NextIntlClientProvider messages={messages}>
                     {children}

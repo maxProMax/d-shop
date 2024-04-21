@@ -63,6 +63,10 @@ export const getProduct = (id: string) => {
     return api.get<Product>(`product/${id}`);
 };
 
+export const getProductByParams = (params: { url?: string }) => {
+    return api.get<Product[]>(`product/search`, { params });
+};
+
 export const getSites = (cookies: string) => {
     return authorizedGet<Site[]>('site', cookies);
 };

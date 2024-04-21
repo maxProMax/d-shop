@@ -13,6 +13,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { AdminSessionGuard } from '@/users/admin/guards';
 import { ProductService } from './product.service';
@@ -25,6 +26,11 @@ export class ProductController {
   @Get('/')
   getProducts() {
     return this.service.findAll();
+  }
+
+  @Get('/search')
+  async getProductByParams(@Query() query: { url?: string }) {
+    return this.service.findByParams(query);
   }
 
   @Get('/:id')

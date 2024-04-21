@@ -2,8 +2,8 @@ import { ReactNode } from 'react';
 import { getSite, getCategoryTree } from '@/commerce/shop/admin/backend';
 import { SITE_ID } from '@/constants';
 import { Category } from '@/commerce/shop/admin/types';
-import { Image } from '@/client/components/common/image';
 import { Header } from '@/client/pages/site/Header';
+import { RootLayout } from '@/client/pages/site/layout';
 
 export default async function Layout({ children }: { children: ReactNode }) {
     if (typeof SITE_ID !== 'string') {
@@ -21,7 +21,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
     // console.log({ site, category });
 
     return (
-        <main>
+        <RootLayout>
             <Header site={site} category={category} />
             {children}
             <footer>
@@ -31,6 +31,6 @@ export default async function Layout({ children }: { children: ReactNode }) {
                     </ul>
                 </nav>
             </footer>
-        </main>
+        </RootLayout>
     );
 }

@@ -21,6 +21,10 @@ export class ProductService {
     return this.service.findOneBy({ id });
   }
 
+  async findByParams(query: { url?: string }) {
+    return this.service.findBy(query);
+  }
+
   async create(productDto: ProductCreateDto) {
     const product = new Product();
 

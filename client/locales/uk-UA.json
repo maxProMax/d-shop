@@ -28,6 +28,9 @@
                 },
                 "url": {
                     "placeholder": "Адреса сторінки"
+                },
+                "description": {
+                    "placeholder": "Опис категорії"
                 }
             },
             "buttons": {
@@ -93,6 +96,10 @@
                 "category": {
                     "page": {
                         "main": "Категорії не вибрано. Керуйте категоріями тут.",
+                        "section": {
+                            "banner": "Баннер категорії",
+                            "products": "Товари"
+                        },
                         "title": {
                             "create": {
                                 "parent": "Стоврити категорію",

@@ -6,14 +6,16 @@ import {
   ManyToMany,
   // ManyToOne,
   OneToMany,
-  // OneToOne,
+  OneToOne,
   // JoinColumn,
   Tree,
   TreeChildren,
   TreeParent,
+  JoinColumn,
 } from 'typeorm';
 import { Product } from '../product/product.entity';
 import { Site } from '@/site/site.entity';
+import { Image } from '@/image/image.entity';
 // import { IsEmail } from 'class-validator';
 // import { Role } from '../type';
 
@@ -27,7 +29,10 @@ export class Category {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ type: 'text', nullable: true })
+  description: string;
+
+  @Column({ unique: true })
   url: string;
 
   @ManyToMany(() => Product, {
@@ -55,4 +60,11 @@ export class Category {
 
   @OneToMany(() => Site, (site) => site.navigation)
   site: Site;
+
+  @OneToOne(() => Image, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  banner: Image;
 }

@@ -1,5 +1,4 @@
-// getCategoryByParams
-
+import { CategoryPage } from '@/client/pages/site/pages';
 import { getCategoryByParams } from '@/commerce/shop/admin/backend';
 
 export default async function Category({
@@ -13,16 +12,5 @@ export default async function Category({
 
     const [category] = resp.data;
 
-    console.log({ category });
-
-    return (
-        <div>
-            <h3> Category - {category.name}</h3>
-            <ul>
-                {category.products?.map((product) => (
-                    <li key={product.id}>{product.name}</li>
-                ))}
-            </ul>
-        </div>
-    );
+    return <CategoryPage category={category} />;
 }

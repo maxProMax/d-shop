@@ -1,5 +1,5 @@
 'use client';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useForm, SubmitHandler } from 'react-hook-form';

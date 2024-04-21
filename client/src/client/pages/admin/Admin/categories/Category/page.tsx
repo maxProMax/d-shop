@@ -2,10 +2,11 @@
 import { FC } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { Category, Product } from '@/commerce/shop/admin/types';
+import { Category, CategoryForm, Product } from '@/commerce/shop/admin/types';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { UploadButton } from '@/client/components/admin/atoms/button';
 import {
     deleteCategory,
     createSubcategory,
@@ -19,9 +20,13 @@ import {
 import { useNotification } from '@/client/modules/admin/notification';
 import { Routes, RoutesDynamic } from '@/client/modules/router/admin/routes';
 import { PageForm, FormContainer } from '@/client/components/admin/atoms/form';
+import { Image } from '@/client/components/common/image';
 import { ProductsTable } from '../components';
+import styles from './styles.module.css';
+import Divider from '@mui/material/Divider';
 
 type PageType = 'create' | 'create-sub' | 'edit';
+type FormType = Omit<CategoryForm, 'file'> & { file?: FileList };
 
 const Title: FC<{ type: PageType; name?: string }> = ({ type, name }) => {
     const t = useTranslations('admin');
@@ -45,34 +50,43 @@ export const CategoryPage: FC<{
     const router = useRouter();
     const t = useTranslations('admin');
     const { enqueueSnackbar } = useNotification();
+    const initFormState: Partial<FormType> = {
+        name: category?.name,
+        url: category?.url,
+        description: category?.description,
+    };
     const {
         register,
         handleSubmit,
         formState: { isSubmitting },
-    } = useForm<Category>({ defaultValues: category ? category : {} });
+    } = useForm<FormType>({
+        mode: 'onChange',
+        defaultValues: category ? initFormState : {},
+    });
 
-    const onSubmit: SubmitHandler<Category> = async (data) => {
+    const onSubmit: SubmitHandler<FormType> = async (data) => {
         let resp: { data: { id: string } } | null = null;
+        const formData = { ...data, file: data.file?.[0] };
 
         switch (type) {
             case 'create':
-                resp = await createCategory(data);
+                resp = await createCategory(formData);
                 enqueueSnackbar(t('notifications.submit.created'));
 
                 break;
             case 'create-sub':
                 if (parentCategory?.id) {
-                    resp = await createSubcategory(parentCategory.id, data);
+                    resp = await createSubcategory(parentCategory.id, formData);
                     enqueueSnackbar(t('notifications.submit.created'));
                 }
                 break;
             case 'edit':
                 if (category?.id) {
-                    await updateCategory(category.id, data);
+                    await updateCategory(category.id, formData);
                     enqueueSnackbar(t('notifications.submit.saved'));
                     router.refresh();
                 }
-                break;
+                return;
         }
 
         if (resp) {
@@ -119,8 +133,30 @@ export const CategoryPage: FC<{
                     disabled={isSubmitting}
                     {...register('url')}
                 />
+
+                <TextField
+                    label={t('form.field.description.placeholder')}
+                    variant="outlined"
+                    rows={10}
+                    multiline
+                    disabled={isSubmitting}
+                    {...register('description')}
+                />
+                <div className={styles.banner}>
+                    <Divider textAlign="left">
+                        {t('page.admin.category.page.section.banner')}
+                    </Divider>
+                    {category?.banner && (
+                        <Image src={category?.banner?.path} alt="" />
+                    )}
+                    <UploadButton register={register('file')} />
+                </div>
+                <Divider />
                 <ButtonGroup buttons={buttons} />
             </PageForm>
+            <Divider textAlign="left">
+                {t('page.admin.category.page.section.products')}
+            </Divider>
             <ProductsTable
                 products={products}
                 categoryId={category?.id}

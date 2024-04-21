@@ -20,7 +20,9 @@ export const Header: FC<{ category?: Category; site: Site }> = ({
                     </div>
                 ))}
             </nav>
-            <Image className={styles.logo} src={site.logo?.path} />
+            <div className={styles.logoBlock}>
+                <Image className={styles.logo} src={site.logo?.path} />
+            </div>
             <div></div>
         </header>
     );

@@ -16,7 +16,7 @@ export const SitesPage: FC<{ sites: Site[] }> = ({ sites }) => {
 
     return (
         <PageWrapper>
-            <ContainedButton>
+            <ContainedButton size="small">
                 <LinkBareSiteCreate>
                     {t('form.buttons.create')}
                 </LinkBareSiteCreate>

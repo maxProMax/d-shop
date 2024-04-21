@@ -2,6 +2,7 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
+
   // ManyToMany,
   // JoinTable,
 } from 'typeorm';
@@ -16,6 +17,9 @@ export class Product {
 
   @Column()
   name: string;
+
+  @Column({ unique: true })
+  url: string;
 
   // @ManyToMany(() => Category)
   // @JoinTable()

@@ -7,7 +7,7 @@ import styles from './styles.module.css';
 
 export const AdminLayout: FC<PropsWithChildren> = ({ children }) => {
     return (
-        <div>
+        <div className={styles.layout}>
             <header className={styles.header}>
                 <Box
                     bgcolor={'primary.main'}

@@ -21,6 +21,7 @@ export const Table: FC<IProps> = ({ table }) => {
                     <TableRow>
                         {table.head.map((v, i, l) => (
                             <TableCell
+                                className={styles.hc}
                                 key={i}
                                 align={i === l.length - 1 ? 'right' : 'left'}
                             >

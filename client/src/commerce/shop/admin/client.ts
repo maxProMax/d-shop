@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Category, Product, Site, SiteForm } from './types';
+import { Category, CategoryForm, Product, Site, SiteForm } from './types';
 
 type User = {
     email?: string;
@@ -12,6 +12,12 @@ const api = axios.create({
     baseURL: '/backend/',
     headers: { 'Content-Type': 'application/json' },
 });
+
+const multipartOptions = {
+    headers: {
+        'Content-Type': 'multipart/form-data',
+    },
+};
 
 export const login = ({ email, password }: User) => {
     return api.post('admin/login', { email, password });
@@ -37,16 +43,24 @@ export const getCategoryTrees = () => {
     return api.get<Category[]>(`category/trees`);
 };
 
-export const createCategory = (category: Category) => {
-    return api.post<{ id: string }>(`category`, category);
+export const createCategory = (category: CategoryForm) => {
+    return api.post<{ id: string }>(`category`, category, multipartOptions);
 };
 
-export const createSubcategory = (id: string, category: Category) => {
-    return api.post<{ id: string }>(`category/${id}/sub-category`, category);
+export const createSubcategory = (id: string, category: CategoryForm) => {
+    return api.post<{ id: string }>(
+        `category/${id}/sub-category`,
+        category,
+        multipartOptions
+    );
 };
 
-export const updateCategory = (id: string, category: Category) => {
-    return api.put<{ id: string }>(`category/${id}`, category);
+export const updateCategory = (id: string, category: CategoryForm) => {
+    return api.put<{ id: string }>(
+        `category/${id}`,
+        category,
+        multipartOptions
+    );
 };
 
 export const deleteCategory = (id: string) => {
@@ -62,19 +76,11 @@ export const deleteProductFromCategory = (id: string, product_id: string) => {
 };
 
 export const createSite = (site: SiteForm) => {
-    return api.post<{ id: string }>('site', site, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    });
+    return api.post<{ id: string }>('site', site, multipartOptions);
 };
 
 export const updateSite = (id: number | string, site: SiteForm) => {
-    return api.put(`site/${id}`, site, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    });
+    return api.put(`site/${id}`, site, multipartOptions);
 };
 
 export const deleteSite = (id: string) => {

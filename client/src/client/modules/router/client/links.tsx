@@ -17,3 +17,10 @@ export const LinkCategory: FC<LinkProps & AdditionalProps> = ({
 }) => {
     return <Link href={`${Routes.CATEGORY}/${slug}`} {...props} />;
 };
+
+export const LinkProduct: FC<LinkProps & AdditionalProps> = ({
+    slug = '',
+    ...props
+}) => {
+    return <Link href={`${Routes.PRODUCT}/${slug}`} {...props} />;
+};
