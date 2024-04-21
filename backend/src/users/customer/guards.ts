@@ -1,15 +1,24 @@
+import { v4 as uuidv4 } from 'uuid';
 import { ExecutionContext, Injectable, CanActivate } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 @Injectable()
-export class GuestAuthGuard extends AuthGuard('guest') {
+export class GuestAuthGuard {
   async canActivate(context: ExecutionContext) {
-    const result = (await super.canActivate(context)) as boolean;
     const request = context.switchToHttp().getRequest();
 
-    await super.logIn(request);
+    request.session.passport = { user: { id: uuidv4(), type: 'guest' } };
 
-    return result;
+    return true;
+
+    // try {
+    //   // const result = (await super.canActivate(context)) as boolean;
+    //   // const request = context.switchToHttp().getRequest();
+    //   // await super.logIn(request);
+    //   // return result;
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 }
 
@@ -30,6 +39,6 @@ export class UserSessionGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
 
-    return request?.session?.passport?.user?.type === ('user' || 'guest');
+    return ['user', 'guest'].includes(request?.session?.passport?.user?.type);
   }
 }

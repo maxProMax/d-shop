@@ -20,6 +20,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CategoryService } from './category.service';
 import { AddProductDto, CategoryCreateDto } from './types';
 import { STATIC_ROOT_DIR } from '@/constants';
+// import { RedisModule } from '@nestjs-modules/ioredis';
 // import { createReadStream } from 'fs';
 // import { join } from 'path';
 

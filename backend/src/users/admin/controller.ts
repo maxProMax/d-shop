@@ -32,6 +32,8 @@ export class AdminUserController {
   @UseGuards(AdminSessionGuard)
   @Get('/protected')
   getHello(@Request() req) {
+    console.log(req.session);
+
     return req.user;
   }
 

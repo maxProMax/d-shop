@@ -1,3 +1,5 @@
+import { CartModule } from './cart/cart.module';
+// import { RedisModule } from './redis/redis.module';
 import { Module } from '@nestjs/common';
 // import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -15,11 +17,12 @@ import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
 import { SiteModule } from './site/site.module';
 import { dbConnection } from '@/db/connection';
-
 // import { MulterModule } from '@nestjs/platform-express';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 // import { ImageModule } from './image/image.module';
+
+// import { RedisModule } from '@/redis/redis.module';
 
 @Module({
   imports: [
@@ -32,6 +35,7 @@ import { join } from 'path';
     CategoryModule,
     // ImageModule,
     SiteModule,
+    CartModule,
 
     // AuthAdminModule,
     // UsersAdminModule,

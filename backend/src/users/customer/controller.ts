@@ -7,7 +7,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { UsersService } from './service';
-import { CustomerAuthGuard, GuestAuthGuard, UserSessionGuard } from './guards';
+import { CustomerAuthGuard, GuestAuthGuard } from './guards';
 import { UserDto } from './types';
 
 @Controller('customer/')
@@ -17,6 +17,7 @@ export class UserController {
   @UseGuards(GuestAuthGuard)
   @Post('/login/guest')
   guestCustomer() {
+    // @Request() req: any
     return this.service.loginGuest();
   }
 
@@ -31,9 +32,11 @@ export class UserController {
     return this.service.loginCustomer(body.username, body.password);
   }
 
-  @UseGuards(UserSessionGuard)
+  // @UseGuards(UserSessionGuard)
   @Get('/protected')
   getHello(@Request() req) {
+    console.log(req.session);
+
     return req.user;
   }
 }
