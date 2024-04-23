@@ -2,14 +2,20 @@
 https://docs.nestjs.com/controllers#controllers
 */
 
-import { Body, Controller, Get, Put, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Put,
+  Request,
+  UseGuards,
+  Headers,
+} from '@nestjs/common';
 import { UserSessionGuard } from '@/users/customer/guards';
+import { SessionType } from '@/session/types';
+import { getShopIdH } from '@/utils';
 import { CartService } from './cart.service';
-import { AddProductDto } from './types';
-
-type Session = {
-  session: { passport: { user: { id: string; type?: 'guest' | 'user' } } };
-};
+import { CartDto } from './types';
 
 @Controller('/cart')
 export class CartController {
@@ -17,16 +23,34 @@ export class CartController {
 
   @Get('/')
   @UseGuards(UserSessionGuard)
-  getCategories(@Request() req: Session) {
+  getCart(@Request() req: SessionType, @Headers() headers) {
+    const shopId = getShopIdH(headers);
+
     if (req.session.passport.user.type === 'guest') {
-      return this.service.getGuest(req.session.passport.user.id);
+      return this.service.getGuestCart(shopId, req.session.passport.user.id);
     }
 
     throw new Error('not supported');
   }
 
   @Put('/')
-  addProduct(@Body() body: AddProductDto, @Request() req: Session) {
-    return this.service.addProduct(req.session.passport.user.id, body);
+  @UseGuards(UserSessionGuard)
+  addProduct(
+    @Body() body: CartDto,
+    @Request() req: SessionType,
+    @Headers() headers,
+  ) {
+    const shopId = getShopIdH(headers);
+
+    return this.service.addProduct({
+      id: req.session.passport.user.id,
+      shopId,
+      productDto: body,
+    });
+  }
+
+  @Get('/ping')
+  ping() {
+    return this.service.ping();
   }
 }

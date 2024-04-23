@@ -1,7 +1,13 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  // Inject,
+  // Request,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { CartService } from '@/cart/cart.service';
 import { Role } from '../type';
 import { User } from './user.entity';
 import { UserDto } from './types';
@@ -10,6 +16,7 @@ import { UserDto } from './types';
 export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
+    private readonly cartService: CartService,
   ) {}
 
   async create({
@@ -37,7 +44,8 @@ export class UsersService {
     return this.usersRepository.findOneBy({ username });
   }
 
-  async loginGuest(): Promise<any> {
+  async loginGuest(id: string): Promise<any> {
+    await this.cartService.createGuestCart(id);
     return { guest: true };
   }
 

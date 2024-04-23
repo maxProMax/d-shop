@@ -13,6 +13,7 @@ import {
 // import { Role } from '../type';
 import { Image } from '@/image/image.entity';
 import { Category } from '@/category/category.entity';
+import { Currency } from '@/currency/currency.entity';
 
 @Entity()
 export class Site {
@@ -42,6 +43,12 @@ export class Site {
     onDelete: 'SET NULL',
   })
   navigation: Category;
+
+  @ManyToOne(() => Currency, (currency) => currency.site, {
+    cascade: true,
+    onDelete: 'SET NULL',
+  })
+  currency: Currency;
 
   // @ManyToMany(() => Category)
   // @JoinTable()

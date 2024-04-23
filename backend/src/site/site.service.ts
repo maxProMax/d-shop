@@ -48,7 +48,7 @@ export class SiteService {
   async findOne(id: string) {
     return this.siteRepo.findOne({
       where: { id },
-      relations: { logo: true, navigation: true },
+      relations: { logo: true, navigation: true, currency: true },
     });
   }
 

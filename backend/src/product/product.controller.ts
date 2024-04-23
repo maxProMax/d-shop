@@ -14,10 +14,12 @@ import {
   Delete,
   UseGuards,
   Query,
+  Headers,
 } from '@nestjs/common';
 import { AdminSessionGuard } from '@/users/admin/guards';
+import { getShopIdH } from '@/utils';
 import { ProductService } from './product.service';
-import { ProductCreateDto } from './types';
+import { PriceDto, ProductCreateDto } from './types';
 
 @Controller('product/')
 export class ProductController {
@@ -29,8 +31,11 @@ export class ProductController {
   }
 
   @Get('/search')
-  async getProductByParams(@Query() query: { url?: string }) {
-    return this.service.findByParams(query);
+  async getProductByParams(
+    @Query() query: { url?: string },
+    @Headers() headers,
+  ) {
+    return this.service.findByParams(getShopIdH(headers), query);
   }
 
   @Get('/:id')
@@ -42,6 +47,12 @@ export class ProductController {
   @UseGuards(AdminSessionGuard)
   createProduct(@Body() body: ProductCreateDto) {
     return this.service.create(body);
+  }
+
+  @Post('/:id')
+  @UseGuards(AdminSessionGuard)
+  createProductPrice(@Param() params: { id: string }, @Body() body: PriceDto) {
+    return this.service.createPrice(params.id, body);
   }
 
   @Put('/:id')

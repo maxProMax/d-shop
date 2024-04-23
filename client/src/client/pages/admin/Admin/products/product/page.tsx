@@ -1,13 +1,15 @@
 'use client';
 import { FC } from 'react';
 import { useRouter } from 'next/navigation';
+import pick from 'lodash/pick';
 import { useTranslations } from 'next-intl';
 import { PageWrapper } from '@/client/components/admin/atoms/layout';
-import { Product } from '@/commerce/shop/admin/types';
+import { Currency, AdminProduct } from '@/commerce/shop/admin/types';
 import { PageForm, FormContainer } from '@/client/components/admin/atoms/form';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import { Typography } from '@mui/material';
+import Divider from '@mui/material/Divider';
 import {
     createProduct,
     updateProduct,
@@ -19,6 +21,7 @@ import {
 } from '@/client/components/admin/atoms/button';
 import { useNotification } from '@/client/modules/admin/notification';
 import { Routes, RoutesDynamic } from '@/client/modules/router/admin/routes';
+import { Price } from './Price';
 
 const Title: FC<{ isEdit: boolean }> = ({ isEdit }) => {
     const t = useTranslations('admin');
@@ -32,7 +35,10 @@ const Title: FC<{ isEdit: boolean }> = ({ isEdit }) => {
     );
 };
 
-export const ProductPage: FC<{ product?: Product }> = ({ product }) => {
+export const ProductPage: FC<{
+    product?: AdminProduct;
+    currencies?: Currency[];
+}> = ({ product, currencies }) => {
     const router = useRouter();
     const { enqueueSnackbar } = useNotification();
     const t = useTranslations('admin');
@@ -40,9 +46,11 @@ export const ProductPage: FC<{ product?: Product }> = ({ product }) => {
         register,
         handleSubmit,
         formState: { isSubmitting },
-    } = useForm<Product>({ defaultValues: product });
+    } = useForm<AdminProduct>({
+        defaultValues: pick(product, ['name', 'url']),
+    });
 
-    const onSubmit: SubmitHandler<Product> = async (data) => {
+    const onSubmit: SubmitHandler<AdminProduct> = async (data) => {
         if (!data.url) {
             data.url = data.name.toLocaleLowerCase().split(/\s+/).join('-');
         }
@@ -89,16 +97,36 @@ export const ProductPage: FC<{ product?: Product }> = ({ product }) => {
                     )}
                     <TextField
                         label={t('form.field.name.placeholder')}
-                        variant="outlined"
                         disabled={isSubmitting}
                         {...register('name')}
                     />
                     <TextField
                         label={t('form.field.url.placeholder')}
-                        variant="outlined"
                         disabled={isSubmitting}
                         {...register('url')}
                     />
+                    <div>
+                        {currencies?.map((c) => {
+                            const price = product?.prices?.find(
+                                (p) => p.currency?.id === c.id
+                            );
+
+                            return !product?.id ? null : (
+                                <Price
+                                    key={c.id}
+                                    productId={product?.id}
+                                    currency={c}
+                                    defaultValues={
+                                        pick(price, [
+                                            'price',
+                                            'discountPrice',
+                                        ]) || {}
+                                    }
+                                />
+                            );
+                        })}
+                    </div>
+                    <Divider />
                     <ButtonGroup buttons={buttons} />
                 </PageForm>
             </FormContainer>

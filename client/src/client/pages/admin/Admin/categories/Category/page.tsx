@@ -6,6 +6,7 @@ import { Category, CategoryForm, Product } from '@/commerce/shop/admin/types';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 import { UploadButton } from '@/client/components/admin/atoms/button';
 import {
     deleteCategory,
@@ -23,7 +24,6 @@ import { PageForm, FormContainer } from '@/client/components/admin/atoms/form';
 import { Image } from '@/client/components/common/image';
 import { ProductsTable } from '../components';
 import styles from './styles.module.css';
-import Divider from '@mui/material/Divider';
 
 type PageType = 'create' | 'create-sub' | 'edit';
 type FormType = Omit<CategoryForm, 'file'> & { file?: FileList };

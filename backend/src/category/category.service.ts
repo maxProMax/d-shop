@@ -2,12 +2,13 @@
 https://docs.nestjs.com/providers#services
 */
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ArrayElement, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { Category } from './category.entity';
 import { Product } from '../product/product.entity';
 import { AddProductDto, CategoryCreateDto } from './types';
 import { ImageService } from '@/image/image.service';
+import { ProductService } from '@/product/product.service';
 
 @Injectable()
 export class CategoryService {
@@ -15,6 +16,7 @@ export class CategoryService {
     @InjectRepository(Category) private categoryRepo: Repository<Category>,
     @InjectRepository(Product) private productRepo: Repository<Product>,
     private readonly imageService: ImageService,
+    private readonly productService: ProductService,
   ) {}
 
   async findAll(query: { url?: string }): Promise<Category[]> {
@@ -40,11 +42,25 @@ export class CategoryService {
     });
   }
 
-  async findByParams(query: { url?: string }): Promise<Category[]> {
-    return await this.categoryRepo.find({
+  async findByParams(shopId, query: { url?: string }) {
+    const categories = await this.categoryRepo.find({
       where: query ? query : {},
-      relations: { products: true, banner: true },
+      relations: { products: true },
     });
+
+    const allProducts = await this.productService.findByIds(
+      shopId,
+      categories.flatMap((c) => c.products.map((c) => c.id)),
+    );
+
+    const productsMap = allProducts.reduce<
+      Record<string, ArrayElement<typeof allProducts>>
+    >((m, p) => ({ ...m, [p.id]: p }), {});
+
+    return categories.map((c) => ({
+      ...c,
+      products: c.products.map((p) => productsMap[p.id]).filter((p) => p),
+    }));
   }
 
   async findDescendantsTree(id: string) {

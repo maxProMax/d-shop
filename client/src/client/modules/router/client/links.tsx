@@ -24,3 +24,7 @@ export const LinkProduct: FC<LinkProps & AdditionalProps> = ({
 }) => {
     return <Link href={`${Routes.PRODUCT}/${slug}`} {...props} />;
 };
+
+export const LinkCart: FC<LinkProps> = (props) => {
+    return <Link href={Routes.CART} {...props} />;
+};

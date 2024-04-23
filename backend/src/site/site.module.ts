@@ -15,5 +15,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [ImageModule, TypeOrmModule.forFeature([Site, Image])],
   controllers: [SiteController],
   providers: [SiteService],
+  exports: [SiteService],
 })
 export class SiteModule {}

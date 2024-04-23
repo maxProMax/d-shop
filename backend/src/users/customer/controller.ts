@@ -6,8 +6,9 @@ import {
   Get,
   Request,
 } from '@nestjs/common';
+import { SessionType } from '@/session/types';
 import { UsersService } from './service';
-import { CustomerAuthGuard, GuestAuthGuard } from './guards';
+import { CustomerAuthGuard, GuestAuthGuard, UserSessionGuard } from './guards';
 import { UserDto } from './types';
 
 @Controller('customer/')
@@ -16,9 +17,9 @@ export class UserController {
 
   @UseGuards(GuestAuthGuard)
   @Post('/login/guest')
-  guestCustomer() {
+  guestCustomer(@Request() req: SessionType) {
     // @Request() req: any
-    return this.service.loginGuest();
+    return this.service.loginGuest(req.session.passport.user.id);
   }
 
   @Post('/registration')
@@ -30,6 +31,12 @@ export class UserController {
   @Post('/login')
   loginCustomer(@Body() body: Record<string, any>) {
     return this.service.loginCustomer(body.username, body.password);
+  }
+
+  @UseGuards(UserSessionGuard)
+  @Get('/check')
+  check() {
+    return { isLoggedIn: true };
   }
 
   // @UseGuards(UserSessionGuard)

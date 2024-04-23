@@ -1,10 +1,17 @@
 import axios from 'axios';
-import { BACKEND_HREF } from '@/constants';
-import { AdminUser, Category, Product, Site } from './types';
+import { BACKEND_HREF, SITE_ID } from '@/constants';
+import {
+    AdminProduct,
+    AdminUser,
+    Category,
+    Currency,
+    Product,
+    Site,
+} from './types';
 
 const api = axios.create({
     baseURL: BACKEND_HREF,
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'x-shop-id': SITE_ID },
 });
 
 const authorizedGet = <T>(path: string, cookies: string) => {
@@ -60,7 +67,7 @@ export const getProducts = () => {
 };
 
 export const getProduct = (id: string) => {
-    return api.get<Product>(`product/${id}`);
+    return api.get<AdminProduct>(`product/${id}`);
 };
 
 export const getProductByParams = (params: { url?: string }) => {
@@ -73,4 +80,8 @@ export const getSites = (cookies: string) => {
 
 export const getSite = (id: string) => {
     return api.get<Site>(`site/${id}`);
+};
+
+export const getCurrencies = () => {
+    return api.get<Currency[]>(`currency`);
 };

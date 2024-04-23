@@ -3,7 +3,8 @@ import { getSite, getCategoryTree } from '@/commerce/shop/admin/backend';
 import { SITE_ID } from '@/constants';
 import { Category } from '@/commerce/shop/admin/types';
 import { Header } from '@/client/pages/site/Header';
-import { RootLayout } from '@/client/pages/site/layout';
+import { RootLayout, ContentLayout } from '@/client/pages/site/layout';
+import { UserProvider } from '@/client/modules/customer/user';
 
 export default async function Layout({ children }: { children: ReactNode }) {
     if (typeof SITE_ID !== 'string') {
@@ -21,16 +22,18 @@ export default async function Layout({ children }: { children: ReactNode }) {
     // console.log({ site, category });
 
     return (
-        <RootLayout>
-            <Header site={site} category={category} />
-            {children}
-            <footer>
-                <nav>
-                    <ul>
-                        <li>Footer Nav 1</li>
-                    </ul>
-                </nav>
-            </footer>
-        </RootLayout>
+        <UserProvider>
+            <RootLayout>
+                <Header site={site} category={category} />
+                <ContentLayout>{children}</ContentLayout>
+                <footer>
+                    <nav>
+                        <ul>
+                            <li>Footer Nav 1</li>
+                        </ul>
+                    </nav>
+                </footer>
+            </RootLayout>
+        </UserProvider>
     );
 }

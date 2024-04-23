@@ -1,5 +1,15 @@
 import axios from 'axios';
-import { Category, CategoryForm, Product, Site, SiteForm } from './types';
+import {
+    Cart,
+    Category,
+    CategoryForm,
+    Price,
+    PriceForm,
+    Product,
+    Site,
+    SiteForm,
+} from './types';
+import { SITE_ID } from '@/constants';
 
 type User = {
     email?: string;
@@ -10,7 +20,7 @@ type User = {
 
 const api = axios.create({
     baseURL: '/backend/',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'x-shop-id': SITE_ID },
 });
 
 const multipartOptions = {
@@ -91,10 +101,30 @@ export const createProduct = (product: Product) => {
     return api.post<{ id: string }>(`product`, product);
 };
 
+export const createProductPrice = (id: string, price: PriceForm) => {
+    return api.post<{ id: string }>(`product/${id}`, price);
+};
+
 export const updateProduct = (id: string, product: Product) => {
     return api.put<{ id: string }>(`product/${id}`, product);
 };
 
 export const deleteProduct = (id: string) => {
     return api.delete<{ id: string }>(`product/${id}`);
+};
+
+export const userLoginGuest = () => {
+    return api.post(`customer/login/guest`);
+};
+
+export const userCheck = () => {
+    return api.get<{ isLoggedIn: boolean }>(`customer/check`);
+};
+
+export const getCart = () => {
+    return api.get<Cart>(`cart`);
+};
+
+export const putCart = (product_id: string) => {
+    return api.put<Cart>(`cart`, { product_id });
 };

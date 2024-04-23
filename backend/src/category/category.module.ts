@@ -8,12 +8,14 @@ import { Category } from './category.entity';
 import { Image } from '@/image/image.entity';
 
 import { RedisModule } from '@/redis/redis.module';
+import { ProductModule } from '@/product/product.module';
 
 @Module({
   imports: [
     ImageModule,
     RedisModule,
     TypeOrmModule.forFeature([Category, Product, Image]),
+    ProductModule,
   ],
   controllers: [CategoryController],
   providers: [CategoryService],

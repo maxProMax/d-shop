@@ -12,6 +12,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Query,
+  Headers,
   // StreamableFile,
   // Response,
   // Header,
@@ -20,6 +21,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CategoryService } from './category.service';
 import { AddProductDto, CategoryCreateDto } from './types';
 import { STATIC_ROOT_DIR } from '@/constants';
+import { getShopIdH } from '@/utils';
 // import { RedisModule } from '@nestjs-modules/ioredis';
 // import { createReadStream } from 'fs';
 // import { join } from 'path';
@@ -39,8 +41,8 @@ export class CategoryController {
   }
 
   @Get('/search')
-  async getCategoryByUrl(@Query() query: { url?: string }) {
-    return this.service.findByParams(query);
+  async getCategoryByUrl(@Query() query: { url?: string }, @Headers() headers) {
+    return this.service.findByParams(getShopIdH(headers), query);
   }
 
   @Get('/:id')

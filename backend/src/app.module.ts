@@ -1,3 +1,4 @@
+import { CurrencyModule } from './currency/currency.module';
 import { CartModule } from './cart/cart.module';
 // import { RedisModule } from './redis/redis.module';
 import { Module } from '@nestjs/common';
@@ -36,6 +37,7 @@ import { join } from 'path';
     // ImageModule,
     SiteModule,
     CartModule,
+    CurrencyModule,
 
     // AuthAdminModule,
     // UsersAdminModule,

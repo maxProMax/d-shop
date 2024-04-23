@@ -31,6 +31,15 @@
                 },
                 "description": {
                     "placeholder": "Опис категорії"
+                },
+                "currency": {
+                    "placeholder": "Валюта"
+                },
+                "price": {
+                    "placeholder": "Ціна"
+                },
+                "discount-price": {
+                    "placeholder": "Скидкова ціна"
                 }
             },
             "buttons": {
