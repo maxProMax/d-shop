@@ -17,9 +17,7 @@
     grid-area: sidebar;
     padding: 0.5rem;
     list-style: none;
-    /* border-right: 1px solid black; */
     background: white;
-    /* padding: 5px; */
     border-radius: 0.5rem;
 }
 
@@ -33,4 +31,12 @@
 
 .layout {
     padding-bottom: 4rem;
+}
+
+.welcome {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 20rem;
+    padding: 1rem 0 0 1rem;
 }

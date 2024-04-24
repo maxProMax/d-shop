@@ -4,11 +4,10 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { Price } from './price/price.entity';
-// import { Category } from '../category/category.entity';
-// import { IsEmail } from 'class-validator';
-// import { Role } from '../type';
+import { OrderDetails } from '@/checkout/order/order-details.entry';
 
 @Entity()
 export class Product {
@@ -29,7 +28,6 @@ export class Product {
   @JoinTable()
   prices: Price[];
 
-  // @ManyToMany(() => Category)
-  // @JoinTable()
-  // categories: Category[];
+  @OneToMany(() => OrderDetails, (det) => det.product)
+  orderDetails: OrderDetails[];
 }

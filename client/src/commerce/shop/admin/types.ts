@@ -86,3 +86,21 @@ export type PriceForm = {
     discountPrice?: number;
     currency?: string;
 };
+
+export type OrderDetails = {
+    id?: string;
+    orderId?: string;
+    currency?: Currency;
+    price?: number;
+    amount?: number;
+    product?: Product;
+};
+
+export type Order = {
+    id?: string;
+    createdDate?: string;
+    userType?: string;
+    total?: number;
+    currency: Currency;
+    orderDetails?: OrderDetails[];
+};

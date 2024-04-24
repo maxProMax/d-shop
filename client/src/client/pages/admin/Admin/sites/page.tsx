@@ -24,7 +24,7 @@ export const SitesPage: FC<{ sites: Site[] }> = ({ sites }) => {
             <Table
                 table={{
                     head: [
-                        t('page.admin.product.table.number'),
+                        t('table.number'),
                         t('page.admin.sites.table.siteName'),
                         '',
                     ],

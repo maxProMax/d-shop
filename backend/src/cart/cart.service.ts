@@ -6,7 +6,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { RedisService } from '@/redis/redis.service';
 import { SiteService } from '@/site/site.service';
-import { ProductService } from '@/product/product.service';
+import { ProductStorefrontService } from '@/product/product.storefront.service';
 import { SESSION_TTL } from '@/constants';
 import { Cart, CartDto } from './types';
 
@@ -16,7 +16,7 @@ type CartType = Record<string, CartDto & { id?: string }>;
 export class CartService {
   constructor(
     private readonly redis: RedisService,
-    private readonly productsService: ProductService,
+    private readonly productsService: ProductStorefrontService,
     private readonly siteService: SiteService,
   ) {}
 
@@ -34,9 +34,17 @@ export class CartService {
     }
   }
 
+  getRawCart(id: string) {
+    return this.getCart(id);
+  }
+
   private async createCart(id: string, cart: Partial<CartDto>) {
     await this.redis.set(id, JSON.stringify(cart));
     await this.redis.expire(id, SESSION_TTL); // seconds
+  }
+
+  async clearCart(id: string) {
+    await this.createCart(id, {});
   }
 
   private async getCartWithData(shopId: string, cart: CartType): Promise<Cart> {

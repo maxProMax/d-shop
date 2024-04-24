@@ -6,11 +6,13 @@ import {
     LinkBareProducts,
     LinkBareCategories,
     LinkBareSites,
+    LinkBareOrders,
 } from '@/client/modules/router/admin/links';
 import CategoryIcon from '@mui/icons-material/CategoryOutlined';
 import StoreIcon from '@mui/icons-material/StoreOutlined';
 import WebIcon from '@mui/icons-material/WebOutlined';
 import SettingsIcon from '@mui/icons-material/SettingsOutlined';
+import ListAltOutlined from '@mui/icons-material/ListAltOutlined';
 import Divider from '@mui/material/Divider';
 import styles from './styles.module.css';
 
@@ -29,6 +31,12 @@ export const SideBar: FC = () => {
                     <StoreIcon />
                     {t('page.admin.sidebar.item.products')}
                 </LinkBareProducts>
+            </li>
+            <li className={styles.item}>
+                <LinkBareOrders activeClassName={styles.linkActive}>
+                    <ListAltOutlined />
+                    {t('page.admin.sidebar.item.order')}
+                </LinkBareOrders>
             </li>
             <li className={styles.item}>
                 <LinkBareSites activeClassName={styles.linkActive}>

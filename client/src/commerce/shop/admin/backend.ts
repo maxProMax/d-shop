@@ -5,6 +5,7 @@ import {
     AdminUser,
     Category,
     Currency,
+    Order,
     Product,
     Site,
 } from './types';
@@ -23,11 +24,7 @@ const authorizedGet = <T>(path: string, cookies: string) => {
 };
 
 export const statusCheck = (cookies: string) => {
-    return api.get<{ isValid: boolean }>('admin/check', {
-        headers: {
-            Cookie: cookies,
-        },
-    });
+    return authorizedGet<{ isValid: boolean }>('admin/check', cookies);
 };
 
 export const getAdminUsers = (cookies: string) => {
@@ -71,7 +68,7 @@ export const getProduct = (id: string) => {
 };
 
 export const getProductByParams = (params: { url?: string }) => {
-    return api.get<Product[]>(`product/search`, { params });
+    return api.get<Product[]>(`product/storefront/search`, { params });
 };
 
 export const getSites = (cookies: string) => {
@@ -84,4 +81,12 @@ export const getSite = (id: string) => {
 
 export const getCurrencies = () => {
     return api.get<Currency[]>(`currency`);
+};
+
+export const getCheckoutAllOrders = (cookies: string) => {
+    return authorizedGet<Order[]>(`/checkout/all-orders`, cookies);
+};
+
+export const getCheckoutOrder = (id: string, cookies: string) => {
+    return authorizedGet<Order>(`/checkout/order/${id}`, cookies);
 };

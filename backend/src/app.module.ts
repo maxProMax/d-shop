@@ -1,5 +1,3 @@
-import { CurrencyModule } from './currency/currency.module';
-import { CartModule } from './cart/cart.module';
 // import { RedisModule } from './redis/redis.module';
 import { Module } from '@nestjs/common';
 // import { AppController } from './app.controller';
@@ -18,7 +16,10 @@ import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
 import { SiteModule } from './site/site.module';
 import { dbConnection } from '@/db/connection';
+import { CurrencyModule } from './currency/currency.module';
+import { CartModule } from './cart/cart.module';
 // import { MulterModule } from '@nestjs/platform-express';
+import { CheckoutModule } from './checkout/checkout.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 // import { ImageModule } from './image/image.module';
@@ -27,6 +28,7 @@ import { join } from 'path';
 
 @Module({
   imports: [
+    ProductModule,
     ConfigModule.forRoot({ isGlobal: true }),
     dbConnection(),
     // AuthModule,
@@ -38,6 +40,7 @@ import { join } from 'path';
     SiteModule,
     CartModule,
     CurrencyModule,
+    CheckoutModule,
 
     // AuthAdminModule,
     // UsersAdminModule,

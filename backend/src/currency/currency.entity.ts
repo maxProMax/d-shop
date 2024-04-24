@@ -1,3 +1,5 @@
+import { OrderDetails } from '@/checkout/order/order-details.entry';
+import { Order } from '@/checkout/order/order.entity';
 import { Price } from '@/product/price/price.entity';
 import { Site } from '@/site/site.entity';
 import {
@@ -34,6 +36,12 @@ export class Currency {
 
   @OneToMany(() => Price, (price) => price.currency)
   prices: Price[];
+
+  @OneToMany(() => OrderDetails, (det) => det.currency)
+  orderDetails: OrderDetails[];
+
+  @OneToMany(() => Order, (det) => det.currency)
+  orders: Order[];
 
   // @OneToOne(() => Image, (img) => img.site, {
   //   cascade: true,

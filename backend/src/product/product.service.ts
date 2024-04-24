@@ -2,7 +2,7 @@
 https://docs.nestjs.com/providers#services
 */
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CurrencyService } from '@/currency/currency.service';
 import { Product } from './product.entity';
@@ -31,44 +31,44 @@ export class ProductService {
     });
   }
 
-  async findById(id: string) {
-    return this.productRepo.findOne({
-      where: { id },
-      relations: { prices: { currency: true } },
-    });
-  }
+  // async findById(id: string) {
+  //   return this.productRepo.findOne({
+  //     where: { id },
+  //     relations: { prices: { currency: true } },
+  //   });
+  // }
 
-  async findByParams(shopId: string, query: { url?: string }) {
-    const site = await this.siteService.findOne(shopId);
+  // async findByParams(shopId: string, query: { url?: string }) {
+  //   const site = await this.siteService.findOne(shopId);
 
-    const products = await this.productRepo.find({
-      relations: { prices: { currency: true } },
-      where: { url: query.url, prices: { currency: { id: site.currency.id } } },
-    });
+  //   const products = await this.productRepo.find({
+  //     relations: { prices: { currency: true } },
+  //     where: { url: query.url, prices: { currency: { id: site.currency.id } } },
+  //   });
 
-    return this.flatProductPrices(products);
-  }
+  //   return this.flatProductPrices(products);
+  // }
 
-  async findByIds(shopId: string, ids: string[]) {
-    const site = await this.siteService.findOne(shopId);
+  // async findByIds(shopId: string, ids: string[]) {
+  //   const site = await this.siteService.findOne(shopId);
 
-    const products = await this.productRepo.find({
-      relations: { prices: { currency: true } },
-      where: {
-        id: In(ids),
-        prices: { currency: { id: site.currency.id } },
-      },
-    });
+  //   const products = await this.productRepo.find({
+  //     relations: { prices: { currency: true } },
+  //     where: {
+  //       id: In(ids),
+  //       prices: { currency: { id: site.currency.id } },
+  //     },
+  //   });
 
-    return this.flatProductPrices(products);
-  }
+  //   return this.flatProductPrices(products);
+  // }
 
-  flatProductPrices(products: Product[]) {
-    return products.map(({ prices = [], ...rest }) => ({
-      ...rest,
-      price: prices[0],
-    }));
-  }
+  // flatProductPrices(products: Product[]) {
+  //   return products.map(({ prices = [], ...rest }) => ({
+  //     ...rest,
+  //     price: prices[0],
+  //   }));
+  // }
 
   async create(productDto: ProductCreateDto) {
     const product = new Product();
@@ -117,16 +117,16 @@ export class ProductService {
     return { isOk: true };
   }
 
-  async getProductsByIds(ids: string[]) {
-    if (!ids.length) {
-      return [];
-    }
+  // async getProductsByIds(ids: string[]) {
+  //   if (!ids.length) {
+  //     return [];
+  //   }
 
-    return this.productRepo
-      .createQueryBuilder('product')
-      .leftJoinAndSelect('product.prices', 'prices')
-      .leftJoinAndSelect('prices.currency', 'currency')
-      .where('product.id IN (:ids)', { ids })
-      .getMany();
-  }
+  //   return this.productRepo
+  //     .createQueryBuilder('product')
+  //     .leftJoinAndSelect('product.prices', 'prices')
+  //     .leftJoinAndSelect('prices.currency', 'currency')
+  //     .where('product.id IN (:ids)', { ids })
+  //     .getMany();
+  // }
 }

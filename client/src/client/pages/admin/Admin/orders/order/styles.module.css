@@ -1,0 +1,21 @@
+.summeryBlock {
+    display: flex;
+    justify-content: end;
+}
+
+.summery {
+    padding: 1rem;
+    list-style: none;
+
+    & > li {
+        padding: 0.5rem 0;
+    }
+}
+
+.title {
+    font-weight: bold;
+}
+
+.id {
+    font-size: 0.9rem;
+}

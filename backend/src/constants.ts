@@ -2,11 +2,12 @@ import 'dotenv/config';
 
 export const STATIC_ROOT_DIR = 'uploads';
 export const SERVER_ROOT_DIR = 'public';
+export const SHOP_ID_HEADER = 'x-shop-id';
 
 /**
  * seconds
  */
-export const SESSION_TTL = 60 * 10;
+export const SESSION_TTL = 60 * 30;
 
 export const REDIS_HOST = process.env.REDIS_HOST;
 export const REDIS_PORT = process.env.REDIS_PORT;

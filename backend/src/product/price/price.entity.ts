@@ -2,9 +2,8 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  OneToOne,
-  JoinColumn,
   ManyToOne,
+
   // ManyToOne,
   // ManyToMany,
   // JoinTable,

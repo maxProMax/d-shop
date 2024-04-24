@@ -70,3 +70,14 @@ export const LinkBareSite: FC<LinkProps & AdditionalProps> = ({
 export const LinkBareSiteCreate: FC<LinkProps> = (props) => {
     return <Link href={Routes.ADMIN_SITE_CREATE} {...props} />;
 };
+
+export const LinkBareOrders: FC<LinkProps> = (props) => {
+    return <Link href={Routes.ADMIN_ORDER} {...props} />;
+};
+
+export const LinkBareOrder: FC<LinkProps & AdditionalProps> = ({
+    id,
+    ...props
+}) => {
+    return <Link href={`${Routes.ADMIN_ORDER}/${id}`} {...props} />;
+};

@@ -15,11 +15,7 @@ export const ProductsPage: FC<{ products: Product[] }> = ({ products }) => {
     const t = useTranslations('admin');
 
     const tableProps = {
-        head: [
-            t('page.admin.product.table.number'),
-            t('page.admin.product.table.name'),
-            '',
-        ],
+        head: [t('table.number'), t('table.name'), ''],
         body: products.reduce<(string | ReactNode)[][]>((memo, product, i) => {
             return memo.concat([
                 [

@@ -13,11 +13,11 @@ import {
   Param,
   Delete,
   UseGuards,
-  Query,
-  Headers,
+  // Query,
+  // Headers,
 } from '@nestjs/common';
 import { AdminSessionGuard } from '@/users/admin/guards';
-import { getShopIdH } from '@/utils';
+// import { getShopIdH } from '@/utils';
 import { ProductService } from './product.service';
 import { PriceDto, ProductCreateDto } from './types';
 
@@ -30,17 +30,9 @@ export class ProductController {
     return this.service.findAll();
   }
 
-  @Get('/search')
-  async getProductByParams(
-    @Query() query: { url?: string },
-    @Headers() headers,
-  ) {
-    return this.service.findByParams(getShopIdH(headers), query);
-  }
-
   @Get('/:id')
   getProduct(@Param() params: { id: string }) {
-    return this.service.findById(params.id);
+    return this.service.findOne(params.id);
   }
 
   @Post('/')

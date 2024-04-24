@@ -8,7 +8,7 @@ import { Category } from './category.entity';
 import { Product } from '../product/product.entity';
 import { AddProductDto, CategoryCreateDto } from './types';
 import { ImageService } from '@/image/image.service';
-import { ProductService } from '@/product/product.service';
+import { ProductStorefrontService } from '@/product/product.storefront.service';
 
 @Injectable()
 export class CategoryService {
@@ -16,7 +16,7 @@ export class CategoryService {
     @InjectRepository(Category) private categoryRepo: Repository<Category>,
     @InjectRepository(Product) private productRepo: Repository<Product>,
     private readonly imageService: ImageService,
-    private readonly productService: ProductService,
+    private readonly productService: ProductStorefrontService,
   ) {}
 
   async findAll(query: { url?: string }): Promise<Category[]> {

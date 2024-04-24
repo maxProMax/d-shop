@@ -11,6 +11,7 @@ export enum Routes {
     ADMIN_SITE_CREATE = '/admin/site/create',
     ADMIN_PRODUCT = '/admin/product',
     ADMIN_PRODUCT_CREATE = '/admin/product/create',
+    ADMIN_ORDER = '/admin/order',
 }
 
 export const RoutesDynamic = {

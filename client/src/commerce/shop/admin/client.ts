@@ -128,3 +128,7 @@ export const getCart = () => {
 export const putCart = (product_id: string) => {
     return api.put<Cart>(`cart`, { product_id });
 };
+
+export const checkout = () => {
+    return api.get(`checkout`);
+};

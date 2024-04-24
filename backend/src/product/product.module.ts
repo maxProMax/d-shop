@@ -8,6 +8,8 @@ import { Price } from './price/price.entity';
 import { Site } from '@/site/site.entity';
 import { Currency } from '@/currency/currency.entity';
 import { SiteModule } from '@/site/site.module';
+import { ProductStorefrontController } from './product.storefront.controller';
+import { ProductStorefrontService } from './product.storefront.service';
 
 @Module({
   imports: [
@@ -15,8 +17,8 @@ import { SiteModule } from '@/site/site.module';
     CurrencyModule,
     SiteModule,
   ],
-  controllers: [ProductController],
-  providers: [ProductService],
-  exports: [ProductService],
+  controllers: [ProductController, ProductStorefrontController],
+  providers: [ProductService, ProductStorefrontService],
+  exports: [ProductService, ProductStorefrontService],
 })
 export class ProductModule {}

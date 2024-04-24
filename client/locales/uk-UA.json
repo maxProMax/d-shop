@@ -51,6 +51,13 @@
                 "upload": "Завантажити"
             }
         },
+        "table": {
+            "number": "№",
+            "name": "Назва",
+            "user-type": "Тип користувача",
+            "total": "Сума",
+            "amount": "Кількіть"
+        },
         "notifications": {
             "submit": {
                 "saved": "Збережено",
@@ -60,12 +67,25 @@
         },
         "page": {
             "admin": {
+                "main": {
+                    "page": {
+                        "welcome": {
+                            "title": "Привіт!",
+                            "description": "Сьогодні у вас є шанс сформувати завтра, яке ви хочете."
+                        },
+                        "chart": {
+                            "title": "Продажі"
+                        },
+                        "summery": "Замовлень {orders} Загальна вартість {currency} {sum}"
+                    }
+                },
                 "sidebar": {
                     "item": {
                         "settings": "Система",
                         "products": "Продукти",
                         "categories": "Категорії",
-                        "sites": "Сайти"
+                        "sites": "Сайти",
+                        "order": "Замовлення"
                     }
                 },
                 "settings": {
@@ -124,10 +144,12 @@
                             "create": "Стоврити продукт",
                             "edit": "Редагувати продукт"
                         }
-                    },
-                    "table": {
-                        "number": "№",
-                        "name": "Назва"
+                    }
+                },
+                "order": {
+                    "page": {
+                        "total": "Всього",
+                        "order-id": "Ід. замовлення"
                     }
                 }
             }

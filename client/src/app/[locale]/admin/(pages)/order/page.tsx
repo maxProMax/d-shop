@@ -1,9 +1,8 @@
-import { AdminPage } from '@/client/pages/admin/Admin';
+import { OrdersPage } from '@/client/pages/admin/Admin/orders';
 import { getCheckoutAllOrders } from '@/commerce/shop/admin/backend';
 import { getSessionCookie } from '@/backend/cookies';
 
-export default async function Admin() {
+export default async function Orders() {
     const { data: orders } = await getCheckoutAllOrders(getSessionCookie());
-
-    return <AdminPage orders={orders} />;
+    return <OrdersPage orders={orders} />;
 }
