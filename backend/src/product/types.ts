@@ -7,6 +7,10 @@ export class ProductCreateDto {
   @IsString()
   @IsOptional()
   url: string;
+
+  @IsString()
+  @IsOptional()
+  description: string;
 }
 
 export class PriceDto {

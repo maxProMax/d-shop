@@ -1,11 +1,16 @@
+'use client';
 import { FC, PropsWithChildren } from 'react';
+import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import { LogoutBtn } from '@/client/components/admin/molecules/logout';
 import { SideBar } from './SideBar';
 import { NotificationProvider } from '@/client/modules/admin/notification';
 import styles from './styles.module.css';
+import { LinkBareAdmin } from '@/client/modules/router/admin/links';
 
 export const AdminLayout: FC<PropsWithChildren> = ({ children }) => {
+    const t = useTranslations('admin');
+
     return (
         <div className={styles.layout}>
             <header className={styles.header}>
@@ -21,7 +26,7 @@ export const AdminLayout: FC<PropsWithChildren> = ({ children }) => {
                         justifyContent={'space-between'}
                         alignItems={'center'}
                     >
-                        Admin Panel
+                        <LinkBareAdmin>{t('page.header.title')}</LinkBareAdmin>
                         <LogoutBtn />
                     </Box>
                 </Box>

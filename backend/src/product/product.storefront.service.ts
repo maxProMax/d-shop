@@ -34,6 +34,19 @@ export class ProductStorefrontService {
   //   });
   // }
 
+  async findAll(shopId: string) {
+    const site = await this.siteService.findOne(shopId);
+
+    const products = await this.productRepo.find({
+      where: { prices: { currency: { id: site.currency.id } } },
+      relations: { prices: { currency: true }, image: true },
+    });
+
+    console.log(products);
+
+    return this.flatProductPrices(products);
+  }
+
   async findById(id: string) {
     return this.productRepo.findOne({
       where: { id },
@@ -45,7 +58,7 @@ export class ProductStorefrontService {
     const site = await this.siteService.findOne(shopId);
 
     const products = await this.productRepo.find({
-      relations: { prices: { currency: true } },
+      relations: { prices: { currency: true }, image: true },
       where: { url: query.url, prices: { currency: { id: site.currency.id } } },
     });
 
@@ -56,7 +69,7 @@ export class ProductStorefrontService {
     const site = await this.siteService.findOne(shopId);
 
     const products = await this.productRepo.find({
-      relations: { prices: { currency: true } },
+      relations: { prices: { currency: true }, image: true },
       where: {
         id: In(ids),
         prices: { currency: { id: site.currency.id } },
@@ -66,7 +79,7 @@ export class ProductStorefrontService {
     return this.flatProductPrices(products);
   }
 
-  flatProductPrices(products: Product[]) {
+  private flatProductPrices(products: Product[]) {
     return products.map(({ prices = [], ...rest }) => ({
       ...rest,
       price: prices[0],

@@ -7,5 +7,7 @@ interface IProps {
 }
 
 export const Image: FC<IProps> = ({ src, alt, className }) => {
-    return <img className={className} src={`/media/${src}`} alt={alt} />;
+    return !src ? null : (
+        <img className={className} src={`/media/${src}`} alt={alt} />
+    );
 };

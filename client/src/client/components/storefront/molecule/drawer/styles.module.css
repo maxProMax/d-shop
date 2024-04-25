@@ -1,0 +1,11 @@
+.content {
+    width: 95vw;
+}
+.head {
+    display: flex;
+    padding: 0.5rem;
+    justify-content: flex-start;
+}
+.body {
+    padding: 0.5rem;
+}

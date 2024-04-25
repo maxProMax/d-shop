@@ -21,9 +21,14 @@ import { getShopIdH } from '@/utils';
 import { ProductStorefrontService } from './product.storefront.service';
 // import { PriceDto, ProductCreateDto } from './types';
 
-@Controller('product/storefront')
+@Controller('product/storefront/')
 export class ProductStorefrontController {
   constructor(private readonly service: ProductStorefrontService) {}
+
+  @Get('/all')
+  async getProducts(@Headers() headers) {
+    return this.service.findAll(getShopIdH(headers));
+  }
 
   @Get('/search')
   async getProductByParams(

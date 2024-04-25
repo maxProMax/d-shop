@@ -7,14 +7,16 @@ import { Product } from './product.entity';
 import { Price } from './price/price.entity';
 import { Site } from '@/site/site.entity';
 import { Currency } from '@/currency/currency.entity';
-import { SiteModule } from '@/site/site.module';
 import { ProductStorefrontController } from './product.storefront.controller';
 import { ProductStorefrontService } from './product.storefront.service';
+import { ImageModule } from '@/image/image.module';
+import { SiteModule } from '@/site/site.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Product, Price, Site, Currency]),
     CurrencyModule,
+    ImageModule,
     SiteModule,
   ],
   controllers: [ProductController, ProductStorefrontController],

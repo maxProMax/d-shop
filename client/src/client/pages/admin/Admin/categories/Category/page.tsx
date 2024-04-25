@@ -7,7 +7,6 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import { UploadButton } from '@/client/components/admin/atoms/button';
 import {
     deleteCategory,
     createSubcategory,
@@ -21,9 +20,8 @@ import {
 import { useNotification } from '@/client/modules/admin/notification';
 import { Routes, RoutesDynamic } from '@/client/modules/router/admin/routes';
 import { PageForm, FormContainer } from '@/client/components/admin/atoms/form';
-import { Image } from '@/client/components/common/image';
 import { ProductsTable } from '../components';
-import styles from './styles.module.css';
+import { UploadSection } from '@/client/components/admin/molecules/form';
 
 type PageType = 'create' | 'create-sub' | 'edit';
 type FormType = Omit<CategoryForm, 'file'> & { file?: FileList };
@@ -142,15 +140,11 @@ export const CategoryPage: FC<{
                     disabled={isSubmitting}
                     {...register('description')}
                 />
-                <div className={styles.banner}>
-                    <Divider textAlign="left">
-                        {t('page.admin.category.page.section.banner')}
-                    </Divider>
-                    {category?.banner && (
-                        <Image src={category?.banner?.path} alt="" />
-                    )}
-                    <UploadButton register={register('file')} />
-                </div>
+                <UploadSection
+                    src={category?.banner?.path}
+                    dividerLabel={t('page.admin.category.page.section.banner')}
+                    formProps={register('file')}
+                />
                 <Divider />
                 <ButtonGroup buttons={buttons} />
             </PageForm>

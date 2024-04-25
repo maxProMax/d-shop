@@ -1,12 +1,11 @@
 import axios from 'axios';
 import {
+    AdminProductForm,
     Cart,
     Category,
     CategoryForm,
-    Price,
     PriceForm,
     Product,
-    Site,
     SiteForm,
 } from './types';
 import { SITE_ID } from '@/constants';
@@ -97,16 +96,16 @@ export const deleteSite = (id: string) => {
     return api.delete(`site/${id}`);
 };
 
-export const createProduct = (product: Product) => {
-    return api.post<{ id: string }>(`product`, product);
+export const createProduct = (product: AdminProductForm) => {
+    return api.post<{ id: string }>(`product`, product, multipartOptions);
 };
 
 export const createProductPrice = (id: string, price: PriceForm) => {
     return api.post<{ id: string }>(`product/${id}`, price);
 };
 
-export const updateProduct = (id: string, product: Product) => {
-    return api.put<{ id: string }>(`product/${id}`, product);
+export const updateProduct = (id: string, product: AdminProductForm) => {
+    return api.put<{ id: string }>(`product/${id}`, product, multipartOptions);
 };
 
 export const deleteProduct = (id: string) => {

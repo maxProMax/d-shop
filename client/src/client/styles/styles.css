@@ -1,0 +1,10 @@
+:root {
+    --white: #fff;
+    --black: #000;
+
+    --bg-main: var(--white);
+    --bg-footer: var(--black);
+    --c-footer: var(--white);
+
+    --width-content-max: 1280px;
+}

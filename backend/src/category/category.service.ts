@@ -45,7 +45,7 @@ export class CategoryService {
   async findByParams(shopId, query: { url?: string }) {
     const categories = await this.categoryRepo.find({
       where: query ? query : {},
-      relations: { products: true },
+      relations: { products: true, banner: true },
     });
 
     const allProducts = await this.productService.findByIds(

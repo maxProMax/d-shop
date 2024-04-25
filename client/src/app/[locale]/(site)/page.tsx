@@ -1,12 +1,8 @@
-import styles from '../page.module.css';
+import { HomePage } from '@/client/pages/site/page';
+import { getStorefrontProducts } from '@/commerce/shop/admin/backend';
 
-export default function Home() {
-    return (
-        <main className={styles.main}>
-            <div className={styles.description}>
-                <p>home</p>
-            </div>
-            Home page
-        </main>
-    );
+export default async function Home() {
+    const { data: products } = await getStorefrontProducts();
+
+    return <HomePage products={products} />;
 }

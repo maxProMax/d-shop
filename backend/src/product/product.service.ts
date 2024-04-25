@@ -8,26 +8,26 @@ import { CurrencyService } from '@/currency/currency.service';
 import { Product } from './product.entity';
 import { PriceDto, ProductCreateDto } from './types';
 import { Price } from './price/price.entity';
-import { Site } from '@/site/site.entity';
-import { SiteService } from '@/site/site.service';
+import { ImageService } from '@/image/image.service';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(Product) private productRepo: Repository<Product>,
-    @InjectRepository(Site) private siteRepo: Repository<Site>,
     private readonly currencyService: CurrencyService,
-    private readonly siteService: SiteService,
+    private readonly imageService: ImageService,
   ) {}
 
   async findAll() {
-    return this.productRepo.find();
+    return this.productRepo.find({
+      relations: { prices: { currency: true }, image: true },
+    });
   }
 
   async findOne(id: string) {
     return this.productRepo.findOne({
       where: { id },
-      relations: { prices: { currency: true } },
+      relations: { prices: { currency: true }, image: true },
     });
   }
 
@@ -70,8 +70,13 @@ export class ProductService {
   //   }));
   // }
 
-  async create(productDto: ProductCreateDto) {
+  async create(productDto: ProductCreateDto, file: Express.Multer.File) {
     const product = new Product();
+
+    if (file) {
+      const image = await this.imageService.create(file);
+      product.image = image;
+    }
 
     const { id } = await this.productRepo.save(
       Object.assign(product, productDto),
@@ -103,8 +108,21 @@ export class ProductService {
     return { id };
   }
 
-  async update(id: string, productDto: ProductCreateDto) {
-    const product = await this.productRepo.findOneBy({ id });
+  async update(
+    id: string,
+    productDto: ProductCreateDto,
+    file: Express.Multer.File,
+  ) {
+    const product = await this.productRepo.findOne({
+      where: { id },
+      relations: { image: true },
+    });
+
+    if (file) {
+      product.image = product.image
+        ? await this.imageService.update(product.image.id, file)
+        : await this.imageService.create(file);
+    }
 
     await this.productRepo.save(Object.assign(product, productDto));
 
@@ -112,7 +130,13 @@ export class ProductService {
   }
 
   async delete(id: string): Promise<{ isOk: boolean }> {
-    await this.productRepo.delete({ id });
+    const product = await this.findOne(id);
+
+    if (product.image) {
+      await this.imageService.delete(product.image.id);
+    } else {
+      await this.productRepo.remove(product);
+    }
 
     return { isOk: true };
   }

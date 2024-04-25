@@ -27,15 +27,26 @@ export type CategoryForm = {
 export type Product = {
     id: string;
     name: string;
+    description?: string;
     url?: string;
     price?: Price;
+    image?: Image;
 };
 
 export type AdminProduct = {
     id: string;
     name: string;
+    description?: string;
     url?: string;
     prices?: Price[];
+    image?: Image;
+};
+
+export type AdminProductForm = {
+    name: string;
+    description?: string;
+    url?: string;
+    file?: Blob;
 };
 
 export interface Site {

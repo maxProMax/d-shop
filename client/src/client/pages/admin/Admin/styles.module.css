@@ -1,5 +1,8 @@
 .header {
     margin-bottom: 8px;
+    position: sticky;
+    top: 0px;
+    z-index: 2;
 }
 
 .page {

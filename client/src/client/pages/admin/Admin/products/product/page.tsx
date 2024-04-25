@@ -4,7 +4,11 @@ import { useRouter } from 'next/navigation';
 import pick from 'lodash/pick';
 import { useTranslations } from 'next-intl';
 import { PageWrapper } from '@/client/components/admin/atoms/layout';
-import { Currency, AdminProduct } from '@/commerce/shop/admin/types';
+import {
+    Currency,
+    AdminProduct,
+    AdminProductForm,
+} from '@/commerce/shop/admin/types';
 import { PageForm, FormContainer } from '@/client/components/admin/atoms/form';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
@@ -21,7 +25,10 @@ import {
 } from '@/client/components/admin/atoms/button';
 import { useNotification } from '@/client/modules/admin/notification';
 import { Routes, RoutesDynamic } from '@/client/modules/router/admin/routes';
+import { UploadSection } from '@/client/components/admin/molecules/form';
 import { Price } from './Price';
+
+type FormType = Omit<AdminProductForm, 'file'> & { file?: FileList };
 
 const Title: FC<{ isEdit: boolean }> = ({ isEdit }) => {
     const t = useTranslations('admin');
@@ -46,21 +53,23 @@ export const ProductPage: FC<{
         register,
         handleSubmit,
         formState: { isSubmitting },
-    } = useForm<AdminProduct>({
-        defaultValues: pick(product, ['name', 'url']),
+    } = useForm<FormType>({
+        defaultValues: pick(product, ['name', 'url', 'description']),
     });
 
-    const onSubmit: SubmitHandler<AdminProduct> = async (data) => {
+    const onSubmit: SubmitHandler<FormType> = async (data) => {
+        const formData = { ...data, file: data.file?.[0] };
+
         if (!data.url) {
             data.url = data.name.toLocaleLowerCase().split(/\s+/).join('-');
         }
 
         if (product?.id) {
-            await updateProduct(product.id, data);
+            await updateProduct(product.id, formData);
             enqueueSnackbar(t('notifications.submit.saved'));
             router.refresh();
         } else {
-            const resp = await createProduct(data);
+            const resp = await createProduct(formData);
             enqueueSnackbar(t('notifications.submit.created'));
             router.push(RoutesDynamic.adminProductEdit(resp.data.id));
             router.refresh();
@@ -105,6 +114,14 @@ export const ProductPage: FC<{
                         disabled={isSubmitting}
                         {...register('url')}
                     />
+                    <TextField
+                        label={t('form.field.description.placeholder')}
+                        variant="outlined"
+                        rows={10}
+                        multiline
+                        disabled={isSubmitting}
+                        {...register('description')}
+                    />
                     <div>
                         {currencies?.map((c) => {
                             const price = product?.prices?.find(
@@ -126,6 +143,13 @@ export const ProductPage: FC<{
                             );
                         })}
                     </div>
+                    <UploadSection
+                        src={product?.image?.path}
+                        dividerLabel={t(
+                            'page.admin.product.page.section.image'
+                        )}
+                        formProps={register('file')}
+                    />
                     <Divider />
                     <ButtonGroup buttons={buttons} />
                 </PageForm>

@@ -3,4 +3,14 @@
     display: inline-flex;
     align-items: center;
     column-gap: 4px;
+
+    text-decoration: none;
+    color: inherit;
+
+    &:visited {
+        color: inherit;
+    }
+    &:active {
+        color: inherit;
+    }
 }

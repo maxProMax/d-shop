@@ -63,6 +63,10 @@ export const getProducts = () => {
     return api.get<Product[]>('product');
 };
 
+export const getStorefrontProducts = () => {
+    return api.get<Product[]>('product/storefront/all');
+};
+
 export const getProduct = (id: string) => {
     return api.get<AdminProduct>(`product/${id}`);
 };

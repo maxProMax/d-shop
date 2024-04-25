@@ -5,9 +5,12 @@ import {
   ManyToMany,
   JoinTable,
   OneToMany,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { Price } from './price/price.entity';
 import { OrderDetails } from '@/checkout/order/order-details.entry';
+import { Image } from '@/image/image.entity';
 
 @Entity()
 export class Product {
@@ -20,6 +23,9 @@ export class Product {
   @Column({ unique: true })
   url: string;
 
+  @Column({ nullable: true, type: 'text' })
+  description: string;
+
   @ManyToMany(() => Price, {
     cascade: true,
     onDelete: 'CASCADE',
@@ -30,4 +36,11 @@ export class Product {
 
   @OneToMany(() => OrderDetails, (det) => det.product)
   orderDetails: OrderDetails[];
+
+  @OneToOne(() => Image, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  image: Image;
 }

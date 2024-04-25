@@ -1,39 +1,77 @@
 'use client';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import Badge from '@mui/material/Badge';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import MenuIcon from '@mui/icons-material/Menu';
 import { Category, Site } from '@/commerce/shop/admin/types';
 import { Image } from '@/client/components/common/image';
-import { LinkCategory, LinkCart } from '@/client/modules/router/client/links';
-import styles from './styles.module.css';
+import {
+    LinkCategory,
+    LinkCart,
+    LinkHome,
+} from '@/client/modules/router/storefront/links';
 import { useUser } from '@/client/modules/customer/user/hooks';
+import { Drawer } from '@/client/components/storefront/molecule/drawer';
+import styles from './styles.module.css';
 
 export const Header: FC<{ category?: Category; site: Site }> = ({
     category,
     site,
 }) => {
     const { cart } = useUser();
+    const [open, toggle] = useState(false);
+
+    const handleClick = () => {
+        toggle(true);
+    };
 
     return (
         <header className={styles.header}>
-            <nav className={styles.nav}>
-                {category?.children.map((child) => (
-                    <div key={child.id}>
-                        <LinkCategory slug={child.url}>
-                            {child.name}
-                        </LinkCategory>
-                    </div>
-                ))}
-            </nav>
-            <div className={styles.logoBlock}>
-                <Image className={styles.logo} src={site.logo?.path} />
-            </div>
-            <div className={styles.icons}>
-                <LinkCart>
-                    <Badge badgeContent={cart?.items?.length} color="primary">
-                        <ShoppingBasketIcon color="action" />
-                    </Badge>
-                </LinkCart>
+            <div className={styles.headerContainer}>
+                <div className={styles.logoBlock}>
+                    <LinkHome>
+                        <Image className={styles.logo} src={site.logo?.path} />
+                    </LinkHome>
+                </div>
+                <nav className={styles.navDesktop}>
+                    {category?.children.map((child) => (
+                        <div key={child.id}>
+                            <LinkCategory
+                                className={styles.link}
+                                slug={child.url}
+                            >
+                                {child.name}
+                            </LinkCategory>
+                        </div>
+                    ))}
+                </nav>
+                <div className={styles.icons}>
+                    <LinkCart>
+                        <Badge
+                            badgeContent={cart?.items?.length}
+                            color="primary"
+                        >
+                            <ShoppingBasketIcon color="action" />
+                        </Badge>
+                    </LinkCart>
+                    <span className={styles.menu} onClick={handleClick}>
+                        <MenuIcon />
+                    </span>
+                    <Drawer open={open} toggle={toggle}>
+                        <nav className={styles.navMobile}>
+                            {category?.children.map((child) => (
+                                <div key={child.id}>
+                                    <LinkCategory
+                                        className={styles.link}
+                                        slug={child.url}
+                                    >
+                                        {child.name}
+                                    </LinkCategory>
+                                </div>
+                            ))}
+                        </nav>
+                    </Drawer>
+                </div>
             </div>
         </header>
     );

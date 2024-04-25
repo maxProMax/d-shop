@@ -11,6 +11,10 @@ type AdditionalProps = {
     id: string | number;
 };
 
+export const LinkBareAdmin: FC<LinkProps> = (props) => {
+    return <Link href={Routes.ADMIN} {...props} />;
+};
+
 export const LinkBareSettings: FC<LinkProps> = (props) => {
     return <Link href={Routes.ADMIN_SETTINGS} {...props} />;
 };

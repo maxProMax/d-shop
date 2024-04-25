@@ -1,0 +1,9 @@
+.layout {
+    background-attachment: fixed;
+
+    min-height: 100vh;
+    background: linear-gradient(0deg, #5068871a, #5068871a),
+        url(https://dzq25tvpwwmqk.cloudfront.net/media/switzerland/b040eed91265711868/_next/static/media/account-bg.ea8f7bed.png)
+            no-repeat 100% 0,
+        #fff;
+}

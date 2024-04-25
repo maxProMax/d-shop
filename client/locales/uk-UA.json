@@ -1,4 +1,15 @@
 {
+    "storefront": {
+        "button": {
+            "cart": { "add": "Додати до корзини" }
+        },
+        "page": {
+            "cart": {
+                "title": "Корзина",
+                "title-empty": "Корзина порожня"
+            }
+        }
+    },
     "admin": {
         "form": {
             "text": {
@@ -30,7 +41,7 @@
                     "placeholder": "Адреса сторінки"
                 },
                 "description": {
-                    "placeholder": "Опис категорії"
+                    "placeholder": "Опис"
                 },
                 "currency": {
                     "placeholder": "Валюта"
@@ -66,6 +77,9 @@
             }
         },
         "page": {
+            "header": {
+                "title": "Панель адміністратора"
+            },
             "admin": {
                 "main": {
                     "page": {
@@ -143,7 +157,8 @@
                         "title": {
                             "create": "Стоврити продукт",
                             "edit": "Редагувати продукт"
-                        }
+                        },
+                        "section": { "image": "Фото продукту" }
                     }
                 },
                 "order": {
