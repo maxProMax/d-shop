@@ -1,8 +1,12 @@
-.rootLayout {
+.contentLayout {
     flex-grow: 1;
     padding: 0.5rem 0.5rem 1rem;
     max-width: 1280px;
     margin: auto;
     display: flex;
     flex-direction: column;
+}
+
+.rootLayout {
+    height: 100svh;
 }

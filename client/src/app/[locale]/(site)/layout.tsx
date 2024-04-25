@@ -3,7 +3,7 @@ import { getSite, getCategoryTree } from '@/commerce/shop/admin/backend';
 import { SITE_ID } from '@/constants';
 import { Category } from '@/commerce/shop/admin/types';
 import { Header } from '@/client/pages/site/Header';
-import { RootLayout } from '@/client/pages/site/layout';
+import { ContentLayout, RootLayout } from '@/client/pages/site/layout';
 import { UserProvider } from '@/client/modules/customer/user';
 import { Footer } from '@/client/pages/site/Footer';
 import { ThemeProviderStorefront } from '@/client/modules/mui/storefont';
@@ -24,9 +24,11 @@ export default async function Layout({ children }: { children: ReactNode }) {
     return (
         <ThemeProviderStorefront>
             <UserProvider>
-                <Header site={site} category={category} />
-                <RootLayout>{children}</RootLayout>
-                <Footer />
+                <RootLayout>
+                    <Header site={site} category={category} />
+                    <ContentLayout>{children}</ContentLayout>
+                    <Footer />
+                </RootLayout>
             </UserProvider>
         </ThemeProviderStorefront>
     );
