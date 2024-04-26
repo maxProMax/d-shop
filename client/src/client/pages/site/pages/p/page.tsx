@@ -23,14 +23,25 @@ export const ProductPage: FC<{ product: Product }> = ({ product }) => {
             {product.image && (
                 <Image className={styles.image} src={product.image.path} />
             )}
-            <h3>{product.name}</h3>
-            <p>{`${product.price?.price} ${product.price?.currency?.symbol}`}</p>
-            <Divider />
-            <Markdown text={product.description} />
-            {product.description && <Divider />}
-            <ContainedButton onClick={handleClick} disabled={loading}>
-                {t('button.cart.add')}
-            </ContainedButton>
+            <div className={styles.title}>
+                <h3>{product.name}</h3>
+                <p>{`${product.price?.price} ${product.price?.currency?.symbol}`}</p>
+                <div className={styles.actions}>
+                    <Divider className={styles.divider} />
+                    <div>
+                        <ContainedButton
+                            onClick={handleClick}
+                            disabled={loading}
+                        >
+                            {t('button.cart.add')}
+                        </ContainedButton>
+                    </div>
+                    <Divider className={styles.divider} />
+                </div>
+            </div>
+            <div className={styles.desc}>
+                <Markdown text={product.description} />
+            </div>
         </div>
     );
 };

@@ -19,7 +19,7 @@ import {
   // Headers,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { AdminSessionGuard } from '@/users/admin/guards';
+import { AdminSessionGuard } from '@/user/admin/guards';
 // import { getShopIdH } from '@/utils';
 import { ProductService } from './product.service';
 import { PriceDto, ProductCreateDto } from './types';

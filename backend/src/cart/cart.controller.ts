@@ -11,7 +11,7 @@ import {
   UseGuards,
   Headers,
 } from '@nestjs/common';
-import { UserSessionGuard } from '@/users/customer/guards';
+import { UserSessionGuard } from '@/user/customer/guards';
 import { SessionType } from '@/session/types';
 import { getShopIdH } from '@/utils';
 import { CartService } from './cart.service';

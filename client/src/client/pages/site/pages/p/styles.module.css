@@ -1,4 +1,6 @@
-.page {
+@import 'src/client/styles/mixins.css';
+
+/* .page {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -6,4 +8,51 @@
 
 .image {
     width: 100%;
+} */
+
+.page {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        'image'
+        'title'
+        'desc';
+    gap: 0.5rem;
+
+    @mixin tablet {
+        gap: 1rem;
+        grid-template-columns: 150px 150px 1fr 1fr;
+        grid-template-areas:
+            'image image title .'
+            'image image title .'
+            'desc desc desc desc';
+    }
+}
+
+.image {
+    grid-area: image;
+    width: 100%;
+}
+
+.title {
+    grid-area: title;
+}
+
+.desc {
+    grid-area: desc;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+}
+
+.divider {
+    display: block;
+
+    @mixin tablet {
+        display: none;
+    }
 }

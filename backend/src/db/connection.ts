@@ -1,6 +1,6 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AdminUser } from '@/users/admin/user.entity';
-import { User } from '@/users/customer/user.entity';
+import { AdminUser } from '@/user/admin/user.entity';
+import { User } from '@/user/customer/user.entity';
 
 export const dbConnection = () => {
   return TypeOrmModule.forRoot({

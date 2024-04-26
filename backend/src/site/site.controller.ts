@@ -13,7 +13,7 @@ import {
   UploadedFile,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { AdminSessionGuard } from '@/users/admin/guards';
+import { AdminSessionGuard } from '@/user/admin/guards';
 import { STATIC_ROOT_DIR } from '@/constants';
 import { SiteService } from './site.service';
 import { SiteCreateDto } from './types';

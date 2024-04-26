@@ -1,7 +1,29 @@
+@import 'src/client/styles/mixins.css';
+
 .banner {
     width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: var(--border-radius-main);
 }
 
 .description {
+    background-color: #f0eeed;
+    text-align: center;
     padding: 1rem;
+    border-radius: var(--border-radius-main);
+
+    @mixin tablet {
+        padding: 4rem;
+    }
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    @mixin tablet {
+        gap: 1rem;
+    }
 }

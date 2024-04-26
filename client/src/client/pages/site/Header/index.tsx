@@ -35,7 +35,7 @@ export const Header: FC<{ category?: Category; site: Site }> = ({
                 </div>
                 <nav className={styles.navDesktop}>
                     {category?.children.map((child) => (
-                        <div key={child.id}>
+                        <div className={styles.linkWrapper} key={child.id}>
                             <LinkCategory
                                 className={styles.link}
                                 slug={child.url}

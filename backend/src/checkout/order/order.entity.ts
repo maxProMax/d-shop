@@ -17,7 +17,8 @@ import {
 } from 'typeorm';
 import { OrderDetails } from './order-details.entry';
 import { Currency } from '@/currency/currency.entity';
-import { Role } from '@/users/type';
+import { Role } from '@/user/type';
+import { Address } from '@/user/address/address.entity';
 // import { Category } from '../category/category.entity';
 // import { IsEmail } from 'class-validator';
 // import { Role } from '../type';
@@ -50,6 +51,9 @@ export class Order {
 
   @ManyToOne(() => Currency, (currency) => currency.orders)
   currency: Currency;
+
+  @ManyToOne(() => Address, (address) => address.orders)
+  address: Address;
 }
 
 // @Entity()

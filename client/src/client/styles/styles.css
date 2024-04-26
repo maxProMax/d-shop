@@ -7,4 +7,6 @@
     --c-footer: var(--white);
 
     --width-content-max: 1280px;
+
+    --border-radius-main: 0.15rem;
 }

@@ -9,12 +9,14 @@ import {
   Request,
   Headers,
   Param,
+  Body,
 } from '@nestjs/common';
-import { UserSessionGuard } from '@/users/customer/guards';
-import { AdminSessionGuard } from '@/users/admin/guards';
+import { UserSessionGuard } from '@/user/customer/guards';
+import { AdminSessionGuard } from '@/user/admin/guards';
 import { getShopIdH } from '@/utils';
 import { SessionType } from '@/session/types';
 import { CheckoutService } from './checkout.service';
+import { AddressDto } from '@/user/address/types';
 
 @Controller('/checkout')
 export class CheckoutController {
@@ -30,6 +32,20 @@ export class CheckoutController {
     }
 
     throw new Error('not supported');
+  }
+
+  @Get('/guest')
+  @UseGuards(UserSessionGuard)
+  checkoutGuest(
+    @Request() req: SessionType,
+    @Headers() headers,
+    @Body() body: AddressDto,
+  ) {
+    const shopId = getShopIdH(headers);
+
+    console.log(body);
+
+    return this.service.checkout(shopId, req.session.passport.user.id);
   }
 
   @Get('/all-orders')

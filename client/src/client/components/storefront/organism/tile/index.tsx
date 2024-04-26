@@ -5,6 +5,7 @@ import { Price as PriceType, Product } from '@/commerce/shop/admin/types';
 import { Image } from '@/client/components/common/image';
 import { useAddToCart } from '@/client/modules/customer/user';
 import styles from './styles.module.css';
+import clsx from 'clsx';
 
 const Price: FC<{ price: PriceType }> = ({ price }) => {
     return <span>{`${price?.price} ${price?.currency?.symbol}`}</span>;
@@ -18,15 +19,15 @@ export const Tile: FC<{ product: Product }> = ({ product }) => {
     };
 
     return (
-        <div className={styles.wrapper}>
+        <div className={clsx(styles.wrapper)}>
             <LinkProduct className={styles.tile} slug={product.url}>
                 {product.image?.path && (
                     <Image className={styles.image} src={product.image?.path} />
                 )}
-                {product.name}
+                <h5>{product.name}</h5>
             </LinkProduct>
-            {product.price && <Price price={product.price} />}
             <div className={styles.footer}>
+                {product.price && <Price price={product.price} />}
                 <button
                     disabled={loading}
                     onClick={handleClick}

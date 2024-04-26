@@ -46,10 +46,15 @@ export const CartPage: FC = () => {
                     </article>
                 ))}
             </section>
-            <p>
-                Всього: {cart.total} {cart.currency.symbol}
+            <p className={styles.summery}>
+                {t('page.cart.summery', {
+                    currency: cart.currency.symbol,
+                    amount: cart.total,
+                })}
             </p>
-            <ContainedButton onClick={handleClick}>checkout</ContainedButton>
+            <ContainedButton onClick={handleClick}>
+                {t('page.cart.checkout')}
+            </ContainedButton>
         </div>
     );
 };

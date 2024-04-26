@@ -6,7 +6,9 @@
         "page": {
             "cart": {
                 "title": "Корзина",
-                "title-empty": "Корзина порожня"
+                "title-empty": "Корзина порожня",
+                "summery": "Всього: {amount} {currency}",
+                "checkout": "Купити"
             }
         }
     },
