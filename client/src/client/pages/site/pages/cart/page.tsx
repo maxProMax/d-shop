@@ -32,9 +32,9 @@ export const CartPage: FC = () => {
     return (
         <div className={styles.cart}>
             <h2>{t('page.cart.title')}</h2>
-            <ul className={styles.list}>
+            <section className={styles.list}>
                 {cart?.items.map((item) => (
-                    <li className={styles.item} key={item.id}>
+                    <article className={styles.item} key={item.id}>
                         <Image
                             className={styles.image}
                             src={item.product.image?.path}
@@ -43,9 +43,9 @@ export const CartPage: FC = () => {
                             <span>{item.product.name} </span>
                             <span>{`${item.product.price?.price} ${item.product.price?.currency?.symbol}`}</span>
                         </div>
-                    </li>
+                    </article>
                 ))}
-            </ul>
+            </section>
             <p>
                 Всього: {cart.total} {cart.currency.symbol}
             </p>

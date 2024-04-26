@@ -30,11 +30,7 @@ export const ProductsTable: FC<{
         }
     };
     const table = {
-        head: [
-            t('page.admin.product.table.number'),
-            t('page.admin.product.table.name'),
-            '',
-        ],
+        head: [t('table.number'), t('table.name'), ''],
         body: products?.map((p, i) => [
             i + 1,
             p.name,

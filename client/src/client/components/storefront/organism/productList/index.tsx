@@ -7,12 +7,12 @@ export const ProductList: FC<{ products?: Product[] }> = ({
     products = [],
 }) => {
     return (
-        <ul className={styles.grid}>
+        <section className={styles.grid}>
             {products?.map((product) => (
-                <li key={product.id}>
+                <article key={product.id}>
                     <Tile product={product}></Tile>
-                </li>
+                </article>
             ))}
-        </ul>
+        </section>
     );
 };
