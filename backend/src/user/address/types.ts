@@ -1,6 +1,7 @@
-import { IsString, IsEmail, IsPhoneNumber } from 'class-validator';
+import { IsString, IsEmail, IsPhoneNumber, IsOptional } from 'class-validator';
 
 export class AddressDto {
+  @IsOptional()
   @IsPhoneNumber()
   phone: string;
 

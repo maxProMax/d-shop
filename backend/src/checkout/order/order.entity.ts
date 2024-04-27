@@ -52,7 +52,7 @@ export class Order {
   @ManyToOne(() => Currency, (currency) => currency.orders)
   currency: Currency;
 
-  @ManyToOne(() => Address, (address) => address.orders)
+  @ManyToOne(() => Address, (address) => address.orders, { cascade: true })
   address: Address;
 }
 

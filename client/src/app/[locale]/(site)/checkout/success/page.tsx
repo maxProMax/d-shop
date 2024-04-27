@@ -1,3 +1,9 @@
-export default function CheckoutSuccessPage() {
-    return <div>Checkout Success Page</div>;
+import { CheckoutSuccessPage } from '@/client/pages/site/pages/checkout/success';
+
+export default function CheckoutSuccess({
+    searchParams,
+}: {
+    searchParams: { id: string };
+}) {
+    return <CheckoutSuccessPage orderId={searchParams.id} />;
 }

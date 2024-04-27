@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {
+    AddressForm,
     AdminProductForm,
     Cart,
     Category,
@@ -128,6 +129,14 @@ export const putCart = (product_id: string) => {
     return api.put<Cart>(`cart`, { product_id });
 };
 
-export const checkout = () => {
-    return api.get(`checkout`);
+export const checkout = (body: AddressForm) => {
+    return api.post<{ orderId: string }>(`checkout/guest`, body);
+};
+
+export const orderAddressCreate = (id: string, body: AddressForm) => {
+    return api.put(`checkout/order/${id}`, body);
+};
+
+export const addressUpdate = (id: string, body: AddressForm) => {
+    return api.put(`address/${id}`, body);
 };

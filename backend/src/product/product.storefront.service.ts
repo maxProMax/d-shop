@@ -42,8 +42,6 @@ export class ProductStorefrontService {
       relations: { prices: { currency: true }, image: true },
     });
 
-    console.log(products);
-
     return this.flatProductPrices(products);
   }
 

@@ -2,36 +2,45 @@
 import { useUser } from '@/client/modules/customer/user';
 import { FC } from 'react';
 import { useTranslations } from 'next-intl';
-// import { Image } from '@/client/components/common/image';
-// import { Product } from '@/commerce/shop/admin/types';
+import { useForm } from 'react-hook-form';
+import TextField from '@mui/material/TextField';
+import Alert from '@mui/material/Alert';
 import { ContainedButton } from '@/client/components/storefront/atoms/button';
 import { useFetch } from '@/client/modules/customer/network';
 import { checkout } from '@/commerce/shop/admin/client';
 import { useRouter } from 'next/navigation';
-import { Routes } from '@/client/modules/router/storefront/routes';
+import { RoutesDynamic } from '@/client/modules/router/storefront/routes';
 import { Image } from '@/client/components/common/image';
 import styles from './styles.module.css';
-// import { useAddToCart } from '@/client/modules/customer/user';
-// import { LinkProduct } from '@/client/modules/router/client/links';
+import { AddressForm } from '@/commerce/shop/admin/types';
 
 export const CartPage: FC = () => {
     const t = useTranslations('storefront');
     const { cart } = useUser();
     const router = useRouter();
-    const { request } = useFetch(checkout);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+    } = useForm<AddressForm>();
+    const { request, error } = useFetch(checkout);
+    const onSubmit = async (data: AddressForm) => {
+        try {
+            const {
+                data: { orderId },
+            } = await request(data);
+            router.push(RoutesDynamic.checkoutSuccess(orderId));
+        } catch {}
+    };
 
     if (!cart?.items.length) {
         return <div>{t('page.cart.title-empty')}</div>;
     }
 
-    const handleClick = async () => {
-        await request();
-        router.push(Routes.CHECKOUT_SUCCESS);
-    };
-
     return (
         <div className={styles.cart}>
             <h2>{t('page.cart.title')}</h2>
+
             <section className={styles.list}>
                 {cart?.items.map((item) => (
                     <article className={styles.item} key={item.id}>
@@ -52,9 +61,34 @@ export const CartPage: FC = () => {
                     amount: cart.total,
                 })}
             </p>
-            <ContainedButton onClick={handleClick}>
-                {t('page.cart.checkout')}
-            </ContainedButton>
+            <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+                {error && (
+                    <Alert severity="error">
+                        {(error.response?.data as any)?.message?.join(' ')}
+                    </Alert>
+                )}
+                <TextField
+                    label={t('form.field.email.placeholder')}
+                    type="email"
+                    {...register('email', { required: true })}
+                />
+                <TextField
+                    label={t('form.field.address.placeholder')}
+                    {...register('address', { required: true })}
+                />
+                <TextField
+                    label={t('form.field.country.placeholder')}
+                    {...register('country', { required: true })}
+                />
+                <TextField
+                    label={t('form.field.phone.placeholder')}
+                    type="tel"
+                    {...register('phone', { required: true })}
+                />
+                <ContainedButton type="submit">
+                    {t('page.cart.checkout')}
+                </ContainedButton>
+            </form>
         </div>
     );
 };

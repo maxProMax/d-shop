@@ -10,6 +10,8 @@ import {
   Headers,
   Param,
   Body,
+  Post,
+  Put,
 } from '@nestjs/common';
 import { UserSessionGuard } from '@/user/customer/guards';
 import { AdminSessionGuard } from '@/user/admin/guards';
@@ -34,7 +36,7 @@ export class CheckoutController {
     throw new Error('not supported');
   }
 
-  @Get('/guest')
+  @Post('/guest')
   @UseGuards(UserSessionGuard)
   checkoutGuest(
     @Request() req: SessionType,
@@ -43,9 +45,11 @@ export class CheckoutController {
   ) {
     const shopId = getShopIdH(headers);
 
-    console.log(body);
-
-    return this.service.checkout(shopId, req.session.passport.user.id);
+    return this.service.checkoutGuest(
+      shopId,
+      req.session.passport.user.id,
+      body,
+    );
   }
 
   @Get('/all-orders')
@@ -58,5 +62,11 @@ export class CheckoutController {
   @UseGuards(AdminSessionGuard)
   getOrder(@Param() params: { id: string }) {
     return this.service.getOrder(params.id);
+  }
+
+  @Put('/order/:id')
+  @UseGuards(AdminSessionGuard)
+  updateAddress(@Param() params: { id: string }, @Body() body: AddressDto) {
+    return this.service.updateAddress(params.id, body);
   }
 }

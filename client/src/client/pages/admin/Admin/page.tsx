@@ -82,7 +82,7 @@ export const AdminPage: FC<{ orders: Order[] }> = ({ orders }) => {
             <Typography textAlign={'center'}>
                 {t('page.admin.main.page.summery', {
                     orders: orders.length,
-                    currency: orders[0].currency.symbol,
+                    currency: orders[0]?.currency.symbol,
                     sum: chartData?.reduce((sum, d) => sum + d.total, 0),
                 })}
             </Typography>

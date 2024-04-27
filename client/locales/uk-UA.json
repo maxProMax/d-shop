@@ -3,12 +3,36 @@
         "button": {
             "cart": { "add": "Додати до корзини" }
         },
+        "form": {
+            "text": {
+                "id": "id: {id}"
+            },
+            "field": {
+                "email": {
+                    "placeholder": "Ел. пошта"
+                },
+                "country": {
+                    "placeholder": "Країна"
+                },
+                "phone": {
+                    "placeholder": "Телефон"
+                },
+                "address": {
+                    "placeholder": "Адресса"
+                }
+            }
+        },
         "page": {
             "cart": {
                 "title": "Корзина",
                 "title-empty": "Корзина порожня",
                 "summery": "Всього: {amount} {currency}",
                 "checkout": "Купити"
+            },
+            "checkout": {
+                "success": {
+                    "title": "Покупка успішна.<br/> Номер вашого замовлення:<br/> {orderId}"
+                }
             }
         }
     },
@@ -53,6 +77,15 @@
                 },
                 "discount-price": {
                     "placeholder": "Скидкова ціна"
+                },
+                "country": {
+                    "placeholder": "Країна"
+                },
+                "phone": {
+                    "placeholder": "Телефон"
+                },
+                "address": {
+                    "placeholder": "Адресса"
                 }
             },
             "buttons": {
@@ -69,7 +102,8 @@
             "name": "Назва",
             "user-type": "Тип користувача",
             "total": "Сума",
-            "amount": "Кількіть"
+            "amount": "Кількіть",
+            "email": "Ел. пошта"
         },
         "notifications": {
             "submit": {
@@ -166,7 +200,10 @@
                 "order": {
                     "page": {
                         "total": "Всього",
-                        "order-id": "Ід. замовлення"
+                        "order-id": "Ід. замовлення",
+                        "address": {
+                            "title": "Адресса замовлення"
+                        }
                     }
                 }
             }

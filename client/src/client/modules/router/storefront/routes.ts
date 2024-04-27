@@ -5,3 +5,7 @@ export enum Routes {
     CART = '/cart',
     CHECKOUT_SUCCESS = '/checkout/success',
 }
+
+export const RoutesDynamic = {
+    checkoutSuccess: (orderId: string) => `/checkout/success?id=${orderId}`,
+};

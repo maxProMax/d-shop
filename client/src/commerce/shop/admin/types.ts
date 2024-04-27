@@ -114,4 +114,20 @@ export type Order = {
     total?: number;
     currency: Currency;
     orderDetails?: OrderDetails[];
+    address?: Address;
+};
+
+export type Address = {
+    id: string;
+    phone: string;
+    address: string;
+    country: string;
+    email: string;
+};
+
+export type AddressForm = {
+    phone: string;
+    address: string;
+    country: string;
+    email: string;
 };
