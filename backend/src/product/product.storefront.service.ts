@@ -45,17 +45,21 @@ export class ProductStorefrontService {
     return this.flatProductPrices(products);
   }
 
+  private productQueryWithSite() {
+    return this.productRepo
+      .createQueryBuilder('product')
+      .leftJoinAndSelect(`product.${Product.imageName}`, 'image') // relation
+      .innerJoinAndSelect(`product.${Product.pricesName}`, 'price') // for select
+      .leftJoinAndSelect(`price.${Price.currencyName}`, 'currency') // relation
+      .innerJoin(Site, 'site', `site.currency = price.currency`); // for select
+  }
+
   async findByIds(shopId: string, ids: string[]) {
     if (!ids.length) {
       return [];
     }
 
-    const products = await this.productRepo
-      .createQueryBuilder('product')
-      .leftJoinAndSelect(`product.${Product.imageName}`, 'image') // relation
-      .innerJoinAndSelect(`product.${Product.pricesName}`, 'price') // for select
-      .leftJoinAndSelect(`price.${Price.currencyName}`, 'currency') // relation
-      .innerJoin(Site, 'site', `site.currency = price.currency`) // for select
+    const products = await this.productQueryWithSite()
       .where('site.id = :shopId', { shopId })
       .where('product.id IN (:...ids)', { ids })
       .getMany();
