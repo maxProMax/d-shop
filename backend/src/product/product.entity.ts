@@ -11,6 +11,7 @@ import {
 import { Price } from './price/price.entity';
 import { OrderDetails } from '@/checkout/order/order-details.entry';
 import { Image } from '@/image/image.entity';
+import { getPropertyNameOf } from '@/utils';
 
 @Entity()
 export class Product {
@@ -34,6 +35,10 @@ export class Product {
   @JoinTable()
   prices: Price[];
 
+  static get pricesName() {
+    return getPropertyNameOf<Product>('prices');
+  }
+
   @OneToMany(() => OrderDetails, (det) => det.product)
   orderDetails: OrderDetails[];
 
@@ -43,4 +48,8 @@ export class Product {
   })
   @JoinColumn()
   image: Image;
+
+  static get imageName() {
+    return getPropertyNameOf<Product>('image');
+  }
 }

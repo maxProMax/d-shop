@@ -15,6 +15,7 @@ import {
 // import { Category } from '@/category/category.entity';
 // import { Product } from '@/product/product.entity';
 import { Currency } from '@/currency/currency.entity';
+import { getPropertyNameOf } from '@/utils';
 
 @Entity()
 export class Price {
@@ -34,6 +35,10 @@ export class Price {
 
   @ManyToOne(() => Currency, (currency) => currency.prices)
   currency: Currency;
+
+  static get currencyName() {
+    return getPropertyNameOf<Price>('currency');
+  }
 
   @Column({ type: 'float' })
   price: number;
