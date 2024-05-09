@@ -12,6 +12,7 @@ import { ProductService } from '@/product/product.service';
 import { getPropertyNameOf } from '@/utils';
 import { AddressDto } from '@/user/address/types';
 import { AddressService } from '@/user/address/address.service';
+import { EmailService } from '@/email/email.service';
 
 @Injectable()
 export class CheckoutService {
@@ -24,6 +25,7 @@ export class CheckoutService {
     private readonly currencyService: CurrencyService,
     private readonly productService: ProductService,
     private readonly addressService: AddressService,
+    private readonly mailerService: EmailService,
   ) {}
 
   /**
@@ -114,6 +116,18 @@ export class CheckoutService {
 
     await this.orderRepo.save(order);
     await this.cartService.clearCart(userId);
+
+    await this.mailerService.checkout({
+      to: address.email,
+      context: {
+        products: cart.items.map((i) => ({
+          name: i.product.name,
+          price: `${i.product.price.price} ${i.product.price.currency.symbol}`,
+        })),
+        total: `${cart?.total} ${cart.currency.symbol}`,
+        orderId: order.id,
+      },
+    });
 
     return { orderId: order.id };
   }

@@ -49,7 +49,7 @@ const Tree: FC<{ trees: Category[]; level?: number }> = ({
                                         handleClick(e, tree.id, true)
                                     }
                                 >
-                                    <MoreVertIcon></MoreVertIcon>
+                                    <MoreVertIcon />
                                 </span>
                             )}
                         </div>

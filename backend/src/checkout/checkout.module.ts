@@ -12,6 +12,7 @@ import { OrderDetails } from './order/order-details.entry';
 import { CurrencyModule } from '@/currency/currency.module';
 import { ProductModule } from '@/product/product.module';
 import { AddressModule } from '@/user/address/address.module';
+import { EmailModule } from '@/email/email.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AddressModule } from '@/user/address/address.module';
     CurrencyModule,
     ProductModule,
     AddressModule,
+    EmailModule,
   ],
   controllers: [CheckoutController],
   providers: [CheckoutService],

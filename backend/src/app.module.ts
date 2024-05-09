@@ -3,6 +3,8 @@ import { Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 // import { AppController } from './app.controller';
 import { AppService } from './app.service';
 // import { AuthAdminModule } from './old/admin/auth-admin/auth-admin.module';
@@ -23,6 +25,7 @@ import { CartModule } from './cart/cart.module';
 // import { MulterModule } from '@nestjs/platform-express';
 import { CheckoutModule } from './checkout/checkout.module';
 import { AddressModule } from './user/address/address.module';
+import { SMTPS_DOMAIN, SMTPS_PASS, SMTPS_PORT, SMTPS_USER } from './constants';
 
 // import { ImageModule } from './image/image.module';
 
@@ -55,6 +58,28 @@ import { AddressModule } from './user/address/address.module';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
       serveRoot: '/public',
+    }),
+    MailerModule.forRoot({
+      transport: {
+        host: SMTPS_DOMAIN,
+        port: Number(SMTPS_PORT),
+        // ignoreTLS: true,
+        secure: true,
+        auth: {
+          user: SMTPS_USER,
+          pass: SMTPS_PASS,
+        },
+      },
+      defaults: {
+        from: `"nest-modules" <${SMTPS_USER}>`,
+      },
+      template: {
+        dir: 'src/email/templates',
+        adapter: new HandlebarsAdapter(),
+        options: {
+          strict: true,
+        },
+      },
     }),
   ],
   // controllers: [AppController],

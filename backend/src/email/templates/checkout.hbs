@@ -1,0 +1,8 @@
+<p>Дякуємо за покупку</p>
+<ul>
+    {{#each products}}
+        <li>{{this.name}} - {{this.price}}</li>
+    {{/each}}
+<ul>
+<p>Всього: <strong>{{total}}</strong></p>
+<p>ID Замовлення: <strong>{{orderId}}</strong></p>

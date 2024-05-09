@@ -13,3 +13,8 @@ export const REDIS_HOST = process.env.REDIS_HOST;
 export const REDIS_PORT = process.env.REDIS_PORT;
 export const REDIS_CART_DB_IDX = process.env.REDIS_CART_DB_IDX;
 export const REDIS_SESSION_DB_IDX = process.env.REDIS_SESSION_DB_IDX;
+
+export const SMTPS_USER = process.env.SMTPS_USER;
+export const SMTPS_PASS = process.env.SMTPS_PASS;
+export const SMTPS_DOMAIN = process.env.SMTPS_DOMAIN;
+export const SMTPS_PORT = process.env.SMTPS_PORT;

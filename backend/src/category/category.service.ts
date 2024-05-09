@@ -10,6 +10,9 @@ import { AddProductDto, CategoryCreateDto } from './types';
 import { ImageService } from '@/image/image.service';
 import { ProductStorefrontService } from '@/product/product.storefront.service';
 
+const toPath = (str: string) =>
+  str.trim().toLocaleLowerCase().split(/\s+/).join('-');
+
 @Injectable()
 export class CategoryService {
   constructor(
@@ -88,7 +91,10 @@ export class CategoryService {
     }
 
     const { id } = await this.categoryRepo.save(
-      Object.assign(category, categoryDto),
+      Object.assign(category, {
+        ...categoryDto,
+        url: categoryDto.url || toPath(categoryDto.name),
+      }),
     );
 
     return { id };
@@ -107,7 +113,11 @@ export class CategoryService {
     }
 
     const { id } = await this.categoryRepo.save(
-      Object.assign(subCategory, { ...categoryDto, parent: parentCategory }),
+      Object.assign(subCategory, {
+        ...categoryDto,
+        parent: parentCategory,
+        url: categoryDto.url || toPath(categoryDto.name),
+      }),
     );
 
     return { id };
