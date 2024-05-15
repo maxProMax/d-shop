@@ -6,20 +6,18 @@ import Typography from '@mui/material/Typography';
 import styles from './styles.module.css';
 import { ProductList } from '@/client/components/storefront/organism/productList';
 
-export const CategoryPage: FC<{ category: Category }> = ({ category }) => {
-    console.log(category);
-
+export const CategoryPage: FC<{ category?: Category }> = ({ category }) => {
     return (
         <div className={styles.page}>
-            {category.banner && (
+            {category?.banner && (
                 <Image className={styles.banner} src={category.banner?.path} />
             )}
-            {category.description && (
+            {category?.description && (
                 <Typography className={styles.description}>
-                    {category.description}
+                    {category?.description}
                 </Typography>
             )}
-            <ProductList products={category.products} />
+            <ProductList products={category?.products} />
         </div>
     );
 };
