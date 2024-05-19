@@ -1,5 +1,12 @@
 import { Product } from '@/product/product.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { Order } from './order.entity';
 import { Currency } from '@/currency/currency.entity';
 
@@ -26,8 +33,13 @@ export class OrderDetails {
   @ManyToOne(() => Order, (order) => order.orderDetails, { nullable: null })
   order: Order;
 
-  @ManyToOne(() => Product, (product) => product.orderDetails)
-  product: Product;
+  @ManyToMany(() => Product, {
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinTable()
+  product: Product[];
 
   @ManyToOne(() => Currency, (currency) => currency.orderDetails)
   currency: Currency;

@@ -15,6 +15,7 @@ export enum Routes {
 }
 
 export const RoutesDynamic = {
+    adminUserEdit: (id: string) => `/admin/settings/users/${id}`,
     adminCategoryCreate: (id: string) => `/admin/category/${id}/create`,
     adminCategoryEdit: (id: string) => `/admin/category/${id}`,
     adminProductEdit: (id: string) => `/admin/product/${id}`,

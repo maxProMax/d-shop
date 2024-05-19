@@ -38,11 +38,14 @@ export const logout = () => {
 };
 
 export const updateAdminUser = (id: number, { firstName, lastName }: User) => {
-    return api.put(`admin/users/${id}`, { firstName, lastName });
+    return api.put<{ id: string }>(`admin/users/${id}`, {
+        firstName,
+        lastName,
+    });
 };
 
 export const createAdminUser = (user: User) => {
-    return api.post(`admin/registration`, user);
+    return api.post<{ id: string }>(`admin/registration`, user);
 };
 
 export const deleteAdminUser = (id: number) => {

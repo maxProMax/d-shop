@@ -55,10 +55,11 @@ export class UsersService {
     return user;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async loginCustomer(username: string, pass: string): Promise<any> {
     const user = await this.findOne(username);
-    console.log('loginCustomer', user, username);
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...result } = user;
 
     return result;
@@ -69,6 +70,7 @@ export class UsersService {
     const passwordValid = await bcrypt.compare(pass, user.password);
 
     if (passwordValid) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = user;
       return result;
     }

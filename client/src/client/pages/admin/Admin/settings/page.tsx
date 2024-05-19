@@ -15,9 +15,6 @@ export const SettingsPage = () => {
                     <PersonIcon />
                     {t('page.admin.settings.links.users')}
                 </LinkBareSettingsUsers>
-                <div>link 2</div>
-                <div>link 3</div>
-                <div>link 4</div>
             </nav>
         </PageWrapper>
     );

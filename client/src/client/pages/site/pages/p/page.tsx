@@ -16,8 +16,6 @@ export const ProductPage: FC<{ product: Product }> = ({ product }) => {
         request(product.id);
     };
 
-    console.log(product);
-
     return (
         <div className={styles.page}>
             {product.image && (

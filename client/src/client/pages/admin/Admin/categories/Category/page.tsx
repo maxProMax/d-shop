@@ -122,6 +122,7 @@ export const CategoryPage: FC<{
                 <TextField
                     label={t('form.field.name.placeholder')}
                     variant="outlined"
+                    required
                     disabled={isSubmitting}
                     {...register('name')}
                 />

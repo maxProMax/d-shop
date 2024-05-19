@@ -83,7 +83,7 @@
                     "placeholder": "Ціна"
                 },
                 "discount-price": {
-                    "placeholder": "Скидкова ціна"
+                    "placeholder": "Знижка"
                 },
                 "country": {
                     "placeholder": "Країна"
@@ -212,6 +212,9 @@
                             "title": "Адресса замовлення"
                         }
                     }
+                },
+                "login": {
+                    "error": "Не вірна пошта або пароль"
                 }
             }
         }

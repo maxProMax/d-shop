@@ -1,5 +1,6 @@
 import { CategoryPage } from '@/client/pages/site/pages';
 import { getCategoryByParams } from '@/commerce/shop/admin/backend';
+import { notFound } from 'next/navigation';
 
 export default async function Category({
     params,
@@ -11,6 +12,10 @@ export default async function Category({
     });
 
     const [category] = resp.data;
+
+    if (!category) {
+        notFound();
+    }
 
     return <CategoryPage category={category} />;
 }

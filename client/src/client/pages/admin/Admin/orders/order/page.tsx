@@ -59,7 +59,7 @@ export const OrderPage: FC<{
                     [
                         i + 1,
                         order.amount,
-                        order.product?.name,
+                        order.product?.[0]?.name,
                         `${order.currency?.symbol} ${order.price}`,
                     ],
                 ]);

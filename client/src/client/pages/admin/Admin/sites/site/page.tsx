@@ -62,7 +62,9 @@ export const SitePage: FC<{ site?: Site; currencies?: Currency[] }> = ({
             ? {
                   ...initFormVal,
                   navigation: site?.navigation?.id,
-                  currency: site?.currency?.id,
+                  currency:
+                      site?.currency?.id ||
+                      currencies?.find((c) => c.code === 'UAH')?.id,
               }
             : {},
     });
@@ -116,6 +118,7 @@ export const SitePage: FC<{ site?: Site; currencies?: Currency[] }> = ({
                     <TextField
                         label={t('form.field.name.placeholder')}
                         variant="outlined"
+                        required
                         disabled={isSubmitting}
                         {...register('siteName')}
                     />

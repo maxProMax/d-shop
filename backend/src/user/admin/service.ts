@@ -10,6 +10,7 @@ const sanitize = (user: AdminUser) => {
   if (!user) {
     return user;
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { password, ...rest } = user;
 
   return rest;
@@ -55,7 +56,7 @@ export class UsersAdminService {
 
     const { id } = await this.usersRepository.save(user);
 
-    return id;
+    return { id };
   }
 
   async update(
@@ -67,9 +68,9 @@ export class UsersAdminService {
     user.firstName = firstName;
     user.lastName = lastName;
 
-    const { id: userId } = await this.usersRepository.save(user);
+    await this.usersRepository.save(user);
 
-    return userId;
+    return { id };
   }
 
   async delete(id: number): Promise<any> {

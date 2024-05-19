@@ -28,3 +28,8 @@
 .email:visited {
     color: inherit;
 }
+
+.wrapper {
+    max-width: 1280px;
+    margin: auto;
+}

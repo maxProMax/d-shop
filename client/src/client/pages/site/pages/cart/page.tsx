@@ -70,21 +70,26 @@ export const CartPage: FC = () => {
                 <TextField
                     label={t('form.field.email.placeholder')}
                     type="email"
+                    required
                     {...register('email', { required: true })}
                 />
                 <TextField
+                    required
                     label={t('form.field.address.placeholder')}
                     {...register('address', { required: true })}
                 />
                 <TextField
+                    required
                     label={t('form.field.country.placeholder')}
                     {...register('country', { required: true })}
                 />
                 <TextField
+                    required
                     label={t('form.field.phone.placeholder')}
                     type="tel"
                     {...register('phone', { required: true })}
                 />
+
                 <ContainedButton type="submit">
                     {t('page.cart.checkout')}
                 </ContainedButton>

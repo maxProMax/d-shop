@@ -104,7 +104,7 @@ export type OrderDetails = {
     currency?: Currency;
     price?: number;
     amount?: number;
-    product?: Product;
+    product?: Product[];
 };
 
 export type Order = {

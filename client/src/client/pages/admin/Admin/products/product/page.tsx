@@ -107,6 +107,7 @@ export const ProductPage: FC<{
                     <TextField
                         label={t('form.field.name.placeholder')}
                         disabled={isSubmitting}
+                        required
                         {...register('name')}
                     />
                     <TextField

@@ -4,12 +4,12 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable,
-  OneToMany,
+  // OneToMany,
   OneToOne,
   JoinColumn,
 } from 'typeorm';
 import { Price } from './price/price.entity';
-import { OrderDetails } from '@/checkout/order/order-details.entry';
+// import { OrderDetails } from '@/checkout/order/order-details.entry';
 import { Image } from '@/image/image.entity';
 import { getPropertyNameOf } from '@/utils';
 
@@ -39,8 +39,8 @@ export class Product {
     return getPropertyNameOf<Product>('prices');
   }
 
-  @OneToMany(() => OrderDetails, (det) => det.product)
-  orderDetails: OrderDetails[];
+  // @OneToMany(() => OrderDetails, (det) => det.product)
+  // orderDetails: OrderDetails[];
 
   @OneToOne(() => Image, {
     cascade: true,

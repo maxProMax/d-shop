@@ -20,6 +20,7 @@ export const UsersPage: FC<{ users: AdminUser[] }> = ({ users }) => {
             t('page.admin.settings.users.table.name'),
             t('page.admin.settings.users.table.lastname'),
             t('page.admin.settings.users.table.role'),
+            '',
         ],
         body: users.reduce<(string | ReactNode)[][]>((memo, user) => {
             return memo.concat([

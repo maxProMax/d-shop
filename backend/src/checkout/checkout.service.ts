@@ -46,7 +46,7 @@ export class CheckoutService {
 
         orderDetailsModel.order = order;
         orderDetailsModel.currency = currency;
-        orderDetailsModel.product = product;
+        orderDetailsModel.product = [product];
         orderDetailsModel.amount = item.amount;
         orderDetailsModel.price =
           item.amount *
@@ -88,7 +88,7 @@ export class CheckoutService {
 
         orderDetailsModel.order = order;
         orderDetailsModel.currency = currency;
-        orderDetailsModel.product = product;
+        orderDetailsModel.product = [product];
         orderDetailsModel.amount = item.amount;
         orderDetailsModel.price =
           item.amount *
@@ -144,7 +144,10 @@ export class CheckoutService {
       where: { id },
       relations: {
         currency: true,
-        orderDetails: { product: true, currency: true },
+        orderDetails: {
+          product: true,
+          currency: true,
+        },
         address: true,
       },
     });

@@ -18,6 +18,7 @@ import {
 } from '@/client/components/admin/atoms/button';
 import { useNotification } from '@/client/modules/admin/notification';
 import { PageForm } from '@/client/components/admin/atoms/form';
+import { Routes, RoutesDynamic } from '@/client/modules/router/admin/routes';
 
 export const UserPage: FC<{ user?: AdminUser }> = ({ user }) => {
     const t = useTranslations('admin');
@@ -37,14 +38,17 @@ export const UserPage: FC<{ user?: AdminUser }> = ({ user }) => {
             });
             enqueueSnackbar(t('notifications.submit.saved'));
         } else {
-            await createAdminUser(data);
+            const resp = await createAdminUser(data);
             enqueueSnackbar(t('notifications.submit.created'));
+            router.push(RoutesDynamic.adminUserEdit(resp.data.id));
         }
         router.refresh();
     };
     const onDelete = async () => {
         user?.id && (await deleteAdminUser(user?.id));
         enqueueSnackbar(t('notifications.submit.deleted'));
+        router.push(Routes.ADMIN_SETTINGS_USERS);
+        router.refresh();
     };
 
     const buttons: IActionButton[] = [
@@ -64,18 +68,21 @@ export const UserPage: FC<{ user?: AdminUser }> = ({ user }) => {
                     label={t('form.field.email.placeholder')}
                     variant="outlined"
                     type="email"
+                    required
                     disabled={Boolean(user?.email) || isSubmitting}
                     {...register('email')}
                 />
                 <TextField
                     label={t('form.field.firstName.placeholder')}
                     variant="outlined"
+                    required
                     disabled={isSubmitting}
                     {...register('firstName')}
                 />
                 <TextField
                     label={t('form.field.lastName.placeholder')}
                     variant="outlined"
+                    required
                     disabled={isSubmitting}
                     {...register('lastName')}
                 />
@@ -85,6 +92,7 @@ export const UserPage: FC<{ user?: AdminUser }> = ({ user }) => {
                         variant="outlined"
                         disabled={isSubmitting}
                         type="password"
+                        required
                         {...register('password')}
                     />
                 )}

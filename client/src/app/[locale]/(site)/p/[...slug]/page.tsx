@@ -1,5 +1,6 @@
 import { ProductPage } from '@/client/pages/site/pages';
 import { getProductByParams } from '@/commerce/shop/admin/backend';
+import { notFound } from 'next/navigation';
 
 export default async function Product({
     params,
@@ -11,6 +12,10 @@ export default async function Product({
     });
 
     const [product] = resp.data;
+
+    if (!product) {
+        notFound();
+    }
 
     return <ProductPage product={product} />;
 }
