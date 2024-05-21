@@ -45,13 +45,16 @@ export class ProductStorefrontService {
     return this.flatProductPrices(products);
   }
 
-  private productQueryWithSite() {
+  productQueryWithSite(shopId: string, ids: string[]) {
     return this.productRepo
       .createQueryBuilder('product')
       .leftJoinAndSelect(`product.${Product.imageName}`, 'image') // relation
       .innerJoinAndSelect(`product.${Product.pricesName}`, 'price') // for select
       .leftJoinAndSelect(`price.${Price.currencyName}`, 'currency') // relation
-      .innerJoin(Site, 'site', `site.currency = price.currency`); // for select
+      .innerJoin(Site, 'site', `site.currency = price.currency`)
+      .where('site.id = :shopId', { shopId })
+      .where('product.id IN (:...ids)', { ids })
+      .getMany();
   }
 
   async findByIds(shopId: string, ids: string[]) {
@@ -59,24 +62,9 @@ export class ProductStorefrontService {
       return [];
     }
 
-    const products = await this.productQueryWithSite()
-      .where('site.id = :shopId', { shopId })
-      .where('product.id IN (:...ids)', { ids })
-      .getMany();
+    const products = await this.productQueryWithSite(shopId, ids);
 
     return this.flatProductPrices(products);
-
-    // const site = await this.siteService.findOne(shopId);
-
-    // const products = await this.productRepo.find({
-    //   relations: { prices: { currency: true }, image: true },
-    //   where: {
-    //     id: In(ids),
-    //     prices: { currency: { id: site.currency.id } },
-    //   },
-    // });
-
-    // return this.flatProductPrices(products);
   }
 
   private flatProductPrices(products: Product[]) {

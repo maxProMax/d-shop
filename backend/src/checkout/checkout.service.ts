@@ -98,19 +98,7 @@ export class CheckoutService {
       }),
     );
 
-    const orders: { total: number } = await this.orderDetailsRepo
-      .createQueryBuilder('orderDetails')
-      .select([
-        `SUM(orderDetails.${getPropertyNameOf<OrderDetails>('price')}) AS total`,
-      ])
-      .groupBy(`orderDetails.${getPropertyNameOf<OrderDetails>('order')}`)
-      .having(
-        `orderDetails.${getPropertyNameOf<OrderDetails>('order')} = :id`,
-        {
-          id: order.id,
-        },
-      )
-      .getRawOne();
+    const orders: { total: number } = await this.getOrderTotal(order.id);
 
     order.total = Number(orders.total);
 
@@ -130,6 +118,22 @@ export class CheckoutService {
     });
 
     return { orderId: order.id };
+  }
+
+  getOrderTotal(orderId) {
+    return this.orderDetailsRepo
+      .createQueryBuilder('orderDetails')
+      .select([
+        `SUM(orderDetails.${getPropertyNameOf<OrderDetails>('price')}) AS total`,
+      ])
+      .groupBy(`orderDetails.${getPropertyNameOf<OrderDetails>('order')}`)
+      .having(
+        `orderDetails.${getPropertyNameOf<OrderDetails>('order')} = :orderId`,
+        {
+          orderId,
+        },
+      )
+      .getRawOne();
   }
 
   async getAllOrders() {
