@@ -21,7 +21,7 @@ export default function RootLayout({
     const messages = useMessages();
 
     return (
-        <html lang={params.locale.split('-')[1].toLocaleLowerCase()}>
+        <html lang={params.locale.split('-')[0]}>
             <body className={clsx(nunito.className)}>
                 <NextIntlClientProvider messages={messages}>
                     {children}

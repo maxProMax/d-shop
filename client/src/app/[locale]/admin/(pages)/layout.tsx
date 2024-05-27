@@ -5,7 +5,11 @@ import { getSessionCookie } from '@/backend/cookies';
 import { AdminLayout } from '@/client/pages/admin/Admin/Layout';
 import { Routes } from '@/client/modules/router/admin/routes';
 
-export default async function Layout({ children }: { children: ReactNode }) {
+export default async function PagesLayout({
+    children,
+}: {
+    children: ReactNode;
+}) {
     try {
         const resp = await statusCheck(getSessionCookie());
 

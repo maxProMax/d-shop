@@ -11,8 +11,8 @@ type AdditionalProps = {
     slug?: string;
 };
 
-export const LinkHome: FC<LinkProps> = (props) => {
-    return <Link href={Routes.HOME} {...props} />;
+export const LinkHome: FC<LinkProps> = ({ ariaLabel, ...props }) => {
+    return <Link ariaLabel="home" href={Routes.HOME} {...props} />;
 };
 
 export const LinkCategory: FC<LinkProps & AdditionalProps> = ({
@@ -29,6 +29,6 @@ export const LinkProduct: FC<LinkProps & AdditionalProps> = ({
     return <Link href={`${Routes.PRODUCT}/${slug}`} {...props} />;
 };
 
-export const LinkCart: FC<LinkProps> = (props) => {
-    return <Link href={Routes.CART} {...props} />;
+export const LinkCart: FC<LinkProps> = ({ ariaLabel, ...props }) => {
+    return <Link ariaLabel="cart" href={Routes.CART} {...props} />;
 };

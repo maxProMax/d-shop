@@ -5,6 +5,7 @@
     max-height: 500px;
     object-fit: cover;
     border-radius: var(--border-radius-main);
+    min-height: 249px;
 }
 
 .description {

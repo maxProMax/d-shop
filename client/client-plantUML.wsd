@@ -1,0 +1,21 @@
+@startuml
+
+component LayoutRouterContext
+component IntlProvider
+
+LayoutRouterContext -- IntlProvider
+
+component ThemeProviderStorefront
+component UserProvider
+component RootLayout
+component Header
+component ContentLayout
+component Footer
+
+IntlProvider -- ThemeProviderStorefront
+ThemeProviderStorefront -- UserProvider
+UserProvider -- RootLayout
+RootLayout -- Header
+RootLayout -- ContentLayout
+RootLayout -- Footer
+@enduml

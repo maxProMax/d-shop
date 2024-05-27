@@ -3,7 +3,11 @@ import { getCategoryTrees } from '@/commerce/shop/admin/backend';
 import { notFound } from 'next/navigation';
 import { ReactNode } from 'react';
 
-export default async function Layout({ children }: { children: ReactNode }) {
+export default async function CategoryLayout({
+    children,
+}: {
+    children: ReactNode;
+}) {
     try {
         const resp = await getCategoryTrees();
 

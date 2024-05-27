@@ -10,8 +10,6 @@ import { LinkBareOrder } from '@/client/modules/router/admin/links';
 export const OrdersPage: FC<{ orders: Order[] }> = ({ orders }) => {
     const t = useTranslations('admin');
 
-    console.log(orders);
-
     const tableProps = {
         head: [
             t('table.number'),

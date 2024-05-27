@@ -1,4 +1,5 @@
 import { FC, SyntheticEvent } from 'react';
+import { useTranslations } from 'next-intl';
 import AddIcon from '@mui/icons-material/Add';
 import { LinkProduct } from '@/client/modules/router/storefront/links';
 import { Price as PriceType, Product } from '@/commerce/shop/admin/types';
@@ -12,6 +13,7 @@ const Price: FC<{ price: PriceType }> = ({ price }) => {
 };
 
 export const Tile: FC<{ product: Product }> = ({ product }) => {
+    const t = useTranslations('storefront');
     const { request, loading } = useAddToCart();
     const handleClick = (e: SyntheticEvent<HTMLButtonElement>) => {
         request(product.id);
@@ -22,7 +24,11 @@ export const Tile: FC<{ product: Product }> = ({ product }) => {
         <div className={clsx(styles.wrapper)}>
             <LinkProduct className={styles.tile} slug={product.url}>
                 {product.image?.path && (
-                    <Image className={styles.image} src={product.image?.path} />
+                    <Image
+                        alt={product.image.originalname || ''}
+                        className={styles.image}
+                        src={product.image?.path}
+                    />
                 )}
                 <h5>{product.name}</h5>
             </LinkProduct>
@@ -33,6 +39,7 @@ export const Tile: FC<{ product: Product }> = ({ product }) => {
                     onClick={handleClick}
                     className={styles.button}
                     type="button"
+                    aria-label={t('button.cart.add')}
                 >
                     <AddIcon />
                 </button>

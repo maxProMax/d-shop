@@ -1,0 +1,372 @@
+@startuml
+
+skinparam class {
+ArrowColor<<DB>> SeaGreen
+BackgroundColor<<DB>> Wheat
+BorderColor<<DB>> Tomato
+
+ArrowColor<<Controller>> SeaGreen
+BackgroundColor<<Controller>> PaleGreen
+BorderColor<<Controller>> SpringGreen
+}
+skinparam stereotypeCBackgroundColor<< DB >> YellowGreen
+skinparam stereotypeCBackgroundColor<< Controller >> YellowGreen
+
+skinparam classAttributeIconSize 0
+class AdminUserController <<Controller>> {
+ +loginAdmin()
+ +logout()
+ +registerAdmin()
+ +getCheck()
+ +getUsers()
+ +getUser()
+ +updateUser()
+ +deleteUser()
+}
+
+skinparam classAttributeIconSize 0
+class UsersAdminService {
+    +findOneByEmail()
+    +findOneById()
+    +findAll()
+    +create()
+    +update()
+    +delete()
+    +login()
+    +registration()
+    +validate()
+}
+
+
+skinparam classAttributeIconSize 0
+class AdminUser <<DB>> {
+    -id: int
+    -firstName: string
+    -lastName: string
+    -password: string
+    -type: Role
+    -email: string
+}
+
+AdminUserController -- UsersAdminService
+UsersAdminService -- AdminUser
+
+skinparam classAttributeIconSize 0
+class SiteController <<Controller>> {
+    +getSites()
+    +getSite()
+    +createSite()
+    +updateSite()
+    +deleteSite()
+}
+
+skinparam classAttributeIconSize 0
+class SiteService {
+    +create()
+    +update()
+    +findAll()
+    +findOne()
+    +delete()
+}
+
+skinparam classAttributeIconSize 0
+class Site <<DB>> {
+    -id: string
+    -siteName: string
+    -logo: Image
+    -navigation: Category
+    -currency: Currency
+}
+
+SiteController -- SiteService
+SiteService -- Site
+Site -- Image
+Site -- Category
+Site -- Currency
+
+skinparam classAttributeIconSize 0
+class ImageService {
+    +create()
+    +save()
+    +update()
+    +delete()
+}
+
+skinparam classAttributeIconSize 0
+class Image <<DB>> {
+    -id: string
+    -originalname: string
+    -mimetype: string
+    -originalPath: string
+    -path: string
+    -size: number
+    -site: Site
+}
+
+ImageService -- Image
+Image -- Site
+
+SiteService -- ImageService
+
+skinparam classAttributeIconSize 0
+class Price <<DB>> {
+    -id: string
+    -currency: Currency
+    -price: number
+    -discountPrice: number
+    {static} currencyName()
+}
+
+Price -- Currency
+
+skinparam classAttributeIconSize 0
+class CurrencyController <<Controller>> {
+    +getCurrencies()
+}
+
+skinparam classAttributeIconSize 0
+class CurrencyService {
+    +getCurrencySymbol()
+    +seedDb()
+    +findAll()
+    +findOne()
+}
+
+skinparam classAttributeIconSize 0
+class Currency <<DB>> {
+    -id: string
+    -code: string
+    -symbol: string
+    -site: Site
+    -prices: Price[]
+    -orderDetails: OrderDetails[]
+    -orders: Order[]
+}
+
+CurrencyController -- CurrencyService
+CurrencyService -- Currency
+Currency -- Site
+Currency -- OrderDetails
+Currency -- Order
+Currency -- Price
+
+skinparam classAttributeIconSize 0
+class ProductController <<Controller>> {
+    +getProducts()
+    +getProduct()
+    +createProduct()
+    +updateProduct()
+    +createProductPrice()
+    +deleteProduct()
+}
+
+skinparam classAttributeIconSize 0
+class ProductService {
+    +findAll()
+    +findOne()
+    +create()
+    +createPrice()
+    +update()
+    +delete()
+}
+
+skinparam classAttributeIconSize 0
+class ProductStorefrontService {
+    +findAll()
+    +findById()
+    +findByParams()
+    +productQueryWithSite()
+    +findByIds()
+    +flatProductPrices()
+}
+
+skinparam classAttributeIconSize 0
+class Product <<DB>> {
+    -id: string
+    -name: string
+    -url: string
+    -description: string
+    -prices: Price[]
+    -image: Image 
+    {static} imageName()
+}
+
+ProductController -- ProductService
+ProductService -- Product
+
+ProductService -- ImageService
+ProductService -- CurrencyService
+
+ProductStorefrontService -- Product
+ProductStorefrontService -- SiteService
+
+Product -- Price
+Product -- Image
+
+skinparam classAttributeIconSize 0
+class CategoryController <<Controller>> {
+    +getCategories()
+    +getCategoryTrees()
+    +getCategoryByUrl()
+    +getCategory()
+    +getCategoryTree()
+    +createCategory()
+    +createSubcategory()
+    +updateCategory()
+    +deleteCategory()
+    +addProduct()
+    +deleteProduct()
+}
+
+skinparam classAttributeIconSize 0
+class CategoryService {
+    +findAll()
+    +findAllTrees()
+    +findById()
+    +findByParams()
+    +findDescendantsTree()
+    +getCategoryTree()
+    +create()
+    +createSubcategory()
+    +update()
+    +delete()
+    +addProduct()
+    +deleteProduct()
+}
+
+skinparam classAttributeIconSize 0
+class Category <<DB>> {
+    -id: string
+    -name: string
+    -description: string
+    -url: string
+    -products: Product[]
+    -children: Category[]
+    -parent: Category
+    -site: Site
+    -banner: Image
+}
+
+CategoryController -- CategoryService
+CategoryService -- Category
+
+CategoryService -- Product
+CategoryService -- ImageService
+CategoryService -- ProductStorefrontService
+
+Category -- Product
+Category -- Site
+Category -- Image
+
+skinparam classAttributeIconSize 0
+class CheckoutController <<Controller>> {
+    +checkoutGuest()
+    +getAllOrders()
+    +getOrder()
+    +updateAddress()
+}
+
+skinparam classAttributeIconSize 0
+class CheckoutService {
+    +checkoutGuest()
+    +getOrderTotal()
+    +getAllOrders()
+    +getOrder()
+    +updateAddress()
+}
+
+skinparam classAttributeIconSize 0
+class Order <<DB>> {
+    -id: string
+    -userType: Role
+    -total: number
+    -createdDate: Date
+    -orderDetails: OrderDetails[]
+    -currency: Currency
+    -address: Address
+}
+
+Order -- OrderDetails
+Order -- Currency
+Order -- Address
+
+skinparam classAttributeIconSize 0
+class OrderDetails <<DB>> {
+    -id: string
+    -orderId: string
+    -amount: number
+    -price: number
+    -order: Order
+    -product: Product[]
+    -currency: Currency
+}
+
+OrderDetails -- Order
+OrderDetails -- Product
+OrderDetails -- Currency
+
+CheckoutController -- CheckoutService
+CheckoutService -- Order
+CheckoutService -- OrderDetails
+
+skinparam classAttributeIconSize 0
+class CartService {
+    -getCart()
+    +getRawCart()
+    -createCart()
+    +clearCart()
+    -getCartWithData()
+    +createGuestCart()
+    +getGuestCart()
+    +addProduct()
+}
+
+class RedisService {}
+
+CartService -- RedisService
+CartService -- ProductStorefrontService
+CartService -- SiteService
+
+skinparam classAttributeIconSize 0
+class AddressController <<Controller>> {
+    +createAddress()
+    +updateAddress()
+}
+
+skinparam classAttributeIconSize 0
+class AddressService {
+    +create()
+    +update()
+}
+
+skinparam classAttributeIconSize 0
+class Address <<DB>> {
+    -id: string
+    -email: string
+    -ountry: string
+    -address: string
+    -phone: string
+    -orders: Order[]
+}
+
+AddressController -- AddressService
+AddressService -- Address
+Address -- Order
+
+skinparam classAttributeIconSize 0
+class EmailService {
+    +send()  
+    +checkout()
+}
+
+class MailerService {}
+
+EmailService -- MailerService
+
+CheckoutService -- CartService
+CheckoutService -- CurrencyService
+CheckoutService -- ProductService
+CheckoutService -- AddressService
+CheckoutService -- EmailService
+
+@enduml

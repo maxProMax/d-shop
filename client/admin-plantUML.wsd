@@ -1,0 +1,46 @@
+@startuml
+
+component LayoutRouterContext
+component IntlProvider
+
+LayoutRouterContext -- IntlProvider
+
+component ThemeProviderAdmin
+component AdminRootLayout
+component LoginLayout
+component PagesLayout
+component Login
+component LoginPage
+component form
+
+component Admin
+component AdminPage
+
+
+component Sites
+component Settings
+component Products
+component Orders
+component CategoryLayout
+
+component Categories
+
+IntlProvider -- ThemeProviderAdmin
+ThemeProviderAdmin -- AdminRootLayout
+AdminRootLayout -- LoginLayout
+AdminRootLayout -- PagesLayout
+
+LoginLayout -- Login
+Login -- LoginPage
+LoginPage -- form
+
+PagesLayout -- Admin
+PagesLayout -- Sites
+PagesLayout -- Settings
+PagesLayout -- Products
+PagesLayout -- Orders
+PagesLayout -- CategoryLayout
+
+CategoryLayout -- Categories
+
+@enduml

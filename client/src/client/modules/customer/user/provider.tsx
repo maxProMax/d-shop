@@ -28,8 +28,6 @@ export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
                 await userCheck();
             } catch {
                 const { data: user } = await userLoginGuest();
-
-                console.log({ user });
             }
 
             const { data: cart } = await getCart();

@@ -45,6 +45,7 @@ export const CartPage: FC = () => {
                 {cart?.items.map((item) => (
                     <article className={styles.item} key={item.id}>
                         <Image
+                            alt={item.product.image?.originalname || ''}
                             className={styles.image}
                             src={item.product.image?.path}
                         />

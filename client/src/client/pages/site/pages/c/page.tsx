@@ -10,7 +10,11 @@ export const CategoryPage: FC<{ category?: Category }> = ({ category }) => {
     return (
         <div className={styles.page}>
             {category?.banner && (
-                <Image className={styles.banner} src={category.banner?.path} />
+                <Image
+                    alt={category.banner.originalname || ''}
+                    className={styles.banner}
+                    src={category.banner?.path}
+                />
             )}
             {category?.description && (
                 <Typography className={styles.description}>

@@ -10,7 +10,7 @@ export class CurrencyController {
   constructor(protected service: CurrencyService) {}
 
   @Get('/')
-  getCategories() {
+  getCurrencies() {
     return this.service.findAll();
   }
 }

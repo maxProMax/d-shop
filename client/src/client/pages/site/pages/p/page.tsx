@@ -19,7 +19,11 @@ export const ProductPage: FC<{ product: Product }> = ({ product }) => {
     return (
         <div className={styles.page}>
             {product.image && (
-                <Image className={styles.image} src={product.image.path} />
+                <Image
+                    alt={product.image.originalname || ''}
+                    className={styles.image}
+                    src={product.image.path}
+                />
             )}
             <div className={styles.title}>
                 <h3>{product.name}</h3>
