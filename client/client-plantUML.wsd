@@ -18,4 +18,25 @@ UserProvider -- RootLayout
 RootLayout -- Header
 RootLayout -- ContentLayout
 RootLayout -- Footer
+
+component HomePage
+component CategoryPage
+component ProductPage
+component CartPage
+component CheckoutSuccessPage
+
+component ProductList
+component CartForm
+
+ContentLayout -- HomePage
+ContentLayout -- CategoryPage
+ContentLayout -- ProductPage
+ContentLayout -- CartPage
+ContentLayout -- CheckoutSuccessPage
+
+HomePage -- ProductList
+CategoryPage -- ProductList
+
+CartPage - CartForm
+
 @enduml

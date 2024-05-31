@@ -6,7 +6,11 @@ import {
 import { getSessionCookie } from '@/backend/cookies';
 import { getAdminUser } from '@/commerce/shop/admin/backend';
 
-export default async function User({ params }: { params: { id: number } }) {
+export default async function UpdateUser({
+    params,
+}: {
+    params: { id: number };
+}) {
     try {
         const resp = await getAdminUser(getSessionCookie(), params.id);
 

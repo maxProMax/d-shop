@@ -11,11 +11,11 @@ component LoginLayout
 component PagesLayout
 component Login
 component LoginPage
-component form
+component LoginPageForm
 
 component Admin
 component AdminPage
-
+component AdminPageForm
 
 component Sites
 component Settings
@@ -24,6 +24,31 @@ component Orders
 component CategoryLayout
 
 component Categories
+component CreateCategory
+component CreateSubCategory
+component UpdateSubCategory
+component SubCategoryForm
+
+component SitesPage
+component CreateSite
+component UpdateSite
+component SiteForm
+
+component SettingsPage
+
+component UsersPage
+component AddUser
+component UpdateUser
+component UserForm
+
+component ProductsList
+component CreateProduct
+component UpdateProduct
+component ProductForm
+
+component OrdersList
+component OrderDetailsPage
+component OrderDetailsForm
 
 IntlProvider -- ThemeProviderAdmin
 ThemeProviderAdmin -- AdminRootLayout
@@ -32,7 +57,7 @@ AdminRootLayout -- PagesLayout
 
 LoginLayout -- Login
 Login -- LoginPage
-LoginPage -- form
+LoginPage -- LoginPageForm
 
 PagesLayout -- Admin
 PagesLayout -- Sites
@@ -41,6 +66,41 @@ PagesLayout -- Products
 PagesLayout -- Orders
 PagesLayout -- CategoryLayout
 
+Admin -- AdminPage
+AdminPage -- AdminPageForm
+
 CategoryLayout -- Categories
+CategoryLayout -- CreateCategory
+CategoryLayout -- CreateSubCategory
+CategoryLayout -- UpdateSubCategory
+
+CreateSubCategory -- SubCategoryForm
+UpdateSubCategory -- SubCategoryForm
+
+Sites -- SitesPage
+Sites -- CreateSite
+Sites -- UpdateSite
+
+CreateSite -- SiteForm
+UpdateSite -- SiteForm
+
+Settings -- SettingsPage
+SettingsPage -- UsersPage
+SettingsPage -- AddUser
+SettingsPage -- UpdateUser
+
+AddUser -- UserForm
+UpdateUser -- UserForm
+
+Products -- ProductsList
+Products -- CreateProduct
+Products -- UpdateProduct
+
+CreateProduct -- ProductForm
+UpdateProduct -- ProductForm
+
+Orders -- OrdersList
+Orders -- OrderDetailsPage
+OrderDetailsPage -- OrderDetailsForm
 
 @enduml
