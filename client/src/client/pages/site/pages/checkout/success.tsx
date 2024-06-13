@@ -1,3 +1,5 @@
+'use client';
+
 import { FC } from 'react';
 import { useTranslations } from 'next-intl';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
@@ -9,11 +11,7 @@ export const CheckoutSuccessPage: FC<{ orderId: string }> = ({ orderId }) => {
 
     return (
         <div className={styles.page}>
-            <Typography
-                className={styles.text}
-                textAlign={'center'}
-                variant="h5"
-            >
+            <Typography className={styles.text} textAlign="center" variant="h5">
                 <span
                     dangerouslySetInnerHTML={{
                         __html: t('page.checkout.success.title', { orderId }),
